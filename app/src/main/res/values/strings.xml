@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">WallDisplay</string>
+
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="error_text_email">Please Enter valid email</string>
+    <string name="error_text_password">Please Enter password</string>
+
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="sign_in">Sign in</string>
+    <string name="connection">Connection</string>
+    <string name="interaction">Interaction</string>
+    <string name="icons">Icons</string>
+    <string name="advanced_setting">Advanced Setting</string>
+    <string name="load_mood">Load Mood</string>
+    <string name="save_mood">Save Mood</string>
+    <string name="welcome_back">Welcome</string>
+    <string name="sign_in_to_continue">SIGN IN TO CONTINUE</string>
+
+    <string name="save">Save</string>
+    <string name="set_ip_and_project_id">Set IP and Project ID</string>
+    <string name="topic">Topic</string>
+    <string name="project_id_text">Project Id</string>
+    <string name="set_title_for_scene">Set title for scene</string>
+    <string name="scene_title">scene title</string>
+    <string name="get_data">Get Data</string>
+    <string name="set_project_id">Set Project Id</string>
+    <string name="set_bluetooth_address">Bluetooth Device</string>
+
+    <string name="send">Send</string>
+    <string name="not_connected">You are not connected to a device</string>
+    <string name="bt_not_enabled_leaving">Bluetooth was not enabled. Leaving Bluetooth Chat.</string>
+    <string name="title_connecting">connecting...</string>
+    <string name="title_not_connected">not connected</string>
+
+    <!--  DeviceListActivity -->
+    <string name="scanning">scanning for devices...</string>
+    <string name="select_device">select a device to connect</string>
+    <string name="none_paired">No devices have been paired</string>
+    <string name="none_found">No devices found</string>
+    <string name="title_paired_devices">Paired Devices</string>
+    <string name="title_other_devices">Other Available Devices</string>
+    <string name="button_scan">Scan for devices</string>
+
+    <!-- Options Menu -->
+    <string name="secure_connect">Connect a device - Secure</string>
+    <string name="insecure_connect">Connect a device - Insecure</string>
+    <string name="discoverable">Make discoverable</string>
+    <string name="select_your_device">Select Device</string>
+    <string name="set_color">Set Color</string>
+    <string name="set_mqtt_ip">Set MQTT IP</string>
+    <string name="load_data">Load Data</string>
+    <string name="delay_time">Delay Time</string>
+    <string name="border_color">Border Color</string>
+    <string name="back_color">Back Color</string>
+    <string name="set_ip">Set Ip</string>
+    <string name="set_dim">Set Dim</string>
+    <string name="open">Open</string>
+    <string name="stop">Stop</string>
+    <string name="close">Close</string>
+    <string name="scenes">Scenes</string>
+    <string name="floors">Floors</string>
+    <string name="get_me_in">GET ME IN</string>
+    <string name="moods">Moods</string>
+    <string name="select_floor">Select Floor</string>
+    <string name="set_time">Set Time</string>
+    <string name="curtain">Curtain</string>
+    <string name="lights">Lights</string>
+    <string name="add_job">Add Job</string>
+    <string name="select_scene">Select Scene</string>
+    <string name="run_at">Run At</string>
+    <string name="log_out">Log out</string>
+    <string name="access_for_user">Access for user</string>
+    <string name="select_room">Select room can with manage with this device</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="city_name">Tehran, Iran</string>
+    <string name="air_condition">Air condition</string>
+    <string name="off">OFF</string>
+    <string name="on">ON</string>
+    <string name="select_the_scene">Select the Scene</string>
+    <string name="adjust_the_lights">Adjust the lights</string>
+    <string name="min">MIN</string>
+    <string name="max">MAX</string>
+</resources>

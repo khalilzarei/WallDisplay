@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/progress_shape">
+        <clip>
+            <shape android:shape="rectangle">
+                <size android:height="@dimen/_5sdp" />
+                <corners android:radius="@dimen/_5sdp" />
+                <solid android:color="@color/seek_bar_progress" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="red">#FF0000</color>
+
+    <color name="background">#132028</color>
+    <color name="text_color">#D1D1C5</color>
+    <color name="progress_color">#FBBC05</color>
+
+
+    <color name="arc_green">#26C6DA</color>
+    <color name="arc_red">#FF0000</color>
+    <color name="default_thumb_color">#ff6f00</color>
+
+    <array name="arc_colors_default">
+        <item>@color/arc_green</item>
+        <item>@color/default_thumb_color</item>
+        <item>@color/arc_red</item>
+    </array>
+</resources>

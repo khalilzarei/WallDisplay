@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">http://65.109.133.180:4000/</domain>
+        <domain includeSubdomains="true">65.109.133.180:4000</domain>
+        <domain includeSubdomains="true">65.109.133.180</domain>
+        <domain includeSubdomains="true">http://13.39.200.184/</domain>
+        <domain includeSubdomains="true">13.39.200.184</domain>
+        <domain includeSubdomains="true">http://hsisystems.de/</domain>
+    </domain-config>
+
+</network-security-config>

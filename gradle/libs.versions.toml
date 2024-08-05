@@ -1,0 +1,88 @@
+[versions]
+agp = "8.5.1"
+kotlin = "1.9.0"
+coreKtx = "1.13.1"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.7.0"
+legacySupportV4Version = "1.0.0"
+material = "1.12.0"
+activity = "1.9.1"
+constraintlayout = "2.1.4"
+
+aestheticdialogs = "1.3.6"
+androidxJunit = "1.1.5"
+appcompatV7 = "28.0.0"
+calligraphy3 = "3.1.1"
+circleimageview = "3.1.0"
+coil = "2.6.0"
+colorpicker = "0.0.15"
+compiler = "4.15.1"
+glide = "4.16.0"
+gson = "2.10.1"
+indicatorseekbar = "2.1.2"
+legacySupportV4 = "1.0.0"
+materialCalendarView = "1.9.2"
+materialdaypicker = "0.7.4"
+materialRipple = "1.0.2"
+matisse = "0.5.3-beta3"
+orgEclipsePahoClientMqttv3 = "1.2.5"
+orgEclipsePahoAndroidService = "1.1.1"
+pahoMqttAndroid = "3.6.4"
+prdownloader = "0.6.0"
+primecalendar = "1.7.0"
+primedatepicker = "3.6.0"
+retrofit = "2.11.0"
+roomCommon = "2.6.1"
+rxpermissions = "0.12"
+rxbinding = "4.0.0"
+sdpAndroid = "1.1.1"
+simpleGaugeAndroid = "0.3.1"
+viewpump = "2.1.1"
+workRuntimeKtx = "2.9.0"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacySupportV4Version" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+aestheticdialogs = { module = "com.github.gabriel-TheCode:AestheticDialogs", version.ref = "aestheticdialogs" }
+androidx-room-common = { module = "androidx.room:room-common", version.ref = "roomCommon" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomCommon" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCommon" }
+calligraphy3 = { module = "io.github.inflationx:calligraphy3", version.ref = "calligraphy3" }
+circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+colorpicker = { module = "com.github.QuadFlask:colorpicker", version.ref = "colorpicker" }
+compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+indicatorseekbar = { module = "com.github.warkiz.widget:indicatorseekbar", version.ref = "indicatorseekbar" }
+material-calendar-view = { module = "com.applandeo:material-calendar-view", version.ref = "materialCalendarView" }
+material-ripple = { module = "com.balysv:material-ripple", version.ref = "materialRipple" }
+matisse = { module = "com.zhihu.android:matisse", version.ref = "matisse" }
+org-eclipse-paho-client-mqttv3 = { module = "org.eclipse.paho:org.eclipse.paho.client.mqttv3", version.ref = "orgEclipsePahoClientMqttv3" }
+org-eclipse-paho-android-service = { module = "org.eclipse.paho:org.eclipse.paho.android.service", version.ref = "orgEclipsePahoAndroidService" }
+paho-mqtt-android = { module = "com.github.hannesa2:paho.mqtt.android", version.ref = "pahoMqttAndroid" }
+prdownloader = { module = "com.mindorks.android:prdownloader", version.ref = "prdownloader" }
+primecalendar = { module = "com.aminography:primecalendar", version.ref = "primecalendar" }
+primedatepicker = { module = "com.aminography:primedatepicker", version.ref = "primedatepicker" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+rxbinding = { module = "com.jakewharton.rxbinding4:rxbinding", version.ref = "rxbinding" }
+rxpermissions = { module = "com.github.tbruyelle:rxpermissions", version.ref = "rxpermissions" }
+sdp-android = { module = "com.intuit.sdp:sdp-android", version.ref = "sdpAndroid" }
+viewpump = { module = "io.github.inflationx:viewpump", version.ref = "viewpump" }
+
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+

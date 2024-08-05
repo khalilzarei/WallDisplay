@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/rootLayout"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_margin="@dimen/_5sdp"
+        android:orientation="vertical"
+        app:cardBackgroundColor="@color/background"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/btnClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/_15sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/ic_close"
+                    app:tint="@color/text_color" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/seekBarLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@+id/arcSeekBar"
+                        app:layout_constraintEnd_toEndOf="@+id/arcSeekBar"
+                        app:layout_constraintStart_toStartOf="@+id/arcSeekBar"
+                        app:layout_constraintTop_toTopOf="@+id/arcSeekBar">
+
+                        <TextView
+                            android:id="@+id/tvDegree"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_color"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tools:text="15˚c" />
+
+                        <TextView
+                            android:id="@+id/tvCurrent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Current 28"
+                            android:textColor="@color/text_color"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+
+                    <com.hsi.walldisplay.view.ArcSeekBar
+                        android:id="@+id/arcSeekBar"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_120sdp"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        app:arc_colors="@array/arc_colors_default"
+                        app:arc_max="350"
+                        app:arc_min="150"
+                        app:arc_open_angle="90"
+                        android:padding="@dimen/_10sdp"
+                        app:arc_progress="150"
+                        app:arc_rotate_angle="90"
+                        app:arc_thumb_color="@color/text_color"
+                        app:arc_thumb_mode="FILL_STROKE"
+                        app:arc_thumb_radius="8dp"
+                        app:arc_thumb_shadow_color="@color/background"
+                        app:arc_thumb_shadow_radius="5dp"
+                        app:arc_thumb_width="7dp"
+                        app:arc_width="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/btnMinus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="@+id/arcSeekBar"
+                        app:layout_constraintStart_toStartOf="@+id/arcSeekBar"
+                        app:layout_constraintTop_toBottomOf="@+id/arcSeekBar">
+
+                        <ImageView
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/shape_border_light"
+                            android:src="@drawable/ic_minus"
+                            app:tint="@color/text_color" />
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+
+                    <ToggleButton
+                        android:id="@+id/switchOnOff"
+                        style="@style/toggleButton"
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="@drawable/toggle_bg"
+                        android:checked="false"
+                        android:textOff="@string/off"
+                        android:textOn="@string/on"
+                        app:layout_constraintBottom_toBottomOf="@+id/arcSeekBar"
+                        app:layout_constraintEnd_toEndOf="@+id/arcSeekBar"
+                        app:layout_constraintStart_toStartOf="@+id/arcSeekBar"
+                        app:layout_constraintTop_toBottomOf="@+id/arcSeekBar" />
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/btnPlus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="@+id/arcSeekBar"
+                        app:layout_constraintEnd_toEndOf="@+id/arcSeekBar"
+                        app:layout_constraintTop_toBottomOf="@+id/arcSeekBar">
+
+                        <ImageView
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/shape_border_light"
+                            android:src="@drawable/ic_add"
+                            app:tint="@color/text_color" />
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <ImageView
+                        android:id="@+id/imgFan"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:src="@drawable/ic_fan"
+                        android:visibility="gone"
+                        app:tint="@color/text_color" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_25sdp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp">
+
+
+                        <ImageView
+                            android:id="@+id/btnHigh"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:background="@drawable/shape_button_clicked"
+                            android:gravity="center"
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/ic_fan_high"
+                            app:tint="@color/background" />
+
+
+                        <ImageView
+                            android:id="@+id/btnMedium"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:background="@drawable/shape_button_clicked"
+                            android:gravity="center"
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/ic_fan_meduim"
+                            app:tint="@color/background" />
+
+
+                        <ImageView
+                            android:id="@+id/btnLow"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:background="@drawable/shape_button_clicked"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/ic_fan_low"
+                            app:tint="@color/background" />
+
+                        <ImageView
+                            android:id="@+id/btnAuto"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:background="@drawable/shape_button_clicked"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/ic_fan_auto"
+                            app:tint="@color/background" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

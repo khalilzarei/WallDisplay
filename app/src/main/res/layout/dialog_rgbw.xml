@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:cardBackgroundColor="@color/background"
+        app:cardCornerRadius="@dimen/_15sdp"
+        app:cardElevation="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_5sdp">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/ivCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/_6sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/ic_close"
+                    app:tint="@color/text_color" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:orientation="vertical">
+
+
+                        <com.flask.colorpicker.ColorPickerView
+                            android:id="@+id/colorPickerView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_100sdp"
+                            app:density="10"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:lightnessSlider="true"
+                            app:lightnessSliderView="@+id/lightnessSlider"
+                            app:wheelType="FLOWER" />
+
+
+                        <com.flask.colorpicker.slider.LightnessSlider
+                            android:id="@+id/lightnessSlider"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="@+id/colorPickerView"
+                            app:layout_constraintStart_toStartOf="@+id/colorPickerView"
+                            app:layout_constraintTop_toBottomOf="@+id/colorPickerView" />
+
+                        <SeekBar
+                            android:id="@+id/seekBarLightness"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:max="100"
+                            android:maxHeight="@dimen/_5sdp"
+                            android:progress="100"
+                            android:progressDrawable="@drawable/seek_bar_progress_lightness"
+                            android:thumb="@drawable/seekbar_thumb"
+                            app:layout_constraintEnd_toEndOf="@+id/colorPickerView"
+                            app:layout_constraintStart_toStartOf="@+id/colorPickerView"
+                            app:layout_constraintTop_toBottomOf="@+id/lightnessSlider" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/linearLayout5"
+                            app:layout_constraintTop_toBottomOf="@+id/layoutColorPicker">
+
+                            <com.balysv.materialripple.MaterialRippleLayout
+                                android:id="@+id/btnSetColor"
+                                style="@style/RippleStyleWhite"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_6sdp"
+                                android:layout_marginEnd="@dimen/_6sdp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/cardViewColor"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/shape_button_clicked"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="@string/set_color"
+                                    android:textColor="@color/background"
+                                    app:tint="@color/text_color" />
+                            </com.balysv.materialripple.MaterialRippleLayout>
+
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardViewColor"
+                                android:layout_width="60dp"
+                                android:layout_height="0dp"
+                                app:cardCornerRadius="5dp"
+                                app:layout_constraintBottom_toBottomOf="@+id/btnSetColor"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/btnSetColor"
+                                app:layout_constraintVertical_bias="0.0" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_5sdp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="White Intensity"
+                                android:textColor="@color/text_color"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <SeekBar
+                                android:id="@+id/seekBarWhite"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxHeight="@dimen/_5sdp"
+                                android:progressDrawable="@drawable/seek_bar_progress_lightness"
+                                android:thumb="@drawable/seekbar_thumb"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                            />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/layoutSeekBar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_7sdp"
+                            android:orientation="horizontal"
+                            app:cardCornerRadius="@dimen/_5sdp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <com.balysv.materialripple.MaterialRippleLayout
+                                    android:id="@+id/tvWhite25"
+                                    style="@style/RippleStyleWhite"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/background">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/background"
+                                        android:gravity="center"
+                                        android:text="MIN"
+                                        android:textColor="@color/text_color" />
+                                </com.balysv.materialripple.MaterialRippleLayout>
+
+                                <com.balysv.materialripple.MaterialRippleLayout
+                                    android:id="@+id/tvWhite50"
+                                    style="@style/RippleStyleWhite"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/background">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/edit_text_background"
+                                        android:gravity="center"
+                                        android:padding="@dimen/_10sdp"
+                                        android:singleLine="true"
+                                        android:text="50%"
+                                        android:textColor="@color/background" />
+                                </com.balysv.materialripple.MaterialRippleLayout>
+
+                                <com.balysv.materialripple.MaterialRippleLayout
+                                    android:id="@+id/tvWhite75"
+                                    style="@style/RippleStyleWhite"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="#5b6b77"
+                                        android:gravity="center"
+                                        android:singleLine="true"
+                                        android:text="75%"
+                                        android:textColor="@color/background" />
+                                </com.balysv.materialripple.MaterialRippleLayout>
+
+                                <com.balysv.materialripple.MaterialRippleLayout
+                                    android:id="@+id/tvWhite100"
+                                    style="@style/RippleStyleWhite"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="@color/text_color"
+                                        android:gravity="center"
+                                        android:singleLine="true"
+                                        android:text="MAX"
+                                        android:textColor="@color/background" />
+                                </com.balysv.materialripple.MaterialRippleLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

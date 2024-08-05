@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.hsi.walldisplay.ui.main.viewmodel.MainViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="380dp"
+        android:layout_height="380dp"
+        android:background="@drawable/rounded_layout"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/mainLayoutMain"
+            layout="@layout/main_layout_main"
+            app:viewModel="@{viewModel}" />
+
+        <include
+            android:id="@+id/mainLayoutLights"
+            layout="@layout/main_layout_lights"
+            app:viewModel="@{viewModel}" />
+
+        <include
+            android:id="@+id/mainLayoutAirCondition"
+            layout="@layout/main_layout_air_condition"
+            app:viewModel="@{viewModel}" />
+
+        <include
+            android:id="@+id/mainLayoutCurtain"
+            layout="@layout/main_layout_curtain"
+            app:viewModel="@{viewModel}" />
+
+        <include
+            android:id="@+id/mainLayoutListLayout"
+            layout="@layout/main_layout_light_list"
+            app:viewModel="@{viewModel}" />
+
+        <include
+            android:id="@+id/mainLayoutScene"
+            layout="@layout/main_layout_scene"
+            app:viewModel="@{viewModel}" />
+
+
+    </LinearLayout>
+
+</layout>

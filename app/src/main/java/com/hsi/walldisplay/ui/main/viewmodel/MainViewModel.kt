@@ -1,0 +1,428 @@
+package com.hsi.walldisplay.ui.main.viewmodel
+
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.ToggleButton
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.hsi.walldisplay.model.Building
+import com.hsi.walldisplay.ui.main.MainActivity
+import kotlin.properties.Delegates
+import com.hsi.walldisplay.BR
+import com.hsi.walldisplay.R
+import com.hsi.walldisplay.helper.BuildingClickListener
+import com.hsi.walldisplay.helper.Constants
+import com.hsi.walldisplay.helper.SceneClickListener
+import com.hsi.walldisplay.model.BuildingService
+import com.hsi.walldisplay.model.Curtain
+import com.hsi.walldisplay.model.DeviceType
+import com.hsi.walldisplay.model.HomeScene
+import com.hsi.walldisplay.model.ShowLayout
+import com.hsi.walldisplay.ui.main.adapter.BuildingAdapter
+import com.hsi.walldisplay.ui.main.adapter.CurtainAdapter
+import com.hsi.walldisplay.ui.main.adapter.LightAdapter
+import com.hsi.walldisplay.ui.main.adapter.SceneAdapter
+import com.hsi.walldisplay.ui.main.adapter.ThermostatAdapter
+import com.hsi.walldisplay.view.ArcSeekBar
+import de.hdodenhof.circleimageview.CircleImageView
+import java.text.SimpleDateFormat
+import java.util.ArrayList
+import java.util.Date
+
+class MainViewModel(val activity: MainActivity) : BaseObservable(),
+    SceneClickListener,
+    BuildingClickListener {
+
+    //region companion object
+
+    companion object {
+
+
+        private const val REQUEST_SELECT_IMAGE = 6578
+
+        @JvmStatic
+        @BindingAdapter("setImageUrl")
+        fun setImageUrl(imageView: ImageView, imageUrl: String) {
+            val options: RequestOptions =
+                RequestOptions().centerCrop().placeholder(R.mipmap.ic_launcher)
+                    .error(R.mipmap.ic_launcher)
+
+            if (imageUrl.isNotEmpty() && imageUrl.contains("/"))
+                Glide.with(imageView)
+                    .load(imageUrl)
+                    .apply(options)
+                    .into(imageView)
+        }
+
+        @JvmStatic
+        @BindingAdapter("setChecked")
+        fun setChecked(toggleButton: ToggleButton, device: BuildingService) {
+            toggleButton.isChecked = device.value!!.split(",")[0].toInt() > 0
+        }
+
+        @JvmStatic
+        @BindingAdapter("setCircleImageUrl")
+        fun setCircleImageUrl(imageView: CircleImageView, imageUrl: String) {
+            if (imageUrl.isNotEmpty() && imageUrl.contains("/"))
+                Glide.with(imageView)
+                    .load(imageUrl)
+                    .into(imageView)
+
+        }
+
+
+        @JvmStatic
+        @BindingAdapter("setCurtainAdapter")
+        fun setCurtainAdapter(
+            recyclerView: RecyclerView,
+            adapter: CurtainAdapter?
+        ) {
+            if (adapter!!.itemCount > 0) {
+                recyclerView.layoutManager = LinearLayoutManager(
+                    recyclerView.context, RecyclerView.VERTICAL, false
+                )
+                recyclerView.adapter = adapter
+            }
+        }
+
+
+        @JvmStatic
+        @BindingAdapter("setThermostatProgress")
+        fun setThermostatProgress(
+            seekBar: ArcSeekBar,
+            progress: Int
+        ) {
+            seekBar.progress = progress
+        }
+
+        @JvmStatic
+        @BindingAdapter("setThermostatAdapter")
+        fun setThermostatAdapter(
+            recyclerView: RecyclerView,
+            adapter: ThermostatAdapter?
+        ) {
+            if (adapter!!.itemCount > 0) {
+                val layoutManager = object : LinearLayoutManager(recyclerView.context) {
+                    override fun canScrollVertically() = false// adapter.viewModel.layoutSeekBarVisibility
+                }
+
+                recyclerView.layoutManager = layoutManager// LinearLayoutManager(recyclerView.context)
+                recyclerView.adapter = adapter
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("setSceneAdapter")
+        fun setSceneAdapter(
+            recyclerView: RecyclerView,
+            adapter: SceneAdapter?
+        ) {
+            if (adapter!!.itemCount > 0) {
+                recyclerView.layoutManager = GridLayoutManager(recyclerView.context, 2)
+                recyclerView.adapter = adapter
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("setLightAdapter")
+        fun setLightAdapter(
+            recyclerView: RecyclerView,
+            adapter: LightAdapter?
+        ) {
+            if (adapter!!.itemCount > 0) {
+                recyclerView.layoutManager = GridLayoutManager(recyclerView.context, 1)
+                recyclerView.adapter = adapter
+            }
+        }
+
+    }
+
+    //endregion
+
+    //region Variable
+
+    @get:Bindable
+    var building: Building by Delegates.observable(
+        if (activity.sessionManager.selectedBuildingId != -1)
+            activity.dataBaseDao.getBuilding(activity.sessionManager.selectedBuildingId)
+        else
+            activity.dataBaseDao.buildingItems[2]
+    ) { _, _, _ ->
+        notifyPropertyChanged(BR.building)
+    }
+
+    @get:Bindable
+    var curtainAdapter: CurtainAdapter by Delegates.observable(
+        CurtainAdapter(
+            activity,
+            if (activity.dataBaseDao.getBuildingCurtain(building.id).isNotEmpty())
+                activity.dataBaseDao.getBuildingCurtain(building.id) as ArrayList
+            else arrayListOf()
+        )
+    ) { _, _, _ ->
+        notifyPropertyChanged(BR.curtainAdapter)
+    }
+
+    @get:Bindable
+    var sceneAdapter: SceneAdapter by Delegates.observable(
+        SceneAdapter(
+            this,
+            if (activity.dataBaseDao.getBuildingScene(building.id).isNotEmpty())
+                activity.dataBaseDao.getBuildingScene(building.id) as ArrayList
+            else arrayListOf()
+        )
+    ) { _, _, _ ->
+        notifyPropertyChanged(BR.sceneAdapter)
+    }
+
+    @get:Bindable
+    var lightAdapter: LightAdapter by Delegates.observable(
+        LightAdapter(
+            activity,
+            if (activity.dataBaseDao.getDaliLightsOfBuilding(building.id).isNotEmpty())
+                activity.dataBaseDao.getDaliLightsOfBuilding(building.id) as ArrayList
+            else arrayListOf()
+        )
+    ) { _, _, _ ->
+        notifyPropertyChanged(BR.lightAdapter)
+    }
+
+    @get:Bindable
+    var scene: HomeScene by Delegates.observable(
+        activity.dataBaseDao.getBuildingScene(building.id)[0]
+    ) { _, _, _ ->
+        notifyPropertyChanged(BR.scene)
+    }
+
+    @get:Bindable
+    var thermostatAdapter: ThermostatAdapter by Delegates.observable(
+        ThermostatAdapter(
+            activity,
+            if (activity.dataBaseDao.getBuildingDevices(building.id, DeviceType.THERMOSTAT).isNotEmpty())
+                activity.dataBaseDao.getBuildingDevices(building.id, DeviceType.THERMOSTAT) as ArrayList
+            else arrayListOf()
+        )
+    ) { _, _, _ ->
+        notifyPropertyChanged(BR.thermostatAdapter)
+    }
+
+    @get:Bindable
+    var dateString: String by Delegates.observable(
+        SimpleDateFormat("EEE , d MMM , yyyy").format(Date())
+    ) { _, _, _ ->
+        notifyPropertyChanged(BR.dateString)
+    }
+
+    @get:Bindable
+    var showLayout: ShowLayout by Delegates.observable(
+        ShowLayout.DEFAULT
+    ) { _, _, _ ->
+        notifyPropertyChanged(BR.showLayout)
+    }
+
+    //endregion
+
+    //region Clicked
+
+
+    private var count = 0
+    fun showRoomListDialog(view: View) {
+        count++
+
+        if (count >= 10) {
+            activity.toast("Show Room List")
+            count = 0
+            showFloorDialog()
+        }
+    }
+
+
+    private fun showFloorDialog() {
+        val builder = AlertDialog.Builder(activity)
+        val viewGroup: ViewGroup = activity.findViewById(android.R.id.content)
+        val dialogView: View =
+            LayoutInflater.from(activity).inflate(R.layout.dialog_floors, viewGroup, false)
+
+        builder.setCancelable(false)
+        builder.setView(dialogView)
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alertDialog.show()
+        val btnClose = dialogView.findViewById<ImageView>(R.id.btnClose)
+
+        btnClose.setOnClickListener { alertDialog.dismiss() }
+
+        val rvFloors: RecyclerView = dialogView.findViewById(R.id.rvScenes)
+        val roomMoodAdapter = BuildingAdapter(
+            this,
+            activity.dataBaseDao.buildingItems as ArrayList<Building>
+        )
+        rvFloors.adapter = roomMoodAdapter
+        rvFloors.layoutManager = GridLayoutManager(activity, 2)
+
+    }
+
+    fun onLightListClicked(view: View) {
+        if (activity.dataBaseDao.getBuildingDevices(building.id, DeviceType.DALI_LIGHT).isNotEmpty())
+            showLayout = ShowLayout.DALIS_LIST
+        else activity.toast("Dali Lights not found")
+    }
+
+    fun onSceneListClicked(view: View) {
+        activity.toast("onSceneListClicked")
+        if (activity.dataBaseDao.getBuildingScene(building.id).isNotEmpty())
+            showLayout = ShowLayout.SCENE
+        else activity.toast("Scene not found")
+    }
+
+    fun onLightsClicked(view: View) {
+        showLayout = ShowLayout.DALIS
+    }
+
+    fun onAirConditionClicked(view: View) {
+        if (activity.dataBaseDao.getBuildingDevices(building.id, DeviceType.THERMOSTAT).isNotEmpty())
+            showLayout = ShowLayout.AIR_CONDITION
+        else
+            activity.toast("Air Condition found")
+    }
+
+    fun onCurtainClicked(view: View) {
+        if (activity.dataBaseDao.getBuildingCurtain(building.id).isNotEmpty())
+            showLayout = ShowLayout.CURTAIN
+        else
+            activity.toast("Curtain not found")
+    }
+
+    fun onBackClicked(view: View) {
+        showLayout = ShowLayout.DEFAULT
+    }
+
+    //endregion
+
+
+//region SceneClickListener
+
+    override fun onSceneClickListener(scene: HomeScene?) {
+        val masters = scene?.masterId!!.split(",")
+        activity.log("onSceneClickListener ${scene.sceneService}")
+        if (!scene.sceneService.isNullOrEmpty())
+            for (master in masters) {
+                if (master.toInt() >= 0) {
+                    val topic = "${activity.sessionManager.user.projectId}/$master/${Constants.DALI_IN}"
+                    val msg = "{\"CMD\r\n\":\"GO_TO_SCENE_${scene.sceneId}\r\n\",\"BROADCAST\r\n\":\"ALL\r\n\"}"
+                    activity.publishMessage(topic, msg)
+                }
+            }
+    }
+
+    override fun onSceneTitleLongClickListener(homeScene: HomeScene?) {
+        val builder = AlertDialog.Builder(activity)
+        val viewGroup: ViewGroup = activity.findViewById(android.R.id.content)
+        val dialogView: View = LayoutInflater.from(activity)
+            .inflate(R.layout.dialog_change_room_name, viewGroup, false)
+
+        builder.setView(dialogView)
+        val alertDialog = builder.create()
+        alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alertDialog.setCanceledOnTouchOutside(false)
+        alertDialog.show()
+
+        val tvTitle = dialogView.findViewById<TextView>(R.id.tvTitle)
+        tvTitle.text = "Change title of ${homeScene!!.name}"
+        val etBuildingName = dialogView.findViewById<EditText>(R.id.etBuildingName)
+        val btn_okay = dialogView.findViewById<View>(R.id.btnSave)
+        etBuildingName.setText(homeScene.name)
+        dialogView.findViewById<View>(R.id.btnClose)
+            .setOnClickListener { alertDialog.dismiss() }
+
+        btn_okay.setOnClickListener {
+            val buildingName: String = etBuildingName.text.toString()
+            if (buildingName.isEmpty()) {
+                activity.toast("Please Enter Scene name")
+                return@setOnClickListener
+            }
+            homeScene.name = buildingName
+            activity.dataBaseDao.updateScene(homeScene)
+
+            sceneAdapter.setData(activity.dataBaseDao.getBuildingScene(building.id))
+            alertDialog.dismiss()
+        }
+    }
+
+    override fun onSceneImageLongClickListener(homeScene: HomeScene?) {
+        scene = homeScene!!
+
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        resultLauncher.launch(intent)
+    }
+
+    private var resultLauncher = activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // There are no request codes
+            val data: Intent? = result.data
+            if (data != null) {
+                val selectedImageUri: Uri? = data.data
+                scene.imagePath = selectedImageUri.toString()
+                activity.dataBaseDao.updateScene(scene)
+                sceneAdapter.setData(activity.dataBaseDao.getBuildingScene(building.id))
+            }
+
+        }
+    }
+
+    override fun onBuildingClickListener(building: Building?) {
+        this.building = building!!
+        activity.sessionManager.selectedBuildingId = building.id!!
+        this.sceneAdapter = SceneAdapter(
+            this,
+            if (activity.dataBaseDao.getBuildingScene(building.id).isNotEmpty())
+                activity.dataBaseDao.getBuildingScene(building.id) as ArrayList
+            else arrayListOf()
+        )
+
+        if (activity.dataBaseDao.getBuildingScene(building.id).isNotEmpty())
+            scene = activity.dataBaseDao.getBuildingScene(building.id)[0]
+
+        this.curtainAdapter = CurtainAdapter(
+            activity,
+            if (activity.dataBaseDao.getBuildingCurtain(building.id).isNotEmpty())
+                activity.dataBaseDao.getBuildingCurtain(building.id) as ArrayList
+            else arrayListOf()
+        )
+        this.lightAdapter = LightAdapter(
+            activity,
+            if (activity.dataBaseDao.getDaliLightsOfBuilding(building.id).isNotEmpty())
+                activity.dataBaseDao.getDaliLightsOfBuilding(building.id) as ArrayList
+            else arrayListOf()
+        )
+        this.thermostatAdapter = ThermostatAdapter(
+            activity,
+            if (activity.dataBaseDao.getBuildingDevices(building.id, DeviceType.THERMOSTAT).isNotEmpty())
+                activity.dataBaseDao.getBuildingDevices(building.id, DeviceType.THERMOSTAT) as ArrayList
+            else arrayListOf()
+        )
+    }
+
+    override fun onBuildingTitleClickListener(building: Building?) {
+    }
+//endregion
+}
