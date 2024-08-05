@@ -12,11 +12,7 @@ class MqttHelper(
     private val mqttInterface: MqttInterFace
 ) {
 
-    companion object {
-
-        private const val TAG = "MqttHelper"
-    }
-
+    private  val TAG = MqttHelper::class.java.simpleName
 
     private var mqttAndroidClient: MqttAndroidClient =
         MqttAndroidClient(activity, MQTT_SERVER_URI, activity.sessionManager.mqttClientId!!)
