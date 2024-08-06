@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:gravity="center"
-                    android:text="@{`Curtain `+viewModel.curtain.id}"
+                    android:text="@{`Curtain `+viewModel.curtain.serviceId}"
                     android:textColor="@color/text_color"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"

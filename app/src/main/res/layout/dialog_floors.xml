@@ -8,8 +8,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/rootLayout"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="380dp"
+        android:layout_height="380dp"
         android:layout_margin="@dimen/_5sdp"
         android:minWidth="@dimen/_220sdp"
         android:minHeight="@dimen/_220sdp"
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
-                tools:itemCount="4"
+                tools:itemCount="6"
                 tools:listitem="@layout/item_row_floor" />
 
         </LinearLayout>

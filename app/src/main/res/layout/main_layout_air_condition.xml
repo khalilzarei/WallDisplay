@@ -16,8 +16,8 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="380dp"
-        android:layout_height="380dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/rounded_layout"
         android:visibility="@{viewModel.showLayout == ShowLayout.AIR_CONDITION ? View.VISIBLE:View.GONE}">
 

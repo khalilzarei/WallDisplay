@@ -164,7 +164,7 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
         if (activity.sessionManager.selectedBuildingId != -1)
             activity.dataBaseDao.getBuilding(activity.sessionManager.selectedBuildingId)
         else
-            activity.dataBaseDao.buildingItems[2]
+            activity.dataBaseDao.buildingItems[0]
     ) { _, _, _ ->
         notifyPropertyChanged(BR.building)
     }
@@ -322,8 +322,8 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
 
     override fun onSceneClickListener(scene: HomeScene?) {
         val masters = scene?.masterId!!.split(",")
-        activity.log("onSceneClickListener ${scene.sceneService}")
-        if (!scene.sceneService.isNullOrEmpty())
+        activity.log("onSceneClickListener $masters")
+        if (!masters.isNullOrEmpty())
             for (master in masters) {
                 if (master.toInt() >= 0) {
                     val topic = "${activity.sessionManager.user.projectId}/$master/${Constants.DALI_IN}"

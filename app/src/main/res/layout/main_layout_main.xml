@@ -16,16 +16,17 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="380dp"
-        android:layout_height="380dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/rounded_layout"
+        android:gravity="center"
         android:orientation="vertical"
         android:visibility="@{viewModel.showLayout == ShowLayout.DEFAULT ? View.VISIBLE:View.GONE}"
         tools:showIn="@layout/activity_main">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="240dp"
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView

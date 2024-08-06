@@ -54,7 +54,6 @@
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="@{viewModel.device.type+` `+viewModel.device.id}"
                         android:textColor="@color/text_color"
                         android:textStyle="bold"
                         tools:text="Curtain 1" />

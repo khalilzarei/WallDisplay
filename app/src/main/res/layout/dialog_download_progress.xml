@@ -4,15 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00000000"
-    android:gravity="center"
-    android:minWidth="480dp"
-    android:minHeight="480dp">
+    android:gravity="center">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/rootLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_30sdp"
         android:orientation="vertical"
         app:cardBackgroundColor="@color/seek_bar_progress"
         app:cardCornerRadius="@dimen/_10sdp"

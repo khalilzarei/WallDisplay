@@ -5,20 +5,17 @@ import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.appcompat.app.AlertDialog
+import android.util.DisplayMetrics
 import androidx.core.view.ViewCompat
 import com.google.android.material.snackbar.Snackbar
-import com.hsi.walldisplay.ui.main.MainActivity
 import com.hsi.walldisplay.application.BaseActivity
 import com.hsi.walldisplay.databinding.ActivityLoginBinding
-import com.hsi.walldisplay.databinding.DialogDownloadProgressBinding
 import com.hsi.walldisplay.helper.Constants
 import com.hsi.walldisplay.helper.InsetsWithKeyboardAnimationCallback
 import com.hsi.walldisplay.helper.InsetsWithKeyboardCallback
@@ -27,6 +24,7 @@ import com.hsi.walldisplay.model.LoginResponse
 import com.hsi.walldisplay.model.User
 import com.hsi.walldisplay.network.RetroClass
 import com.hsi.walldisplay.ui.login.viewmodel.LoginViewModel
+import com.hsi.walldisplay.ui.main.MainActivity
 import com.tbruyelle.rxpermissions3.RxPermissions
 import retrofit2.Call
 import retrofit2.Callback
@@ -55,8 +53,12 @@ class LoginActivity : BaseActivity() {
         view = binding.root
         val viewModel = LoginViewModel(this)
         binding.viewModel = viewModel
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val height = displayMetrics.heightPixels
+        val width = displayMetrics.widthPixels
 
-        log("LoginActivity Oncreate ")
+        log("LoginActivity width:$width  height:$height  ${pxToDp(width)} ")
         requestStoragePermissions()
 
 

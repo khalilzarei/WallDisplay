@@ -31,9 +31,7 @@ interface DataBaseDao {
     fun getBuildingDevices(buildingId: Int?, deviceType: String): List<BuildingService>
 
     @Query(
-        "SELECT * FROM ${Constants.TABLE_NAME_BUILDING_SERVICE} WHERE buildingId= :value AND type != '${
-            DeviceType.CURTAIN
-        }'"
+        "SELECT * FROM ${Constants.TABLE_NAME_BUILDING_SERVICE} WHERE buildingId= :value AND (type != '${DeviceType.CURTAIN}' AND type != '${DeviceType.THERMOSTAT}') "
     )
     fun getDaliLightsOfBuilding(value: Int?): List<BuildingService>
 

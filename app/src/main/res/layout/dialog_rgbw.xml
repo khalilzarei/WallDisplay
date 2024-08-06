@@ -7,8 +7,8 @@
     android:background="#00000000">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="380dp"
+        android:layout_height="380dp"
         app:cardBackgroundColor="@color/background"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="@dimen/_10sdp"
@@ -63,7 +63,7 @@
                         <com.flask.colorpicker.ColorPickerView
                             android:id="@+id/colorPickerView"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_100sdp"
+                            android:layout_height="@dimen/_120sdp"
                             app:density="10"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -132,7 +132,7 @@
                                     android:layout_height="match_parent"
                                     android:background="@drawable/shape_button_clicked"
                                     android:gravity="center"
-                                    android:padding="5dp"
+                                    android:padding="10dp"
                                     android:text="@string/set_color"
                                     android:textColor="@color/background"
                                     app:tint="@color/text_color" />

@@ -93,6 +93,7 @@ class LightViewModel(
 //        tvSeekResult.visibility = View.GONE
 
         val arcSeekBar = dialogView.findViewById<ArcSeekBar>(R.id.arcSeekBar)
+        arcSeekBar.progress = d
         arcSeekBar.setOnProgressChangeListener(object : ArcSeekBar.OnProgressChangeListener {
             override fun onProgressChanged(seekBar: ArcSeekBar?, progress: Int, isUser: Boolean) {
                 tvSeekResult.text = "$progress%"

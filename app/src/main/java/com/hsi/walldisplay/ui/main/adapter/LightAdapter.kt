@@ -22,8 +22,16 @@ import de.hdodenhof.circleimageview.CircleImageView
 
 class LightAdapter(
     val activity: MainActivity,
-    private var items: ArrayList<BuildingService>
+    devices: ArrayList<BuildingService>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val items: ArrayList<BuildingService> = arrayListOf()
+
+    init {
+        for (device in devices) {
+            if (device.groupId != null)
+                items.add(device)
+        }
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -52,36 +60,14 @@ class LightAdapter(
         viewHolder.item.switchOnOff.isChecked = device.value!!.split(",")[0].toInt() > 0
         viewHolder.item.switchOffOn.isChecked = device.value!!.split(",")[0].toInt() > 0
 
-//        viewHolder.item.lightLayoutDali.seekBarDim.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
-//            override fun onStopTrackingTouch(seekBar: SeekBar) {
-//
-//                seekBar.thumb = activity.getDrawable(R.drawable.seekbar_thumb)
-//                val dim: Int = seekBar.progress
-//                sendDimMessage(device, dim, false)
-//            }
-//
-//            override fun onStartTrackingTouch(seekBar: SeekBar) {
-//                seekBar.thumb = activity.getDrawable(R.drawable.seekbar_thumb)
-//            }
-//
-//            override fun onProgressChanged(
-//                seekBar: SeekBar,
-//                position: Int,
-//                userChange: Boolean
-//            ) {
-////                cardViewBack.circleBackgroundColor = (Color.argb(percentToDim(seekBar!!.progress), sessionManager.redCode, sessionManager.greenCode, sessionManager.blueCode))
-//
-//                viewHolder.item.lightLayoutDali.tvSeekResult.text = "$position%"
-////                if (position > 0) {
-////                    tvSeekResult.visibility = View.VISIBLE
-////                    seekBar.thumb = getDrawable(R.drawable.seekbar_thumb)
-////                } else {
-////                    tvSeekResult.visibility = View.GONE
-////                    seekBar.thumb = null
-////                }
-//            }
-//        })
 
+        viewHolder.item.tvTitle.text = when (device.type) {
+            DeviceType.RGB_DT6, DeviceType.RGB_DT8 -> "RGB ${device.serviceId}"
+            DeviceType.CCT_DT6, DeviceType.CCT_DT8 -> "CCT ${device.serviceId}"
+            DeviceType.RELAY -> "RELAY ${device.serviceId}"
+            DeviceType.DALI_LIGHT -> if (device.groupId == null) "DALI LIGHT ${device.serviceId}" else "GROUP ${device.serviceId}"
+            else -> "${device.type} ${device.serviceId}"
+        }
         viewHolder.item.switchOnOff.setOnCheckedChangeListener { view, isChecked ->
             if (view.isPressed) {
                 activity.logD("isChecked:$isChecked type ${device.type}")
