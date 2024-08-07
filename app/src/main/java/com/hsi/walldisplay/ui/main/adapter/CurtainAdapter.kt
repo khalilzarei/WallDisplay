@@ -66,7 +66,7 @@ class CurtainAdapter(
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 val dim: Int = seekBar.progress
-                if (dim in 1..100) {
+                if (dim in 0..100) {
                     val message = "{\"id\":\"${item.serviceId}\",\"command\":\"setposition_$dim\"}"
                     activity.publishMessage(topic, message)
                 }

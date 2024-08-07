@@ -89,6 +89,7 @@ data class OnOffMessage(
 class BuildingService(
     @PrimaryKey(autoGenerate = true) var idBuildingService: Int = 0,
     @SerializedName("id") var id: Int? = null,
+    @SerializedName("name") var name: String? = null,
     @SerializedName("building_id") var buildingId: Int? = null,
     @SerializedName("location") var location: List<Double> = arrayListOf(),
     @SerializedName("service_id") var serviceId: String? = null,

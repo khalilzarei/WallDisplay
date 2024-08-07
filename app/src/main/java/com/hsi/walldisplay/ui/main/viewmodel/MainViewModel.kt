@@ -14,7 +14,6 @@ import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
@@ -32,7 +31,6 @@ import com.hsi.walldisplay.helper.BuildingClickListener
 import com.hsi.walldisplay.helper.Constants
 import com.hsi.walldisplay.helper.SceneClickListener
 import com.hsi.walldisplay.model.BuildingService
-import com.hsi.walldisplay.model.Curtain
 import com.hsi.walldisplay.model.DeviceType
 import com.hsi.walldisplay.model.HomeScene
 import com.hsi.walldisplay.model.ShowLayout
@@ -337,7 +335,7 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
         val builder = AlertDialog.Builder(activity)
         val viewGroup: ViewGroup = activity.findViewById(android.R.id.content)
         val dialogView: View = LayoutInflater.from(activity)
-            .inflate(R.layout.dialog_change_room_name, viewGroup, false)
+            .inflate(R.layout.dialog_change_name, viewGroup, false)
 
         builder.setView(dialogView)
         val alertDialog = builder.create()

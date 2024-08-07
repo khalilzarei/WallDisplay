@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
@@ -13,9 +14,7 @@ import androidx.cardview.widget.CardView
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.DataBindingUtil
-import androidx.transition.Visibility
 import com.flask.colorpicker.ColorPickerView
-import com.hsi.walldisplay.model.Curtain
 import com.hsi.walldisplay.BR
 import com.hsi.walldisplay.R
 import com.hsi.walldisplay.databinding.DialogCctBinding
@@ -26,9 +25,7 @@ import com.hsi.walldisplay.model.BuildingService
 import com.hsi.walldisplay.model.DeviceType
 import com.hsi.walldisplay.ui.main.MainActivity
 import com.hsi.walldisplay.view.ArcSeekBar
-import de.hdodenhof.circleimageview.CircleImageView
-import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 class LightViewModel(
@@ -67,6 +64,42 @@ class LightViewModel(
             else -> {}
         }
 
+    }
+
+    fun changeTitle(view: View): Boolean {
+        val builder = AlertDialog.Builder(activity)
+        val viewGroup: ViewGroup = activity.findViewById(android.R.id.content)
+        val dialogView: View = LayoutInflater.from(activity)
+            .inflate(R.layout.dialog_change_name, viewGroup, false)
+
+        builder.setView(dialogView)
+        val alertDialog = builder.create()
+        alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alertDialog.setCanceledOnTouchOutside(false)
+        alertDialog.show()
+
+        val tvTitle = dialogView.findViewById<TextView>(R.id.tvTitle)
+        tvTitle.text = "Change title of ${device!!.name}"
+        val etBuildingName = dialogView.findViewById<EditText>(R.id.etBuildingName)
+        etBuildingName.setText(device.name)
+        dialogView.findViewById<View>(R.id.btnClose)
+            .setOnClickListener { alertDialog.dismiss() }
+
+        dialogView.findViewById<View>(R.id.btnSave).setOnClickListener {
+            val name: String = etBuildingName.text.toString()
+            if (name.isEmpty()) {
+                activity.toast("Please Enter name")
+                return@setOnClickListener
+            }
+            device.name = name
+            activity.dataBaseDao.updateBuildingService(device)
+
+            activity.viewModel.lightAdapter.setItems(
+                activity.dataBaseDao.getDaliLightsOfBuilding(device.buildingId) as ArrayList
+            )
+            alertDialog.dismiss()
+        }
+        return true
     }
 
     private fun showDimDialog(

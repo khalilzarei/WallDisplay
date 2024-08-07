@@ -61,13 +61,7 @@ class LightAdapter(
         viewHolder.item.switchOffOn.isChecked = device.value!!.split(",")[0].toInt() > 0
 
 
-        viewHolder.item.tvTitle.text = when (device.type) {
-            DeviceType.RGB_DT6, DeviceType.RGB_DT8 -> "RGB ${device.serviceId}"
-            DeviceType.CCT_DT6, DeviceType.CCT_DT8 -> "CCT ${device.serviceId}"
-            DeviceType.RELAY -> "RELAY ${device.serviceId}"
-            DeviceType.DALI_LIGHT -> if (device.groupId == null) "DALI LIGHT ${device.serviceId}" else "GROUP ${device.serviceId}"
-            else -> "${device.type} ${device.serviceId}"
-        }
+        viewHolder.item.tvTitle.text = device.name
         viewHolder.item.switchOnOff.setOnCheckedChangeListener { view, isChecked ->
             if (view.isPressed) {
                 activity.logD("isChecked:$isChecked type ${device.type}")

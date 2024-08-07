@@ -37,6 +37,8 @@
                 android:layout_height="0dp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:onClick="@{viewModel::changeVisibility}"
+                android:onLongClick="@{viewModel::changeTitle}"
+                android:onLongClickListener="@{viewModel::changeTitle}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/switchOffOn"
                 app:layout_constraintStart_toStartOf="parent"

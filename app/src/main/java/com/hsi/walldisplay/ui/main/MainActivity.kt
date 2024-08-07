@@ -16,7 +16,7 @@ class MainActivity : BaseActivity(), MqttInterFace {
 
     val TAG = "MainActivity"
     val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val viewModel: MainViewModel by lazy { MainViewModel(this) }
+     val viewModel: MainViewModel by lazy { MainViewModel(this) }
     private val mqttHelper by lazy { MqttHelper(this, this) }
     //endregion
 

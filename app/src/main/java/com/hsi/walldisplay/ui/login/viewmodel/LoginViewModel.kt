@@ -1,11 +1,8 @@
 package com.hsi.walldisplay.ui.login.viewmodel
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.media.MediaScannerConnection
-import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -18,7 +15,6 @@ import com.downloader.PRDownloader
 import com.google.android.material.snackbar.Snackbar
 import com.hsi.walldisplay.R
 import com.hsi.walldisplay.BR
-import com.hsi.walldisplay.application.BaseActivity.Companion.showErrorSnackBar
 import com.hsi.walldisplay.databinding.DialogDownloadProgressBinding
 import com.hsi.walldisplay.helper.Constants
 import com.hsi.walldisplay.helper.SessionManager
@@ -282,7 +278,6 @@ class LoginViewModel(var activity: LoginActivity) : BaseObservable() {
     }
     //endregion
 
-
     //region getServices
 
     private fun getServices() {
@@ -301,6 +296,13 @@ class LoginViewModel(var activity: LoginActivity) : BaseObservable() {
 
                             for (buildingService in responseBody.buildingServices) {
                                 activity.logD("Home => ${buildingService.type} ${buildingService.value} ")
+                                buildingService.name = when (buildingService.type) {
+                                    DeviceType.RGB_DT6, DeviceType.RGB_DT8 -> "RGB ${buildingService.serviceId}"
+                                    DeviceType.CCT_DT6, DeviceType.CCT_DT8 -> "CCT ${buildingService.groupId}"
+                                    DeviceType.RELAY -> "RELAY ${buildingService.serviceId}"
+                                    DeviceType.DALI_LIGHT -> if (buildingService.groupId == null) "DALI LIGHT ${buildingService.serviceId}" else "GROUP ${buildingService.groupId}"
+                                    else -> "${buildingService.type} ${buildingService.serviceId}"
+                                }
                                 activity.dataBaseDao.insertBuildingService(buildingService)
                                 if (buildingService.type == DeviceType.CURTAIN) {
                                     activity.dataBaseDao.insertCurtain(
