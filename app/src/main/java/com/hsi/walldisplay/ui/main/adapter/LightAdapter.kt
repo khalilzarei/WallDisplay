@@ -1,5 +1,6 @@
 package com.hsi.walldisplay.ui.main.adapter
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import com.hsi.walldisplay.ui.main.viewmodel.LightViewModel
 import de.hdodenhof.circleimageview.CircleImageView
 
 
+@SuppressLint("NotifyDataSetChanged")
 class LightAdapter(
     val activity: MainActivity,
     devices: ArrayList<BuildingService>
@@ -28,9 +30,16 @@ class LightAdapter(
 
     init {
         for (device in devices) {
-            if (device.groupId != null)
+            val condition = when (device.type) {
+                DeviceType.RGB_DT6, DeviceType.RGB_DT8 -> true
+                DeviceType.CCT_DT6, DeviceType.CCT_DT8 -> true
+                else -> false
+            }
+            if (condition || device.groupId != null)
                 items.add(device)
         }
+        activity.logD("LightAdapter ${items.size}")
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(
@@ -250,6 +259,18 @@ class LightAdapter(
     fun setItems(items: ArrayList<BuildingService>) {
         this.items.clear()
         this.items.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    fun setGroupItems(devices: ArrayList<BuildingService>) {
+        items.clear()
+
+        activity.logD("setGroupItems 1 ${devices.size} ${items.size}")
+        for (device in devices) {
+            if (device.groupId != null)
+                items.add(device)
+        }
+        activity.logD("setGroupItems 2 ${devices.size} ${items.size}")
         notifyDataSetChanged()
     }
 

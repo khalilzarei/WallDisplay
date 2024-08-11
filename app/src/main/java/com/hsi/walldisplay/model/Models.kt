@@ -164,13 +164,13 @@ data class MoodBuilding(
 @Entity(tableName = Constants.TABLE_NAME_SCENE)
 data class HomeScene(
     @PrimaryKey(autoGenerate = true) var idScene: Int = 0,
-    @SerializedName("id") var id: Int? = null,
-    @SerializedName("building_id") var buildingId: Int? = null,
-    @SerializedName("master_id") var masterId: String? = null,
-    @SerializedName("scene_id") var sceneId: Int? = null,
-    @SerializedName("name") var name: String? = null,
-    @SerializedName("image") var imagePath: String? = null,
-    @SerializedName("scene_service") val sceneService: List<SceneService>? = null,
+    @SerializedName("id") var id: Int? = -1,
+    @SerializedName("building_id") var buildingId: Int? = -1,
+    @SerializedName("master_id") var masterId: String? = "",
+    @SerializedName("scene_id") var sceneId: Int? = -1,
+    @SerializedName("name") var name: String? = "",
+    @SerializedName("image") var imagePath: String? = "",
+    @SerializedName("scene_service") val sceneService: List<SceneService>? = arrayListOf(),
 )
 
 data class SceneService(

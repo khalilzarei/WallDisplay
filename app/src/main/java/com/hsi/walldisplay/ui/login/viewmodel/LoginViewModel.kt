@@ -18,14 +18,7 @@ import com.hsi.walldisplay.BR
 import com.hsi.walldisplay.databinding.DialogDownloadProgressBinding
 import com.hsi.walldisplay.helper.Constants
 import com.hsi.walldisplay.helper.SessionManager
-import com.hsi.walldisplay.model.BuildingResponse
-import com.hsi.walldisplay.model.Curtain
-import com.hsi.walldisplay.model.DeviceType
-import com.hsi.walldisplay.model.LoginResponse
-import com.hsi.walldisplay.model.SceneResponse
-import com.hsi.walldisplay.model.ServiceResponse
-import com.hsi.walldisplay.model.Topic
-import com.hsi.walldisplay.model.User
+import com.hsi.walldisplay.model.*
 import com.hsi.walldisplay.network.RetroClass
 import com.hsi.walldisplay.ui.login.LoginActivity
 import com.hsi.walldisplay.ui.main.MainActivity
@@ -41,7 +34,7 @@ class LoginViewModel(var activity: LoginActivity) : BaseObservable() {
     //region variable
 
     @Bindable
-    var email: String? = "hsilightingstudio@gruneslicht.de"  //dt8@g...  hsilightingstudio
+    var email: String? = "dt8@gruneslicht.de"  //dt8@g...  hsilightingstudio
 
     @Bindable
     var password: String? = "Password123"
@@ -297,8 +290,8 @@ class LoginViewModel(var activity: LoginActivity) : BaseObservable() {
                             for (buildingService in responseBody.buildingServices) {
                                 activity.logD("Home => ${buildingService.type} ${buildingService.value} ")
                                 buildingService.name = when (buildingService.type) {
-                                    DeviceType.RGB_DT6, DeviceType.RGB_DT8 -> "RGB ${buildingService.serviceId}"
-                                    DeviceType.CCT_DT6, DeviceType.CCT_DT8 -> "CCT ${buildingService.groupId}"
+                                    DeviceType.RGB_DT6, DeviceType.RGB_DT8 -> if (buildingService.groupId != null) "RGB ${buildingService.groupId}" else "RGB ${buildingService.serviceId}"
+                                    DeviceType.CCT_DT6, DeviceType.CCT_DT8 -> if (buildingService.groupId != null) "CCT ${buildingService.groupId}" else "CCT ${buildingService.serviceId}"
                                     DeviceType.RELAY -> "RELAY ${buildingService.serviceId}"
                                     DeviceType.DALI_LIGHT -> if (buildingService.groupId == null) "DALI LIGHT ${buildingService.serviceId}" else "GROUP ${buildingService.groupId}"
                                     else -> "${buildingService.type} ${buildingService.serviceId}"

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,9 +53,7 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
     //region companion object
 
     companion object {
-
-
-        private const val REQUEST_SELECT_IMAGE = 6578
+        private const val TAG = "MainViewModel"
 
         @JvmStatic
         @BindingAdapter("setImageUrl")
@@ -93,12 +92,11 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
             recyclerView: RecyclerView,
             adapter: CurtainAdapter?
         ) {
-            if (adapter!!.itemCount > 0) {
-                recyclerView.layoutManager = LinearLayoutManager(
-                    recyclerView.context, RecyclerView.VERTICAL, false
-                )
-                recyclerView.adapter = adapter
-            }
+            recyclerView.layoutManager = LinearLayoutManager(
+                recyclerView.context, RecyclerView.VERTICAL, false
+            )
+            recyclerView.adapter = adapter
+
         }
 
 
@@ -117,14 +115,12 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
             recyclerView: RecyclerView,
             adapter: ThermostatAdapter?
         ) {
-            if (adapter!!.itemCount > 0) {
-                val layoutManager = object : LinearLayoutManager(recyclerView.context) {
-                    override fun canScrollVertically() = false// adapter.viewModel.layoutSeekBarVisibility
-                }
-
-                recyclerView.layoutManager = layoutManager// LinearLayoutManager(recyclerView.context)
-                recyclerView.adapter = adapter
+            val layoutManager = object : LinearLayoutManager(recyclerView.context) {
+                override fun canScrollVertically() = false// adapter.viewModel.layoutSeekBarVisibility
             }
+
+            recyclerView.layoutManager = layoutManager// LinearLayoutManager(recyclerView.context)
+            recyclerView.adapter = adapter
         }
 
         @JvmStatic
@@ -133,10 +129,9 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
             recyclerView: RecyclerView,
             adapter: SceneAdapter?
         ) {
-            if (adapter!!.itemCount > 0) {
-                recyclerView.layoutManager = GridLayoutManager(recyclerView.context, 2)
-                recyclerView.adapter = adapter
-            }
+            recyclerView.layoutManager = GridLayoutManager(recyclerView.context, 2)
+            recyclerView.adapter = adapter
+
         }
 
         @JvmStatic
@@ -145,10 +140,10 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
             recyclerView: RecyclerView,
             adapter: LightAdapter?
         ) {
-            if (adapter!!.itemCount > 0) {
-                recyclerView.layoutManager = GridLayoutManager(recyclerView.context, 1)
-                recyclerView.adapter = adapter
-            }
+            Log.d(TAG, "setLightAdapter: ${adapter!!.itemCount}")
+            recyclerView.layoutManager = GridLayoutManager(recyclerView.context, 1)
+            recyclerView.adapter = adapter
+
         }
 
     }
@@ -205,7 +200,9 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
 
     @get:Bindable
     var scene: HomeScene by Delegates.observable(
-        activity.dataBaseDao.getBuildingScene(building.id)[0]
+        if (activity.dataBaseDao.getBuildingScene(building.id).isNotEmpty())
+            activity.dataBaseDao.getBuildingScene(building.id)[0]
+        else HomeScene()
     ) { _, _, _ ->
         notifyPropertyChanged(BR.scene)
     }
@@ -279,8 +276,12 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
     }
 
     fun onLightListClicked(view: View) {
-        if (activity.dataBaseDao.getBuildingDevices(building.id, DeviceType.DALI_LIGHT).isNotEmpty())
+        if (activity.dataBaseDao.getDaliLightsOfBuilding(building.id).isNotEmpty()) {
             showLayout = ShowLayout.DALIS_LIST
+            lightAdapter = LightAdapter(activity, arrayListOf())
+            this.lightAdapter = LightAdapter(activity, activity.dataBaseDao.getDaliLightsOfBuilding(building.id) as ArrayList)
+            lightAdapter.notifyDataSetChanged()
+        }
         else activity.toast("Dali Lights not found")
     }
 
@@ -316,7 +317,7 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
     //endregion
 
 
-//region SceneClickListener
+    //region SceneClickListener
 
     override fun onSceneClickListener(scene: HomeScene?) {
         val masters = scene?.masterId!!.split(",")
@@ -406,12 +407,9 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
                 activity.dataBaseDao.getBuildingCurtain(building.id) as ArrayList
             else arrayListOf()
         )
-        this.lightAdapter = LightAdapter(
-            activity,
-            if (activity.dataBaseDao.getDaliLightsOfBuilding(building.id).isNotEmpty())
-                activity.dataBaseDao.getDaliLightsOfBuilding(building.id) as ArrayList
-            else arrayListOf()
-        )
+        lightAdapter = LightAdapter(activity, arrayListOf())
+        this.lightAdapter = LightAdapter(activity, activity.dataBaseDao.getDaliLightsOfBuilding(building.id) as ArrayList)
+        lightAdapter.notifyDataSetChanged()
         this.thermostatAdapter = ThermostatAdapter(
             activity,
             if (activity.dataBaseDao.getBuildingDevices(building.id, DeviceType.THERMOSTAT).isNotEmpty())

@@ -57,4 +57,8 @@ class MainActivity : BaseActivity(), MqttInterFace {
     }
 
     //endregion
+
+    override fun onBackPressed() {
+
+    }
 }

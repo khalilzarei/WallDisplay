@@ -94,7 +94,7 @@ class LightViewModel(
             device.name = name
             activity.dataBaseDao.updateBuildingService(device)
 
-            activity.viewModel.lightAdapter.setItems(
+            activity.viewModel.lightAdapter.setGroupItems(
                 activity.dataBaseDao.getDaliLightsOfBuilding(device.buildingId) as ArrayList
             )
             alertDialog.dismiss()
@@ -395,7 +395,7 @@ class LightViewModel(
 
                         val waf = ((dapc * 254) / 100)
 
-                        val message = "{\"DAPC\r\n\":\"$waf\r\n\",\"SHORT_ADDRESS\r\n\":\"$lightId\r\n\"}"
+                        val message = "{\"DAPC\r\n\":\"$waf\r\n\",\"GROUP_ADDRESS\r\n\":\"$lightId\r\n\"}"
                         val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
                         activity.publishMessage(topic, message)
                         device.value = percentToDim(dim).toString()
@@ -495,7 +495,7 @@ class LightViewModel(
 
                         val waf = white * 65536
                         val message = "{\"SET_TEMPORARY_WAF_DIM_LEVEL\r\n\":\"0\r\n\"," +
-                                "\"SHORT_ADDRESS\r\n\":\"$lightId\r\n\"}"
+                                "\"GROUP_ADDRESS\r\n\":\"$lightId\r\n\"}"
                         val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
                         activity.publishMessage(topic, message)
                         Thread.sleep(delay.toLong())
@@ -503,12 +503,12 @@ class LightViewModel(
                         val num = (red * 65536) + (green * 254) + blue
                         //convert hex to decimal
                         val teMessage =
-                            "{\"SET_TEMPORARY_RGB_DIM_LEVEL\r\n\":\"$num\r\n\",\"SHORT_ADDRESS\r\n\":\"$lightId\r\n\"}"
+                            "{\"SET_TEMPORARY_RGB_DIM_LEVEL\r\n\":\"$num\r\n\",\"GROUP_ADDRESS\r\n\":\"$lightId\r\n\"}"
                         activity.publishMessage(topic, teMessage)
                         Thread.sleep(delay.toLong())
 
                         val wafDim = ((dapc * 254) / 100)
-                        val messageDIM = "{\"DAPC\r\n\":\"$wafDim\r\n\",\"SHORT_ADDRESS\r\n\":\"$lightId\r\n\"}"
+                        val messageDIM = "{\"DAPC\r\n\":\"$wafDim\r\n\",\"GROUP_ADDRESS\r\n\":\"$lightId\r\n\"}"
                         activity.publishMessage(topic, messageDIM)
 
                     } catch (e: InterruptedException) {
@@ -529,7 +529,7 @@ class LightViewModel(
         dim: Int
     ) {
 
-        val message = "{\"DAPC\r\n\":\"$dim\r\n\",\"SHORT_ADDRESS\r\n\":\"$lightId\r\n\"}"
+        val message = "{\"DAPC\r\n\":\"$dim\r\n\",\"GROUP_ADDRESS\r\n\":\"$lightId\r\n\"}"
         val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
         activity.publishMessage(topic, message)
     }
@@ -537,7 +537,7 @@ class LightViewModel(
     private fun sendRGBMinMaxMessage(waf: Int) {
 
         val lightId: String = device.serviceId!!
-        val message = "{\"SET_TEMPORARY_WAF_DIM_LEVEL\r\n\":\"$waf\r\n\",\"SHORT_ADDRESS\r\n\":\"$lightId\r\n\"}"
+        val message = "{\"SET_TEMPORARY_WAF_DIM_LEVEL\r\n\":\"$waf\r\n\",\"GROUP_ADDRESS\r\n\":\"$lightId\r\n\"}"
         val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
         activity.publishMessage(topic, message)
         device.value = percentToDim(dim).toString()
