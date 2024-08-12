@@ -94,7 +94,7 @@ class LightViewModel(
             device.name = name
             activity.dataBaseDao.updateBuildingService(device)
 
-            activity.viewModel.lightAdapter.setGroupItems(
+            activity.viewModel.lightAdapter.setItems(
                 activity.dataBaseDao.getDaliLightsOfBuilding(device.buildingId) as ArrayList
             )
             alertDialog.dismiss()

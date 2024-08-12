@@ -200,7 +200,11 @@ class LightAdapter(
     private fun dt8Clicked(device: BuildingService, topic: String) {
 
         var onOffMSG = ""
-        val lightId: String = device.serviceId!!
+        val lightId: String = if (device.serviceId!!.split(",").size > 1) {
+            device.groupId!!
+        } else {
+            device.serviceId!!
+        }
 
         if (device.value!!.split(",").size >= 2) {
             val dimTemp: Int = if (device.value!!.split(",")[0] != "0") 0 else 254
