@@ -45,6 +45,7 @@
                     android:text="@{`Curtain `+viewModel.curtain.serviceId}"
                     android:textColor="@color/text_color"
                     android:textStyle="bold"
+                    android:padding="@dimen/_5sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -54,19 +55,19 @@
 
                 <ImageView
                     android:id="@+id/btnDelete"
-                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@{viewModel.layoutSeekBarVisibility?@drawable/ic_drop_up:@drawable/ic_drop_down}"
-                    android:textColor="@color/text_color"
+                    android:scaleType="fitXY"
+                    android:layout_width="50dp"
+                    android:src="@{viewModel.layoutSeekBarVisibility?@drawable/ic_arrow_up:@drawable/ic_arrow_down}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.5"
+                    tools:src="@drawable/ic_arrow_up"
                     tools:text="Curtain 1" />
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -197,7 +198,12 @@
 
             </LinearLayout>
         </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/shape_line_horizontal" />
     </LinearLayout>
 
 </layout>

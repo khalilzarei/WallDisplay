@@ -20,128 +20,233 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/_7sdp"
                 android:gravity="center"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnClose">
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/btnClose"
-                    style="@style/RippleStyleWhite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:padding="@dimen/_5sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_close"
-                        app:tint="@color/text_color" />
-                </com.balysv.materialripple.MaterialRippleLayout>
+                android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/btnClose"
+                        style="@style/RippleStyleWhite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:padding="@dimen/_5sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_close"
+                            app:tint="@color/text_color" />
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tvTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:text="@string/curtain"
+                            android:textColor="@color/text_color"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvSeekResult"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100%"
+                            android:textColor="@color/text_color"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.hsi.walldisplay.view.ArcSeekBar
+                            android:id="@+id/arcSeekBar"
+                            android:layout_width="@dimen/_95sdp"
+                            android:layout_height="@dimen/_95sdp"
+                            app:arc_colors="@array/arc_colors_cct"
+                            app:arc_max="500"
+                            app:arc_min="150"
+                            app:arc_open_angle="90"
+                            app:arc_progress="150"
+                            app:arc_rotate_angle="90"
+                            app:arc_thumb_color="@color/text_color"
+                            app:arc_thumb_mode="FILL_STROKE"
+                            app:arc_thumb_radius="8dp"
+                            app:arc_thumb_shadow_color="@color/background"
+                            app:arc_thumb_shadow_radius="5dp"
+                            app:arc_thumb_width="12dp"
+                            app:arc_width="30dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:text="0%"
+                            android:textColor="@color/text_color"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/arcSeekBar"
+                            app:layout_constraintStart_toStartOf="@+id/arcSeekBar" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:text="100%"
+                            android:textColor="@color/text_color"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/arcSeekBar"
+                            app:layout_constraintStart_toEndOf="@+id/arcSeekBar" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/_7sdp"
+                    android:layout_marginEnd="@dimen/_7sdp"
+                    android:text="Color Correlated Temperature"
+                    android:textColor="@color/text_color" />
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tvTitle"
-                        android:layout_width="wrap_content"
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/btn35"
+                        style="@style/RippleStyleWhite"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:text="@string/curtain"
-                        android:textColor="@color/text_color"
-                        android:textStyle="bold"
-                        android:visibility="gone"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_weight="1"
+                        android:background="@color/yellow_500">
 
-                    <TextView
-                        android:id="@+id/tvSeekResult"
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:padding="@dimen/_2sdp"
+                            android:text="3500˚K"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/btn40"
+                        style="@style/RippleStyleWhite"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="100%"
-                        android:textColor="@color/text_color"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_weight="1"
+                        android:background="@color/grey_5">
 
-                    <com.hsi.walldisplay.view.ArcSeekBar
-                        android:id="@+id/arcSeekBar"
-                        android:layout_width="@dimen/_95sdp"
-                        android:layout_height="@dimen/_95sdp"
-                        android:layout_marginTop="@dimen/_7sdp"
-                        android:padding="@dimen/_10sdp"
-                        app:arc_colors="@array/arc_colors_dim"
-                        app:arc_max="100"
-                        app:arc_min="0"
-                        app:arc_open_angle="90"
-                        app:arc_progress="150"
-                        app:arc_rotate_angle="90"
-                        app:arc_thumb_color="@color/text_color"
-                        app:arc_thumb_mode="FILL_STROKE"
-                        app:arc_thumb_radius="8dp"
-                        app:arc_thumb_shadow_color="@color/background"
-                        app:arc_thumb_shadow_radius="5dp"
-                        app:arc_thumb_width="12dp"
-                        app:arc_width="20dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:padding="@dimen/_2sdp"
+                            android:singleLine="true"
+                            android:text="4000˚K"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </com.balysv.materialripple.MaterialRippleLayout>
 
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/btn50"
+                        style="@style/RippleStyleWhite"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:text="0%"
-                        android:textColor="@color/text_color"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/arcSeekBar" />
+                        android:layout_weight="1"
+                        android:background="@color/blue_50">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:padding="@dimen/_2sdp"
+                            android:singleLine="true"
+                            android:text="5000˚K"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/btn60"
+                        style="@style/RippleStyleWhite"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_3sdp"
-                        android:text="100%"
-                        android:textColor="@color/text_color"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/arcSeekBar" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:layout_weight="1"
+                        android:background="@color/blue_100">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:padding="@dimen/_2sdp"
+                            android:singleLine="true"
+                            android:text="6000˚K"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </com.balysv.materialripple.MaterialRippleLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/_7sdp"
+                    android:layout_marginEnd="@dimen/_7sdp"
+                    android:text="@string/light_intensity"
+                    android:textColor="@color/text_color" />
 
                 <SeekBar
                     android:id="@+id/seekBarTemperature"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_cct"
                     android:max="350"
                     android:maxHeight="@dimen/_7sdp"
                     android:paddingStart="@dimen/_7sdp"
-                    android:paddingTop="3dp"
                     android:paddingEnd="@dimen/_7sdp"
                     android:paddingBottom="3dp"
                     android:progress="150"
                     android:progressDrawable="@drawable/seekbar_custom_layout"
-                    android:progressTint="@color/edit_text_background"
+                    android:progressTint="@color/back_yellow"
                     android:thumb="@drawable/seekbar_thumb"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

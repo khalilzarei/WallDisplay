@@ -61,13 +61,13 @@
                         tools:text="Curtain 1" />
 
                     <ImageView
-                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:padding="@dimen/_5sdp"
-                        android:src="@{viewModel.layoutSeekBarVisibility?@drawable/ic_drop_up:@drawable/ic_drop_down}"
+                        android:scaleType="fitXY"
+                        android:layout_width="50dp"
+                        android:src="@{viewModel.layoutSeekBarVisibility?@drawable/ic_arrow_up:@drawable/ic_arrow_down}"
                         android:textColor="@color/text_color"
-                        tools:src="@drawable/ic_drop_down"
+                        tools:src="@drawable/ic_arrow_up"
                         tools:text="Curtain 1" />
                 </LinearLayout>
 
@@ -90,6 +90,8 @@
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:background="@drawable/toggle_bg"
+                android:checked="true"
+                android:textColor="@color/black"
                 android:textOff="@string/off"
                 android:textOn="@string/on"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -99,29 +101,29 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layoutSeekBar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            android:visibility="@{viewModel.layoutSeekBarVisibility?View.VISIBLE:View.GONE}"-->
-<!--            tools:visibility="visible">-->
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/layoutSeekBar"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="vertical"-->
+        <!--            android:visibility="@{viewModel.layoutSeekBarVisibility?View.VISIBLE:View.GONE}"-->
+        <!--            tools:visibility="visible">-->
 
-<!--            <include-->
-<!--                android:id="@+id/lightLayoutDali"-->
-<!--                layout="@layout/light_layout_dali"-->
-<!--                app:viewModel="@{viewModel}" />-->
+        <!--            <include-->
+        <!--                android:id="@+id/lightLayoutDali"-->
+        <!--                layout="@layout/light_layout_dali"-->
+        <!--                app:viewModel="@{viewModel}" />-->
 
-<!--            <include-->
-<!--                android:id="@+id/lightLayoutCct"-->
-<!--                layout="@layout/light_layout_cct"-->
-<!--                app:viewModel="@{viewModel}" />-->
+        <!--            <include-->
+        <!--                android:id="@+id/lightLayoutCct"-->
+        <!--                layout="@layout/light_layout_cct"-->
+        <!--                app:viewModel="@{viewModel}" />-->
 
-<!--            <include-->
-<!--                android:id="@+id/lightLayoutRgbw"-->
-<!--                app:viewModel="@{viewModel}"-->
-<!--                layout="@layout/light_layout_rgbw" />-->
-<!--        </LinearLayout>-->
+        <!--            <include-->
+        <!--                android:id="@+id/lightLayoutRgbw"-->
+        <!--                app:viewModel="@{viewModel}"-->
+        <!--                layout="@layout/light_layout_rgbw" />-->
+        <!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -12,6 +12,12 @@
     <color name="arc_red">#FF0000</color>
     <color name="default_thumb_color">#ff6f00</color>
 
+    <array name="arc_colors_cct">
+        <item>@color/yellow_500</item>
+        <item>@color/blue_100</item>
+        <item>@color/blue_100</item>
+    </array>
+
     <array name="arc_colors_default">
         <item>@color/arc_green</item>
         <item>@color/default_thumb_color</item>
@@ -48,7 +54,7 @@
     <color name="back_green">#0C3226</color>
     <color name="back_gray_light">#D4D3CA</color>
     <color name="back_gray_dark">#75756B</color>
-    <color name="back_yellow">#FFEB3B</color>
+    <color name="back_yellow">#FBBC05</color>
     <color name="back_orange">#EF8706</color>
     <color name="back_orange_light">#FFC053</color>
 
@@ -313,6 +319,7 @@
     <color name="purple_A400">#D500F9</color>
     <color name="purple_A700">#AA00FF</color>
 
+    <color name="blue_30">#BBD0FA</color>
     <color name="blue_50">#E3F2FD</color>
     <color name="blue_100">#BBDEFB</color>
     <color name="blue_200">#90CAF9</color>
@@ -398,6 +405,7 @@
     <color name="color_50">#b28d30</color>
     <color name="color_75">#e5b53e</color>
     <color name="color_100">#ffcc44</color>
+    <color name="gray">#D1D1C5</color>
 
 
     <!--for random color generator -->

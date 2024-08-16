@@ -8,8 +8,8 @@
 
             <solid android:color="@color/text_color" />
             <size
-                android:width="30dp"
-                android:height="30dp" />
+                android:width="20dp"
+                android:height="20dp" />
         </shape>
     </item>
     <item>
@@ -17,10 +17,10 @@
             <stroke
                 android:width="5dp"
                 android:color="@android:color/transparent" />
-            <solid android:color="@color/back_yellow" />
+            <solid android:color="@color/background" />
             <size
-                android:width="30dp"
-                android:height="30dp" />
+                android:width="20dp"
+                android:height="20dp" />
         </shape>
     </item>
 

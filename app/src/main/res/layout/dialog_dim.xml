@@ -84,7 +84,6 @@
                         android:layout_width="@dimen/_95sdp"
                         android:layout_height="@dimen/_95sdp"
                         android:layout_marginTop="@dimen/_7sdp"
-                        android:padding="@dimen/_10sdp"
                         app:arc_colors="@array/arc_colors_dim"
                         app:arc_max="100"
                         app:arc_min="0"
@@ -109,6 +108,7 @@
                         android:layout_margin="@dimen/_5sdp"
                         android:text="0%"
                         android:textColor="@color/text_color"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/arcSeekBar" />
 
@@ -117,6 +117,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_3sdp"
                         android:text="100%"
+                        android:visibility="gone"
                         android:textColor="@color/text_color"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/arcSeekBar" />

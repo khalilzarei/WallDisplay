@@ -12,66 +12,78 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="@dimen/_3sdp"
-        app:cardBackgroundColor="@color/text_color"
-        app:cardCornerRadius="@dimen/_5sdp">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        app:cardCornerRadius="@dimen/_10sdp">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:orientation="horizontal">
 
-            <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/rootLayout"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:elevation="@dimen/_5sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/background"
+                android:orientation="vertical">
 
-                <androidx.cardview.widget.CardView
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/rootLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/_1sdp"
-                    app:cardBackgroundColor="@color/edit_text_background"
-                    app:cardCornerRadius="@dimen/_5sdp">
+                    android:layout_height="120dp"
+                    android:elevation="@dimen/_5sdp">
 
-                    <ImageView
-                        setImageUrl="@{viewModel.building.image}"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        setCircleImageUrl="@{viewModel.building.image}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_launcher_background" />
-                </androidx.cardview.widget.CardView>
-            </com.balysv.materialripple.MaterialRippleLayout>
+                        android:layout_weight="1"
+                        android:src="@mipmap/ic_launcher"
+                        app:civ_border_color="@color/text_color"
+                        app:civ_border_width="1dp" />
+                </com.balysv.materialripple.MaterialRippleLayout>
 
-            <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/tvRoomTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:elevation="@dimen/_5sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <TextView
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/tvRoomTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/text_color"
-                    android:gravity="center"
-                    android:padding="@dimen/_3sdp"
-                    android:text="@{viewModel.building.name}"
-                    android:textColor="@color/background"
-                    android:textStyle="bold"
-                    tools:text="TitleTitle" />
+                    android:elevation="@dimen/_5sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-            </com.balysv.materialripple.MaterialRippleLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/_5sdp"
+                        android:text="@{viewModel.building.name}"
+                        android:textColor="@color/text_color"
+                        android:textStyle="bold"
+                        tools:text="TitleTitle" />
+
+                </com.balysv.materialripple.MaterialRippleLayout>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/shape_line_horizontal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:background="@drawable/shape_line_vertical" />
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 </layout>

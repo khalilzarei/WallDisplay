@@ -34,7 +34,10 @@ class LoginViewModel(var activity: LoginActivity) : BaseObservable() {
     //region variable
 
     @Bindable
-    var email: String? = "dt8@gruneslicht.de"  //dt8@g...  hsilightingstudio
+    var email: String? = "dt8@gruneslicht.de"
+//    var email: String? = "hsilightingstudio@gruneslicht.de"
+
+    //dt8@g...  hsilightingstudio
 
     @Bindable
     var password: String? = "Password123"

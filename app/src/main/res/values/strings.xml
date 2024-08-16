@@ -86,4 +86,5 @@
     <string name="adjust_the_lights">Adjust the lights</string>
     <string name="min">MIN</string>
     <string name="max">MAX</string>
+    <string name="light_intensity">Light Intensity</string>
 </resources>
