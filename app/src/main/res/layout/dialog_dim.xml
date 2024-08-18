@@ -8,8 +8,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/rootLayout"
-        android:layout_width="380dp"
-        android:layout_height="380dp"
+        android:layout_width="460dp"
+        android:layout_height="460dp"
+        android:minHeight="460dp"
+        android:minWidth="460dp"
         android:layout_margin="@dimen/_5sdp"
         android:orientation="vertical"
         app:cardBackgroundColor="@color/background"
@@ -59,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -81,9 +84,8 @@
 
                     <com.hsi.walldisplay.view.ArcSeekBar
                         android:id="@+id/arcSeekBar"
-                        android:layout_width="@dimen/_95sdp"
-                        android:layout_height="@dimen/_95sdp"
-                        android:layout_marginTop="@dimen/_7sdp"
+                        android:layout_width="240dp"
+                        android:layout_height="240dp"
                         app:arc_colors="@array/arc_colors_dim"
                         app:arc_max="100"
                         app:arc_min="0"
@@ -96,7 +98,7 @@
                         app:arc_thumb_shadow_color="@color/background"
                         app:arc_thumb_shadow_radius="5dp"
                         app:arc_thumb_width="12dp"
-                        app:arc_width="20dp"
+                        app:arc_width="30dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -117,8 +119,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_3sdp"
                         android:text="100%"
-                        android:visibility="gone"
                         android:textColor="@color/text_color"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/arcSeekBar" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

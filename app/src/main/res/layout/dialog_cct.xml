@@ -9,8 +9,10 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/rootLayout"
-            android:layout_width="380dp"
-            android:layout_height="380dp"
+            android:layout_width="460dp"
+            android:layout_height="460dp"
+            android:minHeight="460dp"
+            android:minWidth="460dp"
             android:layout_margin="@dimen/_5sdp"
             app:cardBackgroundColor="@color/background"
             app:cardCornerRadius="@dimen/_10sdp"
@@ -73,8 +75,10 @@
                             android:id="@+id/tvSeekResult"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="100%"
+                            android:text="CCT"
                             android:textColor="@color/text_color"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -82,8 +86,8 @@
 
                         <com.hsi.walldisplay.view.ArcSeekBar
                             android:id="@+id/arcSeekBar"
-                            android:layout_width="@dimen/_95sdp"
-                            android:layout_height="@dimen/_95sdp"
+                            android:layout_width="240dp"
+                            android:layout_height="240dp"
                             app:arc_colors="@array/arc_colors_cct"
                             app:arc_max="500"
                             app:arc_min="150"
@@ -141,6 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:orientation="horizontal">
 
@@ -225,6 +230,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginStart="@dimen/_7sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_7sdp"
                     android:text="@string/light_intensity"
                     android:textColor="@color/text_color" />
@@ -233,7 +239,8 @@
                     android:id="@+id/seekBarTemperature"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:max="350"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:max="254"
                     android:maxHeight="@dimen/_7sdp"
                     android:paddingStart="@dimen/_7sdp"
                     android:paddingEnd="@dimen/_7sdp"

@@ -13,14 +13,12 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_5sdp"
         app:cardCornerRadius="@dimen/_10sdp">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -34,6 +32,7 @@
                     android:id="@+id/rootLayout"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
+                    android:layout_margin="@dimen/_3sdp"
                     android:elevation="@dimen/_5sdp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -77,12 +76,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutEnd"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
-                android:background="@drawable/shape_line_vertical" />
+                android:background="@drawable/shape_line_vertical"
+                android:orientation="horizontal" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

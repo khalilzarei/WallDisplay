@@ -38,6 +38,7 @@ class BuildingAdapter(private var buildingClickListener: BuildingClickListener?,
         val viewHolder = holder as ViewHolder
         val viewModel = RoomViewModel(room)
         viewHolder.roomItem.viewModel = viewModel
+        viewHolder.roomItem.layoutEnd.visibility = if (position % 2 == 0) View.VISIBLE else View.GONE
         viewHolder.roomItem.rootLayout.setOnClickListener {
             if (buildingClickListener != null)
                 buildingClickListener!!.onBuildingClickListener(room)

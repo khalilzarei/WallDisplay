@@ -74,7 +74,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="1dp"
+                android:id="@+id/layoutEnd"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_15sdp"

@@ -41,6 +41,8 @@ class SceneAdapter(
         val viewModel = SceneViewModel(homeScene)
         viewHolder.sceneItem.viewModel = viewModel
 
+        viewHolder.sceneItem.layoutEnd.visibility = if (position % 2 == 0) View.VISIBLE else View.GONE
+
         viewHolder.sceneItem.layoutImage.setOnClickListener { view: View? ->
             if (sceneClickListener != null)
                 sceneClickListener!!.onSceneClickListener(homeScene)

@@ -26,6 +26,7 @@ import com.hsi.walldisplay.model.DeviceType
 import com.hsi.walldisplay.ui.main.MainActivity
 import com.hsi.walldisplay.view.ArcSeekBar
 import java.util.ArrayList
+import kotlin.math.abs
 import kotlin.properties.Delegates
 
 class LightViewModel(
@@ -188,10 +189,8 @@ class LightViewModel(
             device.serviceId
         }
 
-        val addr = if (device.groupId != null) "GROUP_ADDRESS"
-        else {
-            "SHORT_ADDRESS"
-        }
+        val addr = "GROUP_ADDRESS"
+
 //        log("Dim ${device.value} = $d")
         val builder = AlertDialog.Builder(activity)
         val binding: DialogCctBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_cct, null, false)
@@ -203,32 +202,8 @@ class LightViewModel(
 
         val seekBarTemperature: SeekBar = binding.seekBarTemperature
 
-        binding.arcSeekBar.progress = percentToDim(valueControl)
-        binding.arcSeekBar.setOnProgressChangeListener(object : ArcSeekBar.OnProgressChangeListener {
-            override fun onProgressChanged(seekBar: ArcSeekBar?, progress: Int, isUser: Boolean) {
-                binding.tvSeekResult.text = "$progress%"
-            }
-
-            override fun onStartTrackingTouch(seekBar: ArcSeekBar?) {
-            }
-
-            override fun onStopTrackingTouch(seekBar: ArcSeekBar?) {
-                val dim: Int = seekBar!!.progress
-                if (dim in 0..254) run {
-                    val dim: Int = seekBar.progress * 254 / 100
-                    val message = "{\"DAPC\r\n\":\"$dim\r\n\",\"$addr\r\n\":\"$idLi\r\n\"}"
-                    device.value = "$dim,$valueTemperature"
-                    activity.dataBaseDao.updateBuildingService(device)
-                    activity.publishMessage(topic, message)
-                }
-            }
-
-        })
-
-        seekBarTemperature.max = 350
+        seekBarTemperature.max = 254
         seekBarTemperature.progress = percentToDim(valueTemperature)
-
-
         seekBarTemperature.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(
                 seekBar: SeekBar?,
@@ -242,15 +217,39 @@ class LightViewModel(
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                if (seekBar!!.progress >= 0 && seekBar.progress <= 350) run {
-                    val dim: Int = seekBar.progress + 150
+                if (dim in 0..254) run {
+                    val dim = seekBar!!.progress
+                    val message = "{\"DAPC\r\n\":\"$dim\r\n\",\"$addr\r\n\":\"$idLi\r\n\"}"
+                    device.value = "$dim,$valueTemperature"
+                    activity.dataBaseDao.updateBuildingService(device)
+                    activity.publishMessage(topic, message)
+                }
+            }
+        })
+
+        binding.arcSeekBar.progress = valueControl
+
+        binding.arcSeekBar.setOnProgressChangeListener(object : ArcSeekBar.OnProgressChangeListener {
+            override fun onProgressChanged(seekBar: ArcSeekBar?, progress: Int, isUser: Boolean) {
+//                binding.tvSeekResult.text = "${150 + abs(500 - progress)}"
+            }
+
+            override fun onStartTrackingTouch(seekBar: ArcSeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: ArcSeekBar?) {
+
+                if (seekBar!!.progress >= 150 && seekBar.progress <= 500) run {
+                    val dim = 150 + abs(500 - seekBar.progress)
                     val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"$addr\r\n\":\"$idLi\r\n\"}"
                     device.value = "$valueControl,$dim"
                     activity.dataBaseDao.updateBuildingService(device)
                     activity.publishMessage(topic, message)
                 }
             }
+
         })
+
 
         binding.btnClose.setOnClickListener { view: View? ->
             alertDialog.dismiss()
@@ -265,7 +264,7 @@ class LightViewModel(
                 x = 415 * 100 / 500
              */
             val dim = 415
-            binding.seekBarTemperature.progress = dim - 150
+            binding.arcSeekBar.progress = 150 + abs(500 - dim)
             val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"GROUP_ADDRESS\r\n\":\"$idLi\r\n\"}"
             device.value = "$dim,$valueTemperature"
             activity.dataBaseDao.updateBuildingService(device)
@@ -274,7 +273,7 @@ class LightViewModel(
 
         binding.btn40.setOnClickListener {
             val dim = 362
-            binding.seekBarTemperature.progress = dim - 150
+            binding.arcSeekBar.progress = 150 + abs(500 - dim)
             val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"GROUP_ADDRESS\r\n\":\"$idLi\r\n\"}"
             device.value = "$dim,$valueTemperature"
             activity.dataBaseDao.updateBuildingService(device)
@@ -283,7 +282,7 @@ class LightViewModel(
 
         binding.btn50.setOnClickListener {
             val dim = 256
-            binding.seekBarTemperature.progress = dim - 150
+            binding.arcSeekBar.progress = 150 + abs(500 - dim)
             val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"GROUP_ADDRESS\r\n\":\"$idLi\r\n\"}"
             device.value = "$dim,$valueTemperature"
             activity.dataBaseDao.updateBuildingService(device)
@@ -292,7 +291,7 @@ class LightViewModel(
 
         binding.btn60.setOnClickListener {
             val dim = 150
-            seekBarTemperature.progress = dim - 150
+            binding.arcSeekBar.progress = 150 + abs(500 - dim)
             val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"GROUP_ADDRESS\r\n\":\"$idLi\r\n\"}"
             device.value = "$dim,$valueTemperature"
             activity.dataBaseDao.updateBuildingService(device)
@@ -313,7 +312,10 @@ class LightViewModel(
         val dialogView: View = LayoutInflater.from(activity)
             .inflate(R.layout.dialog_rgbw, viewGroup, false)
 
-        val lightId: String = device.serviceId!!
+        val lightId = if (device.groupId != null) device.groupId!!
+        else {
+            device.serviceId!!
+        }
 
         val colorPickerView = dialogView.findViewById<ColorPickerView>(R.id.colorPickerView)
         val cardViewColor = dialogView.findViewById<CardView>(R.id.cardViewColor)
@@ -559,7 +561,7 @@ class LightViewModel(
 
     private fun sendRGBMinMaxMessage(waf: Int) {
 
-        val lightId: String = device.serviceId!!
+        val lightId: String = device.groupId!!
         val message = "{\"SET_TEMPORARY_WAF_DIM_LEVEL\r\n\":\"$waf\r\n\",\"GROUP_ADDRESS\r\n\":\"$lightId\r\n\"}"
         val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
         activity.publishMessage(topic, message)

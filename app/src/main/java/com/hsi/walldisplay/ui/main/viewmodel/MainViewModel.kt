@@ -251,7 +251,7 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
 
 
     private fun showFloorDialog() {
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(activity, R.style.WideDialog)
         val viewGroup: ViewGroup = activity.findViewById(android.R.id.content)
         val dialogView: View =
             LayoutInflater.from(activity).inflate(R.layout.dialog_floors, viewGroup, false)
@@ -281,8 +281,7 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
             lightAdapter = LightAdapter(activity, arrayListOf())
             this.lightAdapter = LightAdapter(activity, activity.dataBaseDao.getDaliLightsOfBuilding(building.id) as ArrayList)
             lightAdapter.notifyDataSetChanged()
-        }
-        else activity.toast("Dali Lights not found")
+        } else activity.toast("Dali Lights not found")
     }
 
     fun onSceneListClicked(view: View) {
@@ -311,6 +310,10 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
     }
 
     fun onBackClicked(view: View) {
+        showLayout = ShowLayout.DEFAULT
+    }
+
+    fun onHomeClicked(view: View) {
         showLayout = ShowLayout.DEFAULT
     }
 
