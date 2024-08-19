@@ -25,7 +25,6 @@ import com.hsi.walldisplay.model.BuildingService
 import com.hsi.walldisplay.model.DeviceType
 import com.hsi.walldisplay.ui.main.MainActivity
 import com.hsi.walldisplay.view.ArcSeekBar
-import java.util.ArrayList
 import kotlin.math.abs
 import kotlin.properties.Delegates
 
@@ -33,6 +32,9 @@ class LightViewModel(
     val activity: MainActivity,
     device: BuildingService
 ) : BaseObservable() {
+
+    //region Variables
+
 
     val topic = "${activity.sessionManager.user.projectId}/${Constants.CURTAIN_IN}"
 
@@ -56,6 +58,10 @@ class LightViewModel(
         notifyPropertyChanged(BR.progress)
     }
 
+    //endregion
+
+    //region change Visibility
+
     fun changeVisibility(view: View) {
 //        layoutSeekBarVisibility = !layoutSeekBarVisibility
         when (device.type) {
@@ -66,6 +72,10 @@ class LightViewModel(
         }
 
     }
+
+    //endregion
+
+    //region changeTitle
 
     fun changeTitle(view: View): Boolean {
         val builder = AlertDialog.Builder(activity)
@@ -102,6 +112,10 @@ class LightViewModel(
         }
         return true
     }
+
+    //endregion
+
+    //region showDimDialog
 
     private fun showDimDialog(
     ) {
@@ -177,6 +191,56 @@ class LightViewModel(
 
     }
 
+    fun sendDimMessage(
+        device: BuildingService,
+        di: Int,
+        isCct: Boolean
+    ) {
+        val dim: Int = di * 254 / 100
+        run {
+
+            var message =
+                if (isCct) "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\"," + "\"SHORT_ADDRESS\r\n\":\"${device.serviceId}\r\n\"}"
+                else if (device.groupId == null) "{\"DAPC\r\n\":\"$dim\r\n\",\"SHORT_ADDRESS\r\n\":\"${device.serviceId}\r\n\"}"
+                else "{\"DAPC\r\n\":\"$dim\r\n\",\"GROUP_ADDRESS\r\n\":\"${device.groupId}\r\n\"}"
+
+            if (di == 1) {
+                message = if (device.groupId == null) {
+                    "{\"CMD\r\n\":\"RECALL_MIN_LEVEL\r\n\",\"SHORT_ADDRESS\r\n\":\"${device.serviceId}\r\n\"}"
+                } else {
+                    "{\"CMD\r\n\":\"RECALL_MIN_LEVEL\r\n\",\"GROUP_ADDRESS\r\n\":\"${device.groupId}\r\n\"}"
+                }
+            }
+
+            if (di == 100) {
+                message = if (device.groupId == null) {
+                    "{\"CMD\r\n\":\"RECALL_MAX_LEVEL\r\n\",\"SHORT_ADDRESS\r\n\":\"${device.serviceId}\r\n\"}"
+                } else {
+                    "{\"CMD\r\n\":\"RECALL_MAX_LEVEL\r\n\",\"GROUP_ADDRESS\r\n\":\"${device.groupId}\r\n\"}"
+                }
+            }
+
+            val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
+
+            device.value = percentToDim(dim).toString()
+            activity.dataBaseDao.updateBuildingService(device)
+            activity.publishMessage(topic, message)
+        }
+    }
+
+
+    private fun percentToDim(percent: Int): Int {
+        return percent * 254 / 100
+    }
+
+    private fun dimToPercent(dim: Int): Int {
+        return dim * 100 / 254
+    }
+
+    //endregion
+
+    //region showCCTDialog
+
     private fun showCCTDialog() {
         activity.log("Value: ${device.value} - Type: ${device.type}")
         var valueTemperature = 0
@@ -189,7 +253,10 @@ class LightViewModel(
             device.serviceId
         }
 
-        val addr = "GROUP_ADDRESS"
+        val addr = if (device.groupId != null) "GROUP_ADDRESS"
+        else {
+            "SHORT_ADDRESS"
+        }
 
 //        log("Dim ${device.value} = $d")
         val builder = AlertDialog.Builder(activity)
@@ -299,6 +366,10 @@ class LightViewModel(
         }
     }
 
+    //endregion
+
+    //region RGBWDialog
+
     private fun showRGBWDialog() {
 
         var white: Int = 0
@@ -316,6 +387,10 @@ class LightViewModel(
         else {
             device.serviceId!!
         }
+
+        val address: String = if (device.groupId != null) "SHORT_ADDRESS"
+        else
+            "GROUP_ADDRESS"
 
         val colorPickerView = dialogView.findViewById<ColorPickerView>(R.id.colorPickerView)
         val cardViewColor = dialogView.findViewById<CardView>(R.id.cardViewColor)
@@ -420,7 +495,7 @@ class LightViewModel(
 
                         val waf = ((dapc * 254) / 100)
 
-                        val message = "{\"DAPC\r\n\":\"$waf\r\n\",\"GROUP_ADDRESS\r\n\":\"$lightId\r\n\"}"
+                        val message = "{\"DAPC\r\n\":\"$waf\r\n\",\"$address\r\n\":\"$lightId\r\n\"}"
                         val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
                         activity.publishMessage(topic, message)
                         device.value = percentToDim(dim).toString()
@@ -503,6 +578,7 @@ class LightViewModel(
 
                 val deviceValue = "$dim,$white"
                 device.value = deviceValue
+
                 Thread {
                     try {
                         if (red >= 255) {
@@ -520,7 +596,7 @@ class LightViewModel(
 
                         val waf = white * 65536
                         val message = "{\"SET_TEMPORARY_WAF_DIM_LEVEL\r\n\":\"0\r\n\"," +
-                                "\"GROUP_ADDRESS\r\n\":\"$lightId\r\n\"}"
+                                "\"$address\r\n\":\"$lightId\r\n\"}"
                         val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
                         activity.publishMessage(topic, message)
                         Thread.sleep(delay.toLong())
@@ -528,12 +604,12 @@ class LightViewModel(
                         val num = (red * 65536) + (green * 254) + blue
                         //convert hex to decimal
                         val teMessage =
-                            "{\"SET_TEMPORARY_RGB_DIM_LEVEL\r\n\":\"$num\r\n\",\"GROUP_ADDRESS\r\n\":\"$lightId\r\n\"}"
+                            "{\"SET_TEMPORARY_RGB_DIM_LEVEL\r\n\":\"$num\r\n\",\"$address\r\n\":\"$lightId\r\n\"}"
                         activity.publishMessage(topic, teMessage)
                         Thread.sleep(delay.toLong())
 
                         val wafDim = ((dapc * 254) / 100)
-                        val messageDIM = "{\"DAPC\r\n\":\"$wafDim\r\n\",\"GROUP_ADDRESS\r\n\":\"$lightId\r\n\"}"
+                        val messageDIM = "{\"DAPC\r\n\":\"$wafDim\r\n\",\"$address\r\n\":\"$lightId\r\n\"}"
                         activity.publishMessage(topic, messageDIM)
 
                     } catch (e: InterruptedException) {
@@ -554,66 +630,35 @@ class LightViewModel(
         dim: Int
     ) {
 
-        val message = "{\"DAPC\r\n\":\"$dim\r\n\",\"GROUP_ADDRESS\r\n\":\"$lightId\r\n\"}"
+        val address: String = if (device.groupId != null) "SHORT_ADDRESS"
+        else
+            "GROUP_ADDRESS"
+
+        val message = "{\"DAPC\r\n\":\"$dim\r\n\",\"$address\r\n\":\"$lightId\r\n\"}"
         val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
         activity.publishMessage(topic, message)
     }
 
     private fun sendRGBMinMaxMessage(waf: Int) {
 
-        val lightId: String = device.groupId!!
-        val message = "{\"SET_TEMPORARY_WAF_DIM_LEVEL\r\n\":\"$waf\r\n\",\"GROUP_ADDRESS\r\n\":\"$lightId\r\n\"}"
+        val lightId: String = if (device.groupId != null) device.groupId!!
+        else
+            device.serviceId!!
+
+        val address: String = if (device.groupId != null) "SHORT_ADDRESS"
+        else
+            "GROUP_ADDRESS"
+
+
+        val message = "{\"SET_TEMPORARY_WAF_DIM_LEVEL\r\n\":\"$waf\r\n\",\"$address\r\n\":\"$lightId\r\n\"}"
         val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
         activity.publishMessage(topic, message)
         device.value = percentToDim(dim).toString()
         activity.dataBaseDao.updateBuildingService(device)
     }
 
-    fun sendDimMessage(
-        device: BuildingService,
-        di: Int,
-        isCct: Boolean
-    ) {
-        val dim: Int = di * 254 / 100
-        run {
+    //endregion
 
-            var message =
-                if (isCct) "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\"," + "\"SHORT_ADDRESS\r\n\":\"${device.serviceId}\r\n\"}"
-                else if (device.groupId == null) "{\"DAPC\r\n\":\"$dim\r\n\",\"SHORT_ADDRESS\r\n\":\"${device.serviceId}\r\n\"}"
-                else "{\"DAPC\r\n\":\"$dim\r\n\",\"GROUP_ADDRESS\r\n\":\"${device.groupId}\r\n\"}"
-
-            if (di == 1) {
-                message = if (device.groupId == null) {
-                    "{\"CMD\r\n\":\"RECALL_MIN_LEVEL\r\n\",\"SHORT_ADDRESS\r\n\":\"${device.serviceId}\r\n\"}"
-                } else {
-                    "{\"CMD\r\n\":\"RECALL_MIN_LEVEL\r\n\",\"GROUP_ADDRESS\r\n\":\"${device.groupId}\r\n\"}"
-                }
-            }
-
-            if (di == 100) {
-                message = if (device.groupId == null) {
-                    "{\"CMD\r\n\":\"RECALL_MAX_LEVEL\r\n\",\"SHORT_ADDRESS\r\n\":\"${device.serviceId}\r\n\"}"
-                } else {
-                    "{\"CMD\r\n\":\"RECALL_MAX_LEVEL\r\n\",\"GROUP_ADDRESS\r\n\":\"${device.groupId}\r\n\"}"
-                }
-            }
-
-            val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
-
-            device.value = percentToDim(dim).toString()
-            activity.dataBaseDao.updateBuildingService(device)
-            activity.publishMessage(topic, message)
-        }
-    }
-
-
-    private fun percentToDim(percent: Int): Int {
-        return percent * 254 / 100
-    }
-
-    private fun dimToPercent(dim: Int): Int {
-        return dim * 100 / 254
-    }
 
     fun open(view: View) {
         activity.publishMessage(topic, getMessage("open"))

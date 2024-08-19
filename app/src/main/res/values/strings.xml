@@ -87,4 +87,6 @@
     <string name="min">MIN</string>
     <string name="max">MAX</string>
     <string name="light_intensity">Light Intensity</string>
+    <string name="enter_local_ip">Enter Local IP</string>
+    <string name="enter_mqtt_ip">Enter MQTT IP</string>
 </resources>

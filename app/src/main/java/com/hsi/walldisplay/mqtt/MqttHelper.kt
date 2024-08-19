@@ -2,20 +2,26 @@ package com.hsi.walldisplay.mqtt
 
 import android.util.Log
 import android.widget.Toast
+import com.hsi.walldisplay.helper.SessionManager
 import com.hsi.walldisplay.ui.main.MainActivity
-import com.hsi.walldisplay.helper.Constants.MQTT_SERVER_URI
 import info.mqtt.android.service.MqttAndroidClient
-import org.eclipse.paho.client.mqttv3.*
+import org.eclipse.paho.client.mqttv3.IMqttActionListener
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
+import org.eclipse.paho.client.mqttv3.IMqttToken
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions
+import org.eclipse.paho.client.mqttv3.MqttException
+import org.eclipse.paho.client.mqttv3.MqttMessage
 
 class MqttHelper(
     private val activity: MainActivity,
     private val mqttInterface: MqttInterFace
 ) {
 
-    private  val TAG = MqttHelper::class.java.simpleName
+    private val TAG = MqttHelper::class.java.simpleName
 
     private var mqttAndroidClient: MqttAndroidClient =
-        MqttAndroidClient(activity, MQTT_SERVER_URI, activity.sessionManager.mqttClientId!!)
+        MqttAndroidClient(activity, SessionManager.mqttIP!!, activity.sessionManager.mqttClientId!!)
 
     init {
 

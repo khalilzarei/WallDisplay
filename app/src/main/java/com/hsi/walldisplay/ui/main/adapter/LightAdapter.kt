@@ -1,12 +1,8 @@
 package com.hsi.walldisplay.ui.main.adapter
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hsi.walldisplay.R
@@ -18,7 +14,6 @@ import com.hsi.walldisplay.model.BuildingService
 import com.hsi.walldisplay.model.DeviceType
 import com.hsi.walldisplay.ui.main.MainActivity
 import com.hsi.walldisplay.ui.main.viewmodel.LightViewModel
-import de.hdodenhof.circleimageview.CircleImageView
 
 
 @SuppressLint("NotifyDataSetChanged")
@@ -205,7 +200,10 @@ class LightAdapter(
         } else {
             device.serviceId!!
         }
-
+        val addr = if (device.groupId != null) "GROUP_ADDRESS"
+        else {
+            "SHORT_ADDRESS"
+        }
         if (device.value!!.split(",").size >= 2) {
             val dimTemp: Int = if (device.value!!.split(",")[0] != "0") 0 else 254
             val temp = device.value!!.split(",")[1]
@@ -214,10 +212,7 @@ class LightAdapter(
             activity.dataBaseDao.updateBuildingService(device)
 
             onOffMSG += "{\"DAPC\r\n\":\"$dimTemp"
-            val addr = if (device.groupId != null) "GROUP_ADDRESS"
-            else {
-                "SHORT_ADDRESS"
-            }
+
 
             onOffMSG += "\r\n\",\"$addr\r\n\":\"$lightId\r\n\"}"
 

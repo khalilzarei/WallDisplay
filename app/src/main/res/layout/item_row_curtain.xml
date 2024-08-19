@@ -20,7 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_layout"
-        android:minHeight="?actionBarSize"
         android:orientation="vertical">
 
         <com.balysv.materialripple.MaterialRippleLayout
@@ -32,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
+                android:minHeight="?actionBarSize"
                 android:paddingStart="@dimen/_5sdp"
                 android:paddingTop="@dimen/_3sdp"
                 android:paddingEnd="@dimen/_5sdp">
@@ -42,10 +42,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:gravity="center"
+                    android:padding="@dimen/_5sdp"
                     android:text="@{`Curtain `+viewModel.curtain.serviceId}"
                     android:textColor="@color/text_color"
                     android:textStyle="bold"
-                    android:padding="@dimen/_5sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -55,9 +55,9 @@
 
                 <ImageView
                     android:id="@+id/btnDelete"
+                    android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:layout_width="50dp"
                     android:src="@{viewModel.layoutSeekBarVisibility?@drawable/ic_arrow_up:@drawable/ic_arrow_down}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +69,6 @@
                     tools:text="Curtain 1" />
 
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.balysv.materialripple.MaterialRippleLayout>
@@ -79,6 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            tools:visibility="gone"
             android:visibility="@{viewModel.layoutSeekBarVisibility?View.VISIBLE:View.GONE}">
 
             <LinearLayout
@@ -97,11 +97,11 @@
                     android:background="@drawable/shape_button_clicked"
                     android:clickable="true"
                     android:focusable="true"
-                    android:text="@string/open"
                     android:onClick="@{viewModel::open}"
+                    android:text="@string/open"
                     android:textColor="@color/background"
                     android:textStyle="bold"
-                    app:backgroundTint="@null"/>
+                    app:backgroundTint="@null" />
 
                 <Button
                     android:id="@+id/btnStop"
@@ -112,8 +112,8 @@
                     android:background="@drawable/shape_button_clicked"
                     android:clickable="true"
                     android:focusable="true"
-                    android:text="@string/stop"
                     android:onClick="@{viewModel::stop}"
+                    android:text="@string/stop"
                     android:textColor="@color/background"
                     android:textStyle="bold"
                     app:backgroundTint="@null" />
@@ -127,8 +127,8 @@
                     android:background="@drawable/shape_button_clicked"
                     android:clickable="true"
                     android:focusable="true"
-                    android:text="@string/close"
                     android:onClick="@{viewModel::close}"
+                    android:text="@string/close"
                     android:textColor="@color/background"
                     android:textStyle="bold"
                     app:backgroundTint="@null" />
@@ -198,10 +198,12 @@
 
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:background="@drawable/shape_line_horizontal" />
     </LinearLayout>

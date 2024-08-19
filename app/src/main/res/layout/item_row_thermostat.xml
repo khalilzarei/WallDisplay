@@ -22,7 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_layout"
-        android:minHeight="?actionBarSize"
         android:orientation="vertical">
 
         <com.balysv.materialripple.MaterialRippleLayout
@@ -30,10 +29,11 @@
             android:layout_height="match_parent"
             android:onClick="@{viewModel::changeVisibility}">
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
+                android:minHeight="?actionBarSize"
                 android:paddingStart="@dimen/_5sdp"
                 android:paddingTop="@dimen/_3sdp"
                 android:paddingEnd="@dimen/_5sdp">
@@ -74,12 +74,15 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         </com.balysv.materialripple.MaterialRippleLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:background="@drawable/shape_line_horizontal" />
     </LinearLayout>

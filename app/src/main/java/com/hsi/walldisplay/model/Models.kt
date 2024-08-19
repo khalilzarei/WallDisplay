@@ -106,17 +106,23 @@ class BuildingService(
 
 @Entity(tableName = Constants.TABLE_NAME_BUILDING)
 data class Building(
-    @PrimaryKey(autoGenerate = true) var idBuilding: Int = 0, @SerializedName(
+    @PrimaryKey(autoGenerate = true) var idBuilding: Int = 0,
+    @SerializedName(
         "id"
-    ) var id: Int? = null, @SerializedName(
+    ) var id: Int? = null,
+    @SerializedName(
         "name"
-    ) var name: String? = null, @SerializedName(
+    ) var name: String? = null,
+    @SerializedName(
         "type"
-    ) var type: String? = null, @SerializedName(
+    ) var type: String? = null,
+    @SerializedName(
         "area"
-    ) var area: Int? = null, @SerializedName(
+    ) var area: Int? = null,
+    @SerializedName(
         "image"
-    ) var image: String? = null, @SerializedName(
+    ) var image: String? = null,
+    @SerializedName(
         "haveAccess"
     ) var haveAccess: Boolean = false
 ) : Serializable

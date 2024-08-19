@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.view.View
-import com.hsi.walldisplay.R
 import com.hsi.walldisplay.model.User
 
 class SessionManager @SuppressLint("CommitPrefEdits") constructor(var context: Context) {
@@ -184,6 +183,12 @@ class SessionManager @SuppressLint("CommitPrefEdits") constructor(var context: C
             get() = pref.getString(KEY_LOCAL_JOB_IP, Constants.SERVER_IP)
             set(rgbwMasterID) {
                 editor.putString(KEY_LOCAL_JOB_IP, rgbwMasterID)
+                editor.commit()
+            }
+        var mqttIP: String?
+            get() = pref.getString(KEY_MQTT_IP, Constants.MQTT_SERVER_URI)
+            set(rgbwMasterID) {
+                editor.putString(KEY_MQTT_IP, rgbwMasterID)
                 editor.commit()
             }
 

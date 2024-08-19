@@ -3,18 +3,16 @@ package com.hsi.walldisplay.ui.main.viewmodel
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.CompoundButton
-import android.widget.TextView
-import android.widget.ToggleButton
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import androidx.databinding.BindingAdapter
 import com.hsi.walldisplay.BR
 import com.hsi.walldisplay.R
+import com.hsi.walldisplay.databinding.DialogThermostatBinding
 import com.hsi.walldisplay.helper.Constants
 import com.hsi.walldisplay.model.BuildingService
 import com.hsi.walldisplay.model.FanSpeed
@@ -29,6 +27,25 @@ class ThermostatViewModel(
     thermostat: BuildingService
 ) : BaseObservable() {
 
+//region Variable
+
+    companion object {
+        private const val TAG = "ThermostatViewModel"
+
+        @JvmStatic
+        @BindingAdapter("setImageViewTint")
+        fun setImageViewTint(imageView: ImageView, isSelected: Boolean) {
+            Log.d(TAG, "setImageViewTint: $isSelected")
+
+            imageView.setColorFilter(
+                ContextCompat.getColor(imageView.context, if (isSelected) R.color.background else R.color.background),
+                android.graphics.PorterDuff.Mode.SRC_IN
+            )
+            imageView.backgroundTintList =
+                ContextCompat.getColorStateList(imageView.context, if (isSelected) R.color.yellow_300 else R.color.text_color)
+
+        }
+    }
 
     val topic = "${activity.sessionManager.user.projectId}/${Constants.CURTAIN_IN}"
 
@@ -61,11 +78,12 @@ class ThermostatViewModel(
 
     @get:Bindable
     var fanSpeed: String by Delegates.observable(
-        ""
+        thermostat.level!!
     ) { _, _, _ ->
         notifyPropertyChanged(BR.fanSpeed)
     }
 
+//endregion
 
     //region setFanSpeed
     fun setFanSpeed(view: View) {
@@ -82,7 +100,9 @@ class ThermostatViewModel(
         }
 
 
-//        thermostat!!.fanLevel = fanSpeed
+        thermostat.level = fanSpeed
+
+        activity.dataBaseDao.updateBuildingService(thermostat)
     }
 
     //endregion
@@ -131,19 +151,18 @@ class ThermostatViewModel(
         val topic = "${activity.sessionManager.user.projectId}/Thermo/In"
 
         val builder = AlertDialog.Builder(activity)
-        val viewGroup: ViewGroup = activity.findViewById(android.R.id.content)
-        val dialogView: View = LayoutInflater.from(activity)
-            .inflate(R.layout.dialog_thermostat, viewGroup, false)
-        builder.setView(dialogView)
+        val thermostatBinding: DialogThermostatBinding by lazy { DialogThermostatBinding.inflate(activity.layoutInflater) }
+        builder.setView(thermostatBinding.root)
         val alertDialog = builder.create()
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.show()
-
-        val tvCurrent = dialogView.findViewById<TextView>(R.id.tvCurrent)
-        val tvDegree = dialogView.findViewById<TextView>(R.id.tvDegree)
-        val arcSeekBar = dialogView.findViewById<ArcSeekBar>(R.id.arcSeekBar)
+        thermostatBinding.viewModel = this
+        activity.logD("fanSpeed: $fanSpeed level:${thermostat.level}")
+        val tvCurrent = thermostatBinding.tvCurrent
+        val tvDegree = thermostatBinding.tvDegree
+        val arcSeekBar = thermostatBinding.arcSeekBar
 //        val lottieAnimationView = dialogView.findViewById<LottieAnimationView>(R.id.lottieAnimationView)
-        val switchOnOff = dialogView.findViewById<ToggleButton>(R.id.switchOnOff)
+        val switchOnOff = thermostatBinding.switchOnOff
         switchOnOff.isChecked = device.off == 1
         switchOnOff.text = if (device.off == 1) "ON" else "OFF"
         switchOnOff.setOnCheckedChangeListener { _, isChecked ->
@@ -166,6 +185,24 @@ class ThermostatViewModel(
 
         val currentDegree: Double = device.value!!.toDouble() / 10
         tvCurrent.text = "Current $currentDegree"
+//        when (device.level) {
+//            FanSpeed.HIGH -> {
+//                selectedFanSpeed(thermostatBinding.btnHigh)
+//            }
+//
+//            FanSpeed.MEDIUM -> {
+//                selectedFanSpeed(thermostatBinding.btnMedium)
+//            }
+//
+//            FanSpeed.LOW -> {
+//                selectedFanSpeed(thermostatBinding.btnLow)
+//            }
+//
+//            FanSpeed.AUTO -> {
+//                selectedFanSpeed(thermostatBinding.btnAuto)
+//            }
+//        }
+
 //        if (device.level.equals("high")) {
 //            lottieAnimationView.speed = 8f
 //        } else if (device.level.equals("medium")) {
@@ -210,73 +247,42 @@ class ThermostatViewModel(
         })
 
 
-        dialogView.findViewById<View>(R.id.btnClose)
-            .setOnClickListener {
-                alertDialog.dismiss()
-            }
+        thermostatBinding.btnClose.setOnClickListener {
+            alertDialog.dismiss()
+        }
 
-        dialogView.findViewById<View>(R.id.btnHigh)
-            .setOnClickListener {
-                val message = "{\"id\":\"${device.serviceId}\",\"command\":\"high\"}"
-                activity.publishMessage(topic, message)
-//                lottieAnimationView.speed = 8f
-//                log("High ")
-            }
+        thermostatBinding.btnPlus.setOnClickListener {
+            thermostatProgress += 5
+            if (thermostatProgress > 350) thermostatProgress = 350
 
-        dialogView.findViewById<View>(R.id.btnMedium)
-            .setOnClickListener {
-                val message = "{\"id\":\"${device.serviceId}\",\"command\":\"medium\"}"
-                activity.publishMessage(topic, message)
+            arcSeekBar.progress = thermostatProgress
+            val value = thermostatProgress
+            val message = "{\"id\":\"${device.serviceId}\",\"command\":\"settemp\",\"value\":\"$value\"}"
+            activity.publishMessage(topic, message)
 
-//                lottieAnimationView.speed = 5f
-//
-//                log("High ")
-            }
+            val finalValue: Double = (value).toDouble()
+        }
 
-        dialogView.findViewById<View>(R.id.btnLow)
-            .setOnClickListener {
-                val message = "{\"id\":\"${device.serviceId}\",\"command\":\"low\"}"
-                activity.publishMessage(topic, message)
+        thermostatBinding.btnMinus.setOnClickListener {
+            thermostatProgress -= 5
+            if (thermostatProgress < 150) thermostatProgress = 150
 
-//                lottieAnimationView.speed = 3f
-//                log("High ")
-            }
+            arcSeekBar.progress = thermostatProgress
+            val value = thermostatProgress
 
-        dialogView.findViewById<View>(R.id.btnAuto)
-            .setOnClickListener {
-                val message = "{\"id\":\"${device.serviceId}\",\"command\":\"auto\"}"
-                activity.publishMessage(topic, message)
+            val message = "{\"id\":\"${device.serviceId}\",\"command\":\"settemp\",\"value\":\"$value\"}"
+            activity.publishMessage(topic, message)
 
-//                log("Auto ")
-            }
-        dialogView.findViewById<View>(R.id.btnPlus)
-            .setOnClickListener {
-                thermostatProgress += 5
-                if (thermostatProgress > 350) thermostatProgress = 350
-
-                arcSeekBar.progress = thermostatProgress
-                val value = thermostatProgress
-                val message = "{\"id\":\"${device.serviceId}\",\"command\":\"settemp\",\"value\":\"$value\"}"
-                activity.publishMessage(topic, message)
-
-                val finalValue: Double = (value).toDouble()
-            }
-
-        dialogView.findViewById<View>(R.id.btnMinus)
-            .setOnClickListener {
-                thermostatProgress -= 5
-                if (thermostatProgress < 150) thermostatProgress = 150
-
-                arcSeekBar.progress = thermostatProgress
-                val value = thermostatProgress
-
-                val message = "{\"id\":\"${device.serviceId}\",\"command\":\"settemp\",\"value\":\"$value\"}"
-                activity.publishMessage(topic, message)
-
-                val finalValue: Double = (value).toDouble()
-            }
-
+            val finalValue: Double = (value).toDouble()
+        }
 
     }
 
+    private fun selectedFanSpeed(imageView: ImageView) {
+        imageView.setColorFilter(
+            ContextCompat.getColor(activity, R.color.background),
+            android.graphics.PorterDuff.Mode.SRC_IN
+        )
+        imageView.backgroundTintList = ContextCompat.getColorStateList(activity, R.color.yellow_300)
+    }
 }

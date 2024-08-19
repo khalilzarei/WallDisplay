@@ -13,10 +13,12 @@ import androidx.databinding.Bindable
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.google.android.material.snackbar.Snackbar
-import com.hsi.walldisplay.R
 import com.hsi.walldisplay.BR
+import com.hsi.walldisplay.R
+import com.hsi.walldisplay.databinding.DialogChangeIpBinding
 import com.hsi.walldisplay.databinding.DialogDownloadProgressBinding
 import com.hsi.walldisplay.helper.Constants
+import com.hsi.walldisplay.helper.Constants.API_URL
 import com.hsi.walldisplay.helper.SessionManager
 import com.hsi.walldisplay.model.*
 import com.hsi.walldisplay.network.RetroClass
@@ -34,8 +36,8 @@ class LoginViewModel(var activity: LoginActivity) : BaseObservable() {
     //region variable
 
     @Bindable
-    var email: String? = "dt8@gruneslicht.de"
-//    var email: String? = "hsilightingstudio@gruneslicht.de"
+//    var email: String? = "dt8@gruneslicht.de"
+    var email: String? = "hsilightingstudio@gruneslicht.de"
 
     //dt8@g...  hsilightingstudio
 
@@ -52,9 +54,17 @@ class LoginViewModel(var activity: LoginActivity) : BaseObservable() {
         notifyPropertyChanged(BR.localJobIp)
     }
 
+    @get:Bindable
+    var mqttIP: String by Delegates.observable(SessionManager.mqttIP.toString()) { _, _, _ ->
+        notifyPropertyChanged(BR.mqttIP)
+    }
+
 
     private var downloadProgressDialog: AlertDialog
     private var downloadBinding: DialogDownloadProgressBinding
+    private var dialogChangeIp: AlertDialog
+    private val changeIpBinding: DialogChangeIpBinding by lazy { DialogChangeIpBinding.inflate(activity.layoutInflater) }
+
     //endregion
 
     //region INIT
@@ -66,6 +76,11 @@ class LoginViewModel(var activity: LoginActivity) : BaseObservable() {
         downloadProgressDialog = builder.create()
         downloadProgressDialog.setCancelable(false)
         downloadProgressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val builderChangeIP = AlertDialog.Builder(activity)
+        builderChangeIP.setView(changeIpBinding.root)
+        dialogChangeIp = builderChangeIP.create()
+
     }
     //endregion
 
@@ -97,11 +112,23 @@ class LoginViewModel(var activity: LoginActivity) : BaseObservable() {
     fun showJobIpLayout(view: View?) {
         count++
         if (count > 10) {
-            jobIpLayoutShowing = true
-            activity.sessionManager.jobIpLayoutShowing = true
+            changeIps()
             count = 0
         }
     }
+
+
+    private fun changeIps() {
+        dialogChangeIp.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogChangeIp.setCanceledOnTouchOutside(false)
+        dialogChangeIp.show()
+        changeIpBinding.viewModel = this
+        changeIpBinding.btnClose.setOnClickListener {
+            dialogChangeIp.dismiss()
+            count = 0
+        }
+    }
+
     //endregion
 
 
@@ -110,7 +137,7 @@ class LoginViewModel(var activity: LoginActivity) : BaseObservable() {
     private fun login(view: View) {
         downloadProgressDialog.show()
 
-        val apiService = RetroClass.apiService(activity.url)
+        val apiService = RetroClass.apiService("${SessionManager.localJobIp}$API_URL")
         var sync = if (activity.url.contains("192")) 0 else 1
         sync = 0
         activity.log("login => sync => $sync  url => ${activity.url} ")
@@ -202,6 +229,45 @@ class LoginViewModel(var activity: LoginActivity) : BaseObservable() {
 
     }
 
+
+    fun saveLocalIP(view: View) {
+        val ip = localJobIp
+        activity.log("jobIpEndIconClicked => Job Ip : $ip")
+        if (ip.isEmpty() || ip == "Local ip" || ip.length < 5) {
+            activity.toast("PLEASE ENTER LOCAL IP FOR JOBS")
+//                    Snackbar.make(binding.root, "PLEASE ENTER LOCAL IP FOR JOBS", Toast.LENGTH_LONG).show()
+            return
+        }
+        if (!ip.contains("http")) {
+            activity.toast("PLEASE start IP with http")
+//                    Snackbar.make(binding.root, "PLEASE start IP with http or https", Snackbar.LENGTH_LONG).show()
+            return
+        }
+
+        if (ip.last() != '/') {
+            activity.toast("PLEASE ENTER end IP with / ")
+            return
+        }
+
+        activity.toast("CHANGE LOCAL IP JOBS SUCCESS FULL")
+        SessionManager.localJobIp = ip
+    }
+
+    fun saveMqttIP(view: View) {
+        activity.log("jobIpEndIconClicked => Job Ip : $mqttIP")
+        if (mqttIP.isEmpty() || mqttIP.length < 5) {
+            activity.toast("PLEASE ENTER MQTT IP")
+//                    Snackbar.make(binding.root, "PLEASE ENTER LOCAL IP FOR JOBS", Toast.LENGTH_LONG).show()
+            return
+        }
+        if (!mqttIP.contains("tcp")) {
+            activity.toast("PLEASE start IP with tcp")
+//                    Snackbar.make(binding.root, "PLEASE start IP with http or https", Snackbar.LENGTH_LONG).show()
+            return
+        }
+        activity.toast("CHANGE MQTT IP JOBS SUCCESS FULL")
+        SessionManager.mqttIP = mqttIP
+    }
 
     //endregion
 
