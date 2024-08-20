@@ -290,5 +290,5 @@ class LightAdapter(
     }
 
     class ViewHolder internal constructor(var item: LightItem) : RecyclerView.ViewHolder(item.root)
-    
+
 }

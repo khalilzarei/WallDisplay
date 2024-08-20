@@ -332,7 +332,7 @@ class LightViewModel(
              */
             val dim = 415
             binding.arcSeekBar.progress = 150 + abs(500 - dim)
-            val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"GROUP_ADDRESS\r\n\":\"$idLi\r\n\"}"
+            val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"$addr\r\n\":\"$idLi\r\n\"}"
             device.value = "$dim,$valueTemperature"
             activity.dataBaseDao.updateBuildingService(device)
             activity.publishMessage(topic, message)
@@ -341,7 +341,7 @@ class LightViewModel(
         binding.btn40.setOnClickListener {
             val dim = 362
             binding.arcSeekBar.progress = 150 + abs(500 - dim)
-            val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"GROUP_ADDRESS\r\n\":\"$idLi\r\n\"}"
+            val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"$addr\r\n\":\"$idLi\r\n\"}"
             device.value = "$dim,$valueTemperature"
             activity.dataBaseDao.updateBuildingService(device)
             activity.publishMessage(topic, message)
@@ -350,7 +350,7 @@ class LightViewModel(
         binding.btn50.setOnClickListener {
             val dim = 256
             binding.arcSeekBar.progress = 150 + abs(500 - dim)
-            val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"GROUP_ADDRESS\r\n\":\"$idLi\r\n\"}"
+            val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"$addr\r\n\":\"$idLi\r\n\"}"
             device.value = "$dim,$valueTemperature"
             activity.dataBaseDao.updateBuildingService(device)
             activity.publishMessage(topic, message)
@@ -359,7 +359,7 @@ class LightViewModel(
         binding.btn60.setOnClickListener {
             val dim = 150
             binding.arcSeekBar.progress = 150 + abs(500 - dim)
-            val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"GROUP_ADDRESS\r\n\":\"$idLi\r\n\"}"
+            val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"$addr\r\n\":\"$idLi\r\n\"}"
             device.value = "$dim,$valueTemperature"
             activity.dataBaseDao.updateBuildingService(device)
             activity.publishMessage(topic, message)
@@ -388,7 +388,7 @@ class LightViewModel(
             device.serviceId!!
         }
 
-        val address: String = if (device.groupId != null) "SHORT_ADDRESS"
+        val address: String = if (device.groupId == null) "SHORT_ADDRESS"
         else
             "GROUP_ADDRESS"
 
@@ -630,7 +630,7 @@ class LightViewModel(
         dim: Int
     ) {
 
-        val address: String = if (device.groupId != null) "SHORT_ADDRESS"
+        val address: String = if (device.groupId == null) "SHORT_ADDRESS"
         else
             "GROUP_ADDRESS"
 
@@ -645,7 +645,7 @@ class LightViewModel(
         else
             device.serviceId!!
 
-        val address: String = if (device.groupId != null) "SHORT_ADDRESS"
+        val address: String = if (device.groupId == null) "SHORT_ADDRESS"
         else
             "GROUP_ADDRESS"
 
