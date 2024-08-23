@@ -98,6 +98,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:lines="1"
+                        android:textSize="@dimen/title_text_size"
                         android:maxLength="50"
                         android:maxLines="1"
                         android:singleLine="true"
@@ -125,6 +126,7 @@
                         android:inputType="textPassword"
                         android:lines="1"
                         android:maxLength="50"
+                        android:textSize="@dimen/title_text_size"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:text="@={viewModel.password}"
@@ -151,8 +153,8 @@
                                 android:background="@drawable/shape_button_clicked"
                                 android:onClick="@{viewModel::checkLogin}"
                                 android:text="@string/sign_in"
+                                android:textSize="@dimen/title_text_size"
                                 android:textColor="@color/background"
-                                android:textSize="18sp"
                                 android:textStyle="bold"
                                 app:backgroundTint="@null" />
 

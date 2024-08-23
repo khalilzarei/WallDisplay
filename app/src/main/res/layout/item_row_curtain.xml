@@ -42,6 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:gravity="center"
+                    android:textSize="@dimen/title_text_size"
                     android:padding="@dimen/_5sdp"
                     android:text="@{`Curtain `+viewModel.curtain.serviceId}"
                     android:textColor="@color/text_color"
@@ -69,6 +70,23 @@
                     tools:text="Curtain 1" />
 
 
+                <TextView
+                    android:id="@+id/tvDegree"
+                    setCurtainPercent="@{viewModel.curtainValue}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/title_text_size"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5"
+                    tools:text="20%" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.balysv.materialripple.MaterialRippleLayout>
@@ -78,7 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            tools:visibility="gone"
+            tools:visibility="visible"
             android:visibility="@{viewModel.layoutSeekBarVisibility?View.VISIBLE:View.GONE}">
 
             <LinearLayout
@@ -89,7 +107,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btnOpen"
+                    android:id="@+id/btnClose"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -97,8 +115,8 @@
                     android:background="@drawable/shape_button_clicked"
                     android:clickable="true"
                     android:focusable="true"
-                    android:onClick="@{viewModel::open}"
-                    android:text="@string/open"
+                    android:onClick="@{viewModel::close}"
+                    android:text="@string/close"
                     android:textColor="@color/background"
                     android:textStyle="bold"
                     app:backgroundTint="@null" />
@@ -119,7 +137,7 @@
                     app:backgroundTint="@null" />
 
                 <Button
-                    android:id="@+id/btnClose"
+                    android:id="@+id/btnOpen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -127,8 +145,8 @@
                     android:background="@drawable/shape_button_clicked"
                     android:clickable="true"
                     android:focusable="true"
-                    android:onClick="@{viewModel::close}"
-                    android:text="@string/close"
+                    android:onClick="@{viewModel::open}"
+                    android:text="@string/open"
                     android:textColor="@color/background"
                     android:textStyle="bold"
                     app:backgroundTint="@null" />

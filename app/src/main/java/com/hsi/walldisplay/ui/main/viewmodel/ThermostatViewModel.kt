@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.databinding.BaseObservable
@@ -15,6 +16,7 @@ import com.hsi.walldisplay.R
 import com.hsi.walldisplay.databinding.DialogThermostatBinding
 import com.hsi.walldisplay.helper.Constants
 import com.hsi.walldisplay.model.BuildingService
+import com.hsi.walldisplay.model.DeviceType
 import com.hsi.walldisplay.model.FanSpeed
 import com.hsi.walldisplay.ui.main.MainActivity
 import com.hsi.walldisplay.view.ArcSeekBar
@@ -43,6 +45,44 @@ class ThermostatViewModel(
             )
             imageView.backgroundTintList =
                 ContextCompat.getColorStateList(imageView.context, if (isSelected) R.color.yellow_300 else R.color.text_color)
+
+        }
+
+        @JvmStatic
+        @BindingAdapter("setThermostatValue")
+        fun setThermostatValue(textView: TextView, value: Int) {
+
+            val thermostatValue = if (value % 5 == 0) {
+                value
+            } else {
+                value - (value % 5)
+            }
+
+            val finalValue: Double = thermostatValue.toDouble()
+            textView.text = "${finalValue / 10} ˚c"
+
+        }
+
+        @JvmStatic
+        @BindingAdapter("setFanSpeedImage")
+        fun setFanSpeedImage(imageView: ImageView, level: String) {
+            when (level) {
+                FanSpeed.LOW -> {
+                    imageView.setImageResource(R.drawable.ic_fan_low)
+                }
+
+                FanSpeed.MEDIUM -> {
+                    imageView.setImageResource(R.drawable.ic_fan_meduim)
+                }
+
+                FanSpeed.HIGH -> {
+                    imageView.setImageResource(R.drawable.ic_fan_high)
+                }
+
+                else -> {
+                    imageView.setImageResource(R.drawable.ic_fan_auto)
+                }
+            }
 
         }
     }
@@ -226,6 +266,7 @@ class ThermostatViewModel(
             }
 
             override fun onStartTrackingTouch(seekBar: ArcSeekBar) {}
+
             override fun onStopTrackingTouch(seekBar: ArcSeekBar) {
                 thermostatProgress = arcSeekBar.progress
 
@@ -243,6 +284,14 @@ class ThermostatViewModel(
 
                 val finalValue: Double = (value).toDouble()
                 tvDegree.text = "${finalValue / 10} ˚c"
+                thermostat.toValue = value
+                activity.dataBaseDao.updateBuildingService(thermostat)
+                activity.viewModel.thermostatAdapter.setItems(
+                    activity.dataBaseDao.getBuildingDevices(
+                        activity.viewModel.building.id,
+                        DeviceType.THERMOSTAT
+                    ) as ArrayList
+                )
             }
         })
 

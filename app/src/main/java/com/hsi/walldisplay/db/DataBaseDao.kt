@@ -9,7 +9,14 @@ import androidx.room.Update
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hsi.walldisplay.helper.Constants
-import  com.hsi.walldisplay.model.*
+import com.hsi.walldisplay.model.Building
+import com.hsi.walldisplay.model.BuildingService
+import com.hsi.walldisplay.model.Curtain
+import com.hsi.walldisplay.model.DeviceType
+import com.hsi.walldisplay.model.HomeScene
+import com.hsi.walldisplay.model.Job
+import com.hsi.walldisplay.model.SceneService
+import com.hsi.walldisplay.model.Topic
 import java.lang.reflect.Type
 import java.util.Collections
 
@@ -155,6 +162,13 @@ interface DataBaseDao {
 
     @Update
     fun updateCurtain(curtain: Curtain)
+
+
+    @Query("UPDATE ${Constants.TABLE_NAME_CURTAIN} SET value = :value WHERE id = :id")
+    fun updateCurtainValue(
+        id: Int,
+        value: Int
+    ): Int
 
     @Query("DELETE FROM ${Constants.TABLE_NAME_CURTAIN}")
     fun deleteCurtain()

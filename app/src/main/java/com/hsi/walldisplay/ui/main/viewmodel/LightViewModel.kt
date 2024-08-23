@@ -10,14 +10,13 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.cardview.widget.CardView
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import androidx.databinding.DataBindingUtil
-import com.flask.colorpicker.ColorPickerView
 import com.hsi.walldisplay.BR
 import com.hsi.walldisplay.R
 import com.hsi.walldisplay.databinding.DialogCctBinding
+import com.hsi.walldisplay.databinding.DialogDimBinding
+import com.hsi.walldisplay.databinding.DialogRgbwBinding
 import com.hsi.walldisplay.helper.Constants
 import com.hsi.walldisplay.helper.SessionManager
 import com.hsi.walldisplay.helper.SessionManager.Companion.dim
@@ -122,25 +121,23 @@ class LightViewModel(
         val d = if (device.value!!.contains(",")) dimToPercent(device.value!!.split(",")[0].toInt())
         else dimToPercent(device.value!!.toInt())
 
-        activity.log("Dim ${device.value} = $d")
         val builder = AlertDialog.Builder(activity)
-        val viewGroup: ViewGroup = activity.findViewById(android.R.id.content)
-        val dialogView: View = LayoutInflater.from(activity)
-            .inflate(R.layout.dialog_dim, viewGroup, false)
-        builder.setView(dialogView)
+        val dialogDimBinding: DialogDimBinding by lazy { DialogDimBinding.inflate(activity.layoutInflater) }
+        builder.setView(dialogDimBinding.root)
         val alertDialog = builder.create()
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.show()
-        val tvTitle = dialogView.findViewById<TextView>(R.id.tvTitle)
-        tvTitle.text = if (device.groupId != null) "GROUP" else "DALI LIGHT"
-        val tvSeekResult = dialogView.findViewById<TextView>(R.id.tvSeekResult)
-        val seekBar = dialogView.findViewById<SeekBar>(R.id.seekBar)
+
+
+        dialogDimBinding.tvTitle.text = device.name
+        val tvSeekResult = dialogDimBinding.tvSeekResult
+//        val seekBar = dialogDimBinding.seekBar
 //        seekBar.thumb = null
-        seekBar.progress = d
+//        seekBar.progress = d
         tvSeekResult.text = "$d%"
 //        tvSeekResult.visibility = View.GONE
 
-        val arcSeekBar = dialogView.findViewById<ArcSeekBar>(R.id.arcSeekBar)
+        val arcSeekBar = dialogDimBinding.arcSeekBar
         arcSeekBar.progress = d
         arcSeekBar.setOnProgressChangeListener(object : ArcSeekBar.OnProgressChangeListener {
             override fun onProgressChanged(seekBar: ArcSeekBar?, progress: Int, isUser: Boolean) {
@@ -158,36 +155,31 @@ class LightViewModel(
         })
 
 
-        dialogView.findViewById<View>(R.id.btn25)
-            .setOnClickListener {
-                seekBar.progress = 1
-                sendDimMessage(device, 1, false)
-            }
+        dialogDimBinding.btn25.setOnClickListener {
+            arcSeekBar.progress = 1
+            sendDimMessage(device, 1, false)
+        }
 
-        dialogView.findViewById<View>(R.id.btn50)
-            .setOnClickListener {
-                seekBar.progress = 50
-                sendDimMessage(device, 50, false)
-            }
+        dialogDimBinding.btn50.setOnClickListener {
+            arcSeekBar.progress = 50
+            sendDimMessage(device, 50, false)
+        }
 
-        dialogView.findViewById<View>(R.id.btn75)
-            .setOnClickListener {
-                seekBar.progress = 75
-                sendDimMessage(device, 75, false)
-            }
+        dialogDimBinding.btn75.setOnClickListener {
+            arcSeekBar.progress = 75
+            sendDimMessage(device, 75, false)
+        }
 
-        dialogView.findViewById<View>(R.id.btn100)
-            .setOnClickListener {
-                seekBar.progress = 100
-                sendDimMessage(device, 100, false)
-            }
+        dialogDimBinding.btn100.setOnClickListener {
+            arcSeekBar.progress = 100
+            sendDimMessage(device, 100, false)
+        }
 
-        dialogView.findViewById<View>(R.id.btnClose)
-            .setOnClickListener { view: View? ->
-                SessionManager.queryLongTouchID = -1
-                SessionManager.queryLongTouchMaster = -1
-                alertDialog.dismiss()
-            }
+        dialogDimBinding.btnClose.setOnClickListener { view: View? ->
+            SessionManager.queryLongTouchID = -1
+            SessionManager.queryLongTouchMaster = -1
+            alertDialog.dismiss()
+        }
 
     }
 
@@ -258,34 +250,42 @@ class LightViewModel(
             "SHORT_ADDRESS"
         }
 
-//        log("Dim ${device.value} = $d")
         val builder = AlertDialog.Builder(activity)
-        val binding: DialogCctBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_cct, null, false)
+        val binding: DialogCctBinding by lazy { DialogCctBinding.inflate(activity.layoutInflater) }
         builder.setView(binding.root)
         val alertDialog = builder.create()
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.show()
 
+        binding.tvTitle.text = device.name
 
         val seekBarTemperature: SeekBar = binding.seekBarTemperature
 
         seekBarTemperature.max = 254
-        seekBarTemperature.progress = percentToDim(valueTemperature)
+
+        binding.tvPercent.text = "${dimToPercent(valueTemperature)}%"
+        seekBarTemperature.progress = valueTemperature
         seekBarTemperature.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(
                 seekBar: SeekBar?,
                 p1: Int,
                 p2: Boolean
             ) {
-                activity.log("seekBarControl progress:${seekBar?.progress}")
+                val dim = seekBar!!.progress
+                if (dim in 0..254) {
+                    binding.tvPercent.text = "${dimToPercent(dim)}%"
+                    binding.tvPercent.visibility = View.VISIBLE
+                } else
+                    binding.tvPercent.visibility = View.GONE
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                val dim = seekBar!!.progress
                 if (dim in 0..254) run {
-                    val dim = seekBar!!.progress
+
                     val message = "{\"DAPC\r\n\":\"$dim\r\n\",\"$addr\r\n\":\"$idLi\r\n\"}"
                     device.value = "$dim,$valueTemperature"
                     activity.dataBaseDao.updateBuildingService(device)
@@ -378,10 +378,14 @@ class LightViewModel(
         var blue: Int = 0
         SessionManager.rgbwDeviceA0 = (null)
         SessionManager.rgbwMasterID = (null)
+
         val builder = AlertDialog.Builder(activity)
-        val viewGroup: ViewGroup = activity.findViewById(android.R.id.content)
-        val dialogView: View = LayoutInflater.from(activity)
-            .inflate(R.layout.dialog_rgbw, viewGroup, false)
+        val dialogRgbw: DialogRgbwBinding by lazy { DialogRgbwBinding.inflate(activity.layoutInflater) }
+        builder.setView(dialogRgbw.root)
+        val alertDialog = builder.create()
+        alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alertDialog.show()
+
 
         val lightId = if (device.groupId != null) device.groupId!!
         else {
@@ -392,34 +396,34 @@ class LightViewModel(
         else
             "GROUP_ADDRESS"
 
-        val colorPickerView = dialogView.findViewById<ColorPickerView>(R.id.colorPickerView)
-        val cardViewColor = dialogView.findViewById<CardView>(R.id.cardViewColor)
-        val btnSetColor = dialogView.findViewById<View>(R.id.btnSetColor)
-        val seekBar = dialogView.findViewById<SeekBar>(R.id.seekBarWhite)
-        val ivCancel = dialogView.findViewById<View>(R.id.ivCancel)
-        val seekBarLightness = dialogView.findViewById<SeekBar>(R.id.seekBarLightness)
+        val colorPickerView = dialogRgbw.colorPickerView
+        val cardViewColor = dialogRgbw.cardViewColor
+        val btnSetColor = dialogRgbw.btnSetColor
+        val seekBar = dialogRgbw.seekBarWhite
+        val ivCancel = dialogRgbw.btnClose
+        val seekBarLightness = dialogRgbw.seekBarLightness
 
-        (dialogView.findViewById<View>(R.id.tvWhite25)).setOnClickListener {
+        dialogRgbw.tvWhite25.setOnClickListener {
             seekBar.progress = 25
             dim = 25 * 254 / 100
             val waf = dim * 65536
             sendRGBMinMaxMessage(waf)
         }
-        (dialogView.findViewById<View>(R.id.tvWhite50)).setOnClickListener {
+        dialogRgbw.tvWhite50.setOnClickListener {
             seekBar.progress = 50
             dim = 50 * 254 / 100
             val waf = dim * 65536
             sendRGBMinMaxMessage(waf)
 
         }
-        (dialogView.findViewById<View>(R.id.tvWhite75)).setOnClickListener {
+        dialogRgbw.tvWhite75.setOnClickListener {
             seekBar.progress = 75
             dim = 75 * 254 / 100
             val waf = dim * 65536
             sendRGBMinMaxMessage(waf)
 
         }
-        (dialogView.findViewById<View>(R.id.tvWhite100)).setOnClickListener {
+        dialogRgbw.tvWhite100.setOnClickListener {
             seekBar.progress = 100
             val waf = 254 * 65536
             sendRGBMinMaxMessage(waf)
@@ -471,12 +475,14 @@ class LightViewModel(
                 p1: Int,
                 p2: Boolean
             ) {
-
                 activity.log(" ${p1.toFloat()} ${(p1.toFloat() / 100)}")
                 colorPickerView.setLightness(((p1.toFloat() / 100)))
 //                cardViewColor.alpha = (p1 / 100).toFloat()
-                if (p1 in 0..254)
+                if (p1 in 0..254) {
                     dapc = p1
+
+                    dialogRgbw.tvLightIntensity.text = "$p1%"
+                }
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -509,6 +515,7 @@ class LightViewModel(
         seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
+                dialogRgbw.tvWhiteIntensity.text = "$progress%"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -532,10 +539,6 @@ class LightViewModel(
 
         })
 
-        builder.setView(dialogView)
-        val alertDialog = builder.create()
-        alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        alertDialog.show()
         ivCancel.setOnClickListener { view: View? -> alertDialog.dismiss() }
         btnSetColor.setOnClickListener { view: View? ->
             SessionManager.rgbwDeviceA0 = device.serviceId.toString()

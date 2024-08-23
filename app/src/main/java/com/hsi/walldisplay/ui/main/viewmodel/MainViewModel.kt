@@ -23,18 +23,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.hsi.walldisplay.model.Building
-import com.hsi.walldisplay.ui.main.MainActivity
-import kotlin.properties.Delegates
 import com.hsi.walldisplay.BR
 import com.hsi.walldisplay.R
+import com.hsi.walldisplay.databinding.DialogFloorsBinding
 import com.hsi.walldisplay.helper.BuildingClickListener
 import com.hsi.walldisplay.helper.Constants
 import com.hsi.walldisplay.helper.SceneClickListener
+import com.hsi.walldisplay.model.Building
 import com.hsi.walldisplay.model.BuildingService
 import com.hsi.walldisplay.model.DeviceType
 import com.hsi.walldisplay.model.HomeScene
 import com.hsi.walldisplay.model.ShowLayout
+import com.hsi.walldisplay.ui.main.MainActivity
 import com.hsi.walldisplay.ui.main.adapter.BuildingAdapter
 import com.hsi.walldisplay.ui.main.adapter.CurtainAdapter
 import com.hsi.walldisplay.ui.main.adapter.LightAdapter
@@ -43,8 +43,8 @@ import com.hsi.walldisplay.ui.main.adapter.ThermostatAdapter
 import com.hsi.walldisplay.view.ArcSeekBar
 import de.hdodenhof.circleimageview.CircleImageView
 import java.text.SimpleDateFormat
-import java.util.ArrayList
 import java.util.Date
+import kotlin.properties.Delegates
 
 class MainViewModel(val activity: MainActivity) : BaseObservable(),
     SceneClickListener,
@@ -251,27 +251,21 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
 
 
     private fun showFloorDialog() {
+        val dialogFloors: DialogFloorsBinding by lazy { DialogFloorsBinding.inflate(activity.layoutInflater) }
         val builder = AlertDialog.Builder(activity, R.style.WideDialog)
-        val viewGroup: ViewGroup = activity.findViewById(android.R.id.content)
-        val dialogView: View =
-            LayoutInflater.from(activity).inflate(R.layout.dialog_floors, viewGroup, false)
-
         builder.setCancelable(false)
-        builder.setView(dialogView)
+        builder.setView(dialogFloors.root)
         val alertDialog: AlertDialog = builder.create()
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.show()
-        val btnClose = dialogView.findViewById<ImageView>(R.id.btnClose)
+        dialogFloors.btnClose.setOnClickListener { alertDialog.dismiss() }
 
-        btnClose.setOnClickListener { alertDialog.dismiss() }
-
-        val rvFloors: RecyclerView = dialogView.findViewById(R.id.rvScenes)
         val roomMoodAdapter = BuildingAdapter(
             this,
             activity.dataBaseDao.buildingItems as ArrayList<Building>
         )
-        rvFloors.adapter = roomMoodAdapter
-        rvFloors.layoutManager = GridLayoutManager(activity, 2)
+        dialogFloors.rvRooms.adapter = roomMoodAdapter
+        dialogFloors.rvRooms.layoutManager = GridLayoutManager(activity, 2)
 
     }
 

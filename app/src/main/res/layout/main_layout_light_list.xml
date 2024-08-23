@@ -69,7 +69,7 @@
                 android:layout_height="match_parent"
                 android:text="@string/lights"
                 android:textColor="@color/text_color"
-                android:textSize="22sp"
+                android:textSize="@dimen/title_text_size"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

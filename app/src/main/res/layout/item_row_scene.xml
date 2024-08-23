@@ -56,7 +56,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="@dimen/_5sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:textSize="@dimen/title_text_size"
                         android:text="@{viewModel.homeScene.name}"
                         android:textColor="@color/text_color"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -80,7 +81,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
-                android:background="@drawable/shape_line_vertical" />
+                android:background="@drawable/shape_line_vertical"
+                android:orientation="horizontal" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

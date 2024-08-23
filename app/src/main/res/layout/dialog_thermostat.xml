@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,9 +12,7 @@
             type="com.hsi.walldisplay.ui.main.viewmodel.ThermostatViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#00000000">
@@ -40,21 +40,33 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/btnClose"
+                <TextView
+                    android:id="@+id/tvTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:elevation="@dimen/_15sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:text="@{`AC `+viewModel.thermostat.serviceId}"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/title_text_size"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/curtain" />
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/btnClose"
+                    style="@style/RippleStyleWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="@dimen/_5sdp"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_margin="@dimen/_5sdp"
                         android:src="@drawable/ic_close"
                         app:tint="@color/text_color" />
-
                 </com.balysv.materialripple.MaterialRippleLayout>
 
                 <LinearLayout
@@ -63,6 +75,7 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -88,7 +101,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/text_color"
-                                android:textSize="20sp"
+                                android:textSize="@dimen/title_text_size"
                                 android:textStyle="bold"
                                 tools:text="15˚c" />
 
@@ -105,19 +118,20 @@
 
                         <com.hsi.walldisplay.view.ArcSeekBar
                             android:id="@+id/arcSeekBar"
-                            android:layout_width="240dp"
-                            android:layout_height="240dp"
+                            android:layout_width="270dp"
+                            android:layout_height="270dp"
+                            android:padding="@dimen/_10sdp"
                             app:arc_colors="@array/arc_colors_default"
                             app:arc_max="350"
                             app:arc_min="150"
                             app:arc_open_angle="90"
                             app:arc_progress="150"
                             app:arc_rotate_angle="90"
-                            app:arc_thumb_color="@color/text_color"
+                            app:arc_thumb_color="@color/background"
                             app:arc_thumb_mode="FILL_STROKE"
-                            app:arc_thumb_radius="8dp"
-                            app:arc_thumb_shadow_color="@color/background"
-                            app:arc_thumb_shadow_radius="5dp"
+                            app:arc_thumb_radius="18dp"
+                            app:arc_thumb_shadow_color="@color/text_color"
+                            app:arc_thumb_shadow_radius="10dp"
                             app:arc_thumb_width="12dp"
                             app:arc_width="30dp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -213,9 +227,9 @@
                                 setImageViewTint="@{viewModel.fanSpeed==FanSpeed.HIGH}"
                                 android:layout_width="@dimen/_24sdp"
                                 android:layout_height="@dimen/_24sdp"
-                                android:onClick="@{viewModel::setFanSpeed}"
                                 android:background="@drawable/shape_button_clicked"
                                 android:gravity="center"
+                                android:onClick="@{viewModel::setFanSpeed}"
                                 android:padding="@dimen/_3sdp"
                                 android:src="@drawable/ic_fan_high"
                                 app:tint="@color/background" />
@@ -223,13 +237,13 @@
 
                             <ImageView
                                 android:id="@+id/btnMedium"
+                                setImageViewTint="@{viewModel.fanSpeed==FanSpeed.MEDIUM}"
                                 android:layout_width="@dimen/_24sdp"
                                 android:layout_height="@dimen/_24sdp"
                                 android:layout_marginStart="@dimen/_3sdp"
-                                android:onClick="@{viewModel::setFanSpeed}"
-                                setImageViewTint="@{viewModel.fanSpeed==FanSpeed.MEDIUM}"
                                 android:background="@drawable/shape_button_clicked"
                                 android:gravity="center"
+                                android:onClick="@{viewModel::setFanSpeed}"
                                 android:padding="@dimen/_3sdp"
                                 android:src="@drawable/ic_fan_meduim"
                                 app:tint="@color/background" />
@@ -237,30 +251,30 @@
 
                             <ImageView
                                 android:id="@+id/btnLow"
+                                setImageViewTint="@{viewModel.fanSpeed==FanSpeed.LOW}"
                                 android:layout_width="@dimen/_24sdp"
                                 android:layout_height="@dimen/_24sdp"
                                 android:layout_marginStart="@dimen/_3sdp"
-                                android:onClick="@{viewModel::setFanSpeed}"
                                 android:background="@drawable/shape_button_clicked"
-                                setImageViewTint="@{viewModel.fanSpeed==FanSpeed.LOW}"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:gravity="center"
+                                android:onClick="@{viewModel::setFanSpeed}"
                                 android:padding="@dimen/_3sdp"
                                 android:src="@drawable/ic_fan_low"
                                 app:tint="@color/background" />
 
                             <ImageView
                                 android:id="@+id/btnAuto"
+                                setImageViewTint="@{viewModel.fanSpeed==FanSpeed.AUTO}"
                                 android:layout_width="@dimen/_24sdp"
                                 android:layout_height="@dimen/_24sdp"
                                 android:layout_marginStart="@dimen/_3sdp"
-                                android:onClick="@{viewModel::setFanSpeed}"
-                                setImageViewTint="@{viewModel.fanSpeed==FanSpeed.AUTO}"
                                 android:background="@drawable/shape_button_clicked"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:gravity="center"
+                                android:onClick="@{viewModel::setFanSpeed}"
                                 android:padding="@dimen/_3sdp"
                                 android:src="@drawable/ic_fan_auto"
                                 app:tint="@color/background" />

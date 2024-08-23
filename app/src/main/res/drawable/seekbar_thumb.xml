@@ -8,8 +8,8 @@
 
             <solid android:color="@color/text_color" />
             <size
-                android:width="20dp"
-                android:height="20dp" />
+                android:width="30dp"
+                android:height="30dp" />
         </shape>
     </item>
     <item>
@@ -19,8 +19,8 @@
                 android:color="@android:color/transparent" />
             <solid android:color="@color/background" />
             <size
-                android:width="20dp"
-                android:height="20dp" />
+                android:width="30dp"
+                android:height="30dp" />
         </shape>
     </item>
 

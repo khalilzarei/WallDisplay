@@ -52,12 +52,14 @@ data class Curtain(
     @SerializedName("master_id") var masterId: Int? = null,
     @SerializedName("building_id") var buildingId: Int? = null,
     @SerializedName("name") var name: String? = null,
+    @SerializedName("show_layout") var showLayout: Boolean = false,
 
     ) : Serializable
 
 data class DimMessage(
 
-    @SerializedName("DAPC") var dapc: String? = null, @SerializedName(
+    @SerializedName("DAPC") var dapc: String? = null,
+    @SerializedName(
         "SHORT_ADDRESS"
     ) var shortAddress: String? = null
 

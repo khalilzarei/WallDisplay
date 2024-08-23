@@ -1,6 +1,5 @@
 package com.hsi.walldisplay.ui.main.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,15 +44,16 @@ class CurtainAdapter(
         val tvSeekResult = viewHolder.item.tvSeekResult
 
         val topic = "${activity.sessionManager.user.projectId}/${Constants.CURTAIN_IN}"
-        seekBar.thumb = null
-        seekBar.progress = 0
-
+//        seekBar.thumb = if (item.value!!.toInt() > 0) activity.getDrawable(R.drawable.seekbar_thumb) else null
+        seekBar.progress = item.value!!
+        viewModel.curtainValue = item.value!!
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 tvSeekResult.text = "$progress%"
-                viewModel.progress = progress
+                viewModel.curtainValue = progress
                 if (progress > 0) {
                     seekBar.thumb = activity.getDrawable(R.drawable.seekbar_thumb)
+                    viewModel.curtain.value = progress
                 } else {
                     seekBar.thumb = null
                 }
@@ -66,8 +66,11 @@ class CurtainAdapter(
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 val dim: Int = seekBar.progress
+                activity.logD("onStopTrackingTouch $dim")
                 if (dim in 0..100) {
                     val message = "{\"id\":\"${item.serviceId}\",\"command\":\"setposition_$dim\"}"
+                    viewModel.curtainValue = dim
+                    viewModel.updateCurtain(dim)
                     activity.publishMessage(topic, message)
                 }
             }
@@ -78,7 +81,7 @@ class CurtainAdapter(
 
     override fun getItemCount(): Int = curtains.size
 
-    fun setCurtains(items: ArrayList<Curtain>) {
+    fun setItems(items: ArrayList<Curtain>) {
         this.curtains.clear()
         this.curtains.addAll(items)
         notifyDataSetChanged()

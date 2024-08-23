@@ -11,9 +11,9 @@
             android:id="@+id/rootLayout"
             android:layout_width="460dp"
             android:layout_height="460dp"
-            android:minHeight="460dp"
-            android:minWidth="460dp"
             android:layout_margin="@dimen/_5sdp"
+            android:minWidth="460dp"
+            android:minHeight="460dp"
             app:cardBackgroundColor="@color/background"
             app:cardCornerRadius="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -25,7 +25,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/_7sdp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -34,42 +33,44 @@
                     android:layout_height="0dp"
                     android:layout_weight="1">
 
+
                     <com.balysv.materialripple.MaterialRippleLayout
                         android:id="@+id/btnClose"
                         style="@style/RippleStyleWhite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:padding="@dimen/_5sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_margin="@dimen/_5sdp"
                             android:src="@drawable/ic_close"
                             app:tint="@color/text_color" />
                     </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:text="@string/curtain"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/title_text_size"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/constraintLayout2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <TextView
-                            android:id="@+id/tvTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_5sdp"
-                            android:text="@string/curtain"
-                            android:textColor="@color/text_color"
-                            android:textStyle="bold"
-                            android:visibility="gone"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/tvSeekResult"
@@ -77,7 +78,7 @@
                             android:layout_height="wrap_content"
                             android:text="CCT"
                             android:textColor="@color/text_color"
-                            android:textSize="22sp"
+                            android:textSize="@dimen/title_text_size"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -86,21 +87,24 @@
 
                         <com.hsi.walldisplay.view.ArcSeekBar
                             android:id="@+id/arcSeekBar"
-                            android:layout_width="240dp"
-                            android:layout_height="240dp"
+                            android:layout_width="245dp"
+                            android:layout_height="245dp"
+                            android:padding="@dimen/_5sdp"
                             app:arc_colors="@array/arc_colors_cct"
                             app:arc_max="500"
                             app:arc_min="150"
                             app:arc_open_angle="90"
                             app:arc_progress="150"
+
                             app:arc_rotate_angle="90"
                             app:arc_thumb_color="@color/text_color"
                             app:arc_thumb_mode="FILL_STROKE"
-                            app:arc_thumb_radius="8dp"
+                            app:arc_thumb_radius="18dp"
                             app:arc_thumb_shadow_color="@color/background"
                             app:arc_thumb_shadow_radius="5dp"
                             app:arc_thumb_width="12dp"
                             app:arc_width="30dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -138,7 +142,8 @@
                     android:layout_marginStart="@dimen/_7sdp"
                     android:layout_marginEnd="@dimen/_7sdp"
                     android:text="Color Correlated Temperature"
-                    android:textColor="@color/text_color" />
+                    android:textColor="@color/text_color"
+                    android:textSize="18sp" />
 
 
                 <LinearLayout
@@ -161,9 +166,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:padding="@dimen/_2sdp"
                             android:text="3500˚K"
                             android:textColor="@color/black"
+                            android:textSize="@dimen/title_text_size"
                             android:textStyle="bold" />
                     </com.balysv.materialripple.MaterialRippleLayout>
 
@@ -179,10 +184,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:padding="@dimen/_2sdp"
                             android:singleLine="true"
                             android:text="4000˚K"
                             android:textColor="@color/black"
+                            android:textSize="@dimen/title_text_size"
                             android:textStyle="bold" />
                     </com.balysv.materialripple.MaterialRippleLayout>
 
@@ -198,10 +203,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:padding="@dimen/_2sdp"
                             android:singleLine="true"
                             android:text="5000˚K"
                             android:textColor="@color/black"
+                            android:textSize="@dimen/title_text_size"
                             android:textStyle="bold" />
                     </com.balysv.materialripple.MaterialRippleLayout>
 
@@ -217,23 +222,46 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:padding="@dimen/_2sdp"
                             android:singleLine="true"
                             android:text="6000˚K"
                             android:textColor="@color/black"
+                            android:textSize="@dimen/title_text_size"
                             android:textStyle="bold" />
                     </com.balysv.materialripple.MaterialRippleLayout>
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="@dimen/_7sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_7sdp"
-                    android:text="@string/light_intensity"
-                    android:textColor="@color/text_color" />
+                    android:paddingStart="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_8sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="@string/light_intensity"
+                        android:textColor="@color/text_color"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvPercent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="0%"
+                        android:textColor="@color/text_color"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <SeekBar
                     android:id="@+id/seekBarTemperature"
