@@ -191,18 +191,21 @@ class ThermostatViewModel(
         val topic = "${activity.sessionManager.user.projectId}/Thermo/In"
 
         val builder = AlertDialog.Builder(activity)
-        val thermostatBinding: DialogThermostatBinding by lazy { DialogThermostatBinding.inflate(activity.layoutInflater) }
-        builder.setView(thermostatBinding.root)
+        val dialogThermostat: DialogThermostatBinding by lazy { DialogThermostatBinding.inflate(activity.layoutInflater) }
+        builder.setView(dialogThermostat.root)
         val alertDialog = builder.create()
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.show()
-        thermostatBinding.viewModel = this
+
+        activity.setFontAndFontSize(dialogThermostat.root)
+
+        dialogThermostat.viewModel = this
         activity.logD("fanSpeed: $fanSpeed level:${thermostat.level}")
-        val tvCurrent = thermostatBinding.tvCurrent
-        val tvDegree = thermostatBinding.tvDegree
-        val arcSeekBar = thermostatBinding.arcSeekBar
+        val tvCurrent = dialogThermostat.tvCurrent
+        val tvDegree = dialogThermostat.tvDegree
+        val arcSeekBar = dialogThermostat.arcSeekBar
 //        val lottieAnimationView = dialogView.findViewById<LottieAnimationView>(R.id.lottieAnimationView)
-        val switchOnOff = thermostatBinding.switchOnOff
+        val switchOnOff = dialogThermostat.switchOnOff
         switchOnOff.isChecked = device.off == 1
         switchOnOff.text = if (device.off == 1) "ON" else "OFF"
         switchOnOff.setOnCheckedChangeListener { _, isChecked ->
@@ -296,11 +299,11 @@ class ThermostatViewModel(
         })
 
 
-        thermostatBinding.btnClose.setOnClickListener {
+        dialogThermostat.btnClose.setOnClickListener {
             alertDialog.dismiss()
         }
 
-        thermostatBinding.btnPlus.setOnClickListener {
+        dialogThermostat.btnPlus.setOnClickListener {
             thermostatProgress += 5
             if (thermostatProgress > 350) thermostatProgress = 350
 
@@ -312,7 +315,7 @@ class ThermostatViewModel(
             val finalValue: Double = (value).toDouble()
         }
 
-        thermostatBinding.btnMinus.setOnClickListener {
+        dialogThermostat.btnMinus.setOnClickListener {
             thermostatProgress -= 5
             if (thermostatProgress < 150) thermostatProgress = 150
 

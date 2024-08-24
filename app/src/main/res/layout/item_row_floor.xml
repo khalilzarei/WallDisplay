@@ -62,7 +62,7 @@
                         android:text="@{viewModel.building.name}"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/title_text_size"
-                        android:textStyle="bold"
+
                         tools:text="TitleTitle" />
 
                 </com.balysv.materialripple.MaterialRippleLayout>

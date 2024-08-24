@@ -48,7 +48,7 @@
                     android:text="@{`AC `+viewModel.thermostat.serviceId}"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/title_text_size"
-                    android:textStyle="bold"
+
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/curtain" />
@@ -102,7 +102,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/text_color"
                                 android:textSize="@dimen/title_text_size"
-                                android:textStyle="bold"
+
                                 tools:text="15˚c" />
 
                             <TextView
@@ -131,7 +131,7 @@
                             app:arc_thumb_mode="FILL_STROKE"
                             app:arc_thumb_radius="18dp"
                             app:arc_thumb_shadow_color="@color/text_color"
-                            app:arc_thumb_shadow_radius="10dp"
+                            app:arc_thumb_shadow_radius="12dp"
                             app:arc_thumb_width="12dp"
                             app:arc_width="30dp"
                             app:layout_constraintEnd_toEndOf="parent"

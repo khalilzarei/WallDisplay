@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <attr name="textFieldStyle" format="reference" />
+    <attr name="customAttrFontPath" format="reference|string" />
+    <attr name="fontPath" format="string" />
+
     <declare-styleable name="GaugeSeekBar">
         <attr name="startAngleDegrees" format="float" />
         <attr name="thumbRadius" format="dimension" />

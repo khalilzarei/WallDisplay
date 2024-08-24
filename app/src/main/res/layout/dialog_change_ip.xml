@@ -58,7 +58,7 @@
                             android:lines="1"
                             android:text="change ip for login and mqtt"
                             android:textColor="@color/text_color"
-                            android:textStyle="bold"
+
                             app:layout_constraintEnd_toStartOf="@+id/btnClose"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

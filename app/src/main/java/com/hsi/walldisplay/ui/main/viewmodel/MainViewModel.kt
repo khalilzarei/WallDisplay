@@ -6,12 +6,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -25,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.hsi.walldisplay.BR
 import com.hsi.walldisplay.R
+import com.hsi.walldisplay.databinding.DialogChangeNameBinding
 import com.hsi.walldisplay.databinding.DialogFloorsBinding
 import com.hsi.walldisplay.helper.BuildingClickListener
 import com.hsi.walldisplay.helper.Constants
@@ -177,6 +174,7 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
     @get:Bindable
     var sceneAdapter: SceneAdapter by Delegates.observable(
         SceneAdapter(
+            activity,
             this,
             if (activity.dataBaseDao.getBuildingScene(building.id).isNotEmpty())
                 activity.dataBaseDao.getBuildingScene(building.id) as ArrayList
@@ -260,7 +258,10 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
         alertDialog.show()
         dialogFloors.btnClose.setOnClickListener { alertDialog.dismiss() }
 
+        activity.setFontAndFontSize(dialogFloors.rvRooms)
+
         val roomMoodAdapter = BuildingAdapter(
+            activity,
             this,
             activity.dataBaseDao.buildingItems as ArrayList<Building>
         )
@@ -311,6 +312,15 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
         showLayout = ShowLayout.DEFAULT
     }
 
+    fun onSettingsClicked(view: View) {
+        showLayout = ShowLayout.SETTINGS
+
+    }
+
+    fun onLogOutClicked(view: View) {
+
+    }
+
     //endregion
 
 
@@ -330,26 +340,22 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
     }
 
     override fun onSceneTitleLongClickListener(homeScene: HomeScene?) {
+        val dialogChangeName: DialogChangeNameBinding by lazy { DialogChangeNameBinding.inflate(activity.layoutInflater) }
         val builder = AlertDialog.Builder(activity)
-        val viewGroup: ViewGroup = activity.findViewById(android.R.id.content)
-        val dialogView: View = LayoutInflater.from(activity)
-            .inflate(R.layout.dialog_change_name, viewGroup, false)
-
-        builder.setView(dialogView)
+        builder.setView(dialogChangeName.root)
         val alertDialog = builder.create()
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.setCanceledOnTouchOutside(false)
         alertDialog.show()
 
-        val tvTitle = dialogView.findViewById<TextView>(R.id.tvTitle)
-        tvTitle.text = "Change title of ${homeScene!!.name}"
-        val etBuildingName = dialogView.findViewById<EditText>(R.id.etBuildingName)
-        val btn_okay = dialogView.findViewById<View>(R.id.btnSave)
-        etBuildingName.setText(homeScene.name)
-        dialogView.findViewById<View>(R.id.btnClose)
-            .setOnClickListener { alertDialog.dismiss() }
+        activity.setFontAndFontSize(dialogChangeName.root)
 
-        btn_okay.setOnClickListener {
+        dialogChangeName.tvTitle.text = "Change title of ${homeScene!!.name}"
+        val etBuildingName = dialogChangeName.etBuildingName
+        etBuildingName.setText(homeScene.name)
+        dialogChangeName.btnClose.setOnClickListener { alertDialog.dismiss() }
+
+        dialogChangeName.btnSave.setOnClickListener {
             val buildingName: String = etBuildingName.text.toString()
             if (buildingName.isEmpty()) {
                 activity.toast("Please Enter Scene name")
@@ -389,6 +395,7 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
         this.building = building!!
         activity.sessionManager.selectedBuildingId = building.id!!
         this.sceneAdapter = SceneAdapter(
+            activity,
             this,
             if (activity.dataBaseDao.getBuildingScene(building.id).isNotEmpty())
                 activity.dataBaseDao.getBuildingScene(building.id) as ArrayList

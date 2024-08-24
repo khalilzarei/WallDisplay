@@ -3,8 +3,14 @@ package com.hsi.walldisplay.ui.main
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.CompoundButton
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.res.ResourcesCompat
+import com.hsi.walldisplay.R
 import com.hsi.walldisplay.application.BaseActivity
 import com.hsi.walldisplay.databinding.ActivityMainBinding
+import com.hsi.walldisplay.helper.SessionManager
 import com.hsi.walldisplay.mqtt.MqttHelper
 import com.hsi.walldisplay.mqtt.MqttInterFace
 import com.hsi.walldisplay.ui.main.viewmodel.MainViewModel
@@ -16,7 +22,7 @@ class MainActivity : BaseActivity(), MqttInterFace {
 
     val TAG = "MainActivity"
     val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-     val viewModel: MainViewModel by lazy { MainViewModel(this) }
+    val viewModel: MainViewModel by lazy { MainViewModel(this) }
     private val mqttHelper by lazy { MqttHelper(this, this) }
     //endregion
 
@@ -24,14 +30,117 @@ class MainActivity : BaseActivity(), MqttInterFace {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.viewModel = viewModel
+        calligrapher.setFont(this, "fonts/${SessionManager.font}", true)
         logD("user.image: ${sessionManager.user.image}")
         logD("buildingItems ${dataBaseDao.buildingItems}")
         Handler(Looper.getMainLooper()).postDelayed({
             if (!mqttHelper.isConnected()) mqttHelper.connect()
 
         }, 500)
-//
 
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            binding.mainLayoutSettings.switchCompat.isChecked = true
+        binding.mainLayoutSettings.switchCompat.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+            sessionManager.isNightModeOn = isChecked
+            setTypeFaces()
+        }
+
+        binding.mainLayoutSettings.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.rbAmsterdam -> SessionManager.font = "amsterdam.ttf"
+                R.id.rbRobotoBold -> SessionManager.font = "roboto_bold.ttf"
+                R.id.rbRobotoMedium -> SessionManager.font = "roboto_medium.ttf"
+                R.id.rbAnekBold -> SessionManager.font = "anek_bold.ttf"
+                R.id.rbAnekMedium -> SessionManager.font = "anek_medium.ttf"
+                R.id.rbAnekThin -> SessionManager.font = "anek_thin.ttf"
+                R.id.rbNotoBold -> SessionManager.font = "noto_bold.ttf"
+                R.id.rbNotoMedium -> SessionManager.font = "noto_medium.ttf"
+                R.id.rbNotoThin -> SessionManager.font = "noto_thin.ttf"
+                R.id.rbSairaBold -> SessionManager.font = "saira_bold.ttf"
+                R.id.rbSairaMedium -> SessionManager.font = "saira_medium.ttf"
+                R.id.rbSairaThin -> SessionManager.font = "saira_thin.ttf"
+                R.id.rbSansBold -> SessionManager.font = "sans_bold.ttf"
+                R.id.rbSansThin -> SessionManager.font = "sans_thin.ttf"
+                else -> SessionManager.font = "roboto_thin.ttf"
+
+            }
+            setTypeFaces()
+        }
+
+        //smaller
+        binding.mainLayoutSettings.btnZoomIn.setOnClickListener {
+            if (SessionManager.fontSize < 36f) {
+                SessionManager.fontSize += 4f
+
+                setTypeFaces()
+                logD("fontSize btnZoomIn: ${SessionManager.fontSize}")
+            }
+        }
+
+        //bigger
+        binding.mainLayoutSettings.btnZoomOut.setOnClickListener {
+            if (SessionManager.fontSize > 16f) {
+                SessionManager.fontSize -= 4f
+
+                setTypeFaces()
+                logD("fontSize btnZoomOut: ${SessionManager.fontSize}")
+            }
+        }
+
+        setTypeFaces()
+    }
+
+
+    private fun setTypeFaces() {
+        setFontAndFontSize()
+        setFont(binding.mainLayoutSettings.rbAmsterdam, R.font.amsterdam)
+        setFont(binding.mainLayoutSettings.rbRobotoBold, R.font.roboto_bold)
+        setFont(binding.mainLayoutSettings.rbRobotoMedium, R.font.roboto_medium)
+        setFont(binding.mainLayoutSettings.rbRobotoThin, R.font.roboto_thin)
+        setFont(binding.mainLayoutSettings.rbAnekBold, R.font.anek_bold)
+        setFont(binding.mainLayoutSettings.rbAnekMedium, R.font.anek_medium)
+        setFont(binding.mainLayoutSettings.rbAnekThin, R.font.anek_thin)
+        setFont(binding.mainLayoutSettings.rbNotoBold, R.font.noto_bold)
+        setFont(binding.mainLayoutSettings.rbNotoMedium, R.font.noto_medium)
+        setFont(binding.mainLayoutSettings.rbNotoThin, R.font.noto_thin)
+        setFont(binding.mainLayoutSettings.rbSairaBold, R.font.saira_bold)
+        setFont(binding.mainLayoutSettings.rbSairaMedium, R.font.saira_medium)
+        setFont(binding.mainLayoutSettings.rbSairaThin, R.font.saira_thin)
+        setFont(binding.mainLayoutSettings.rbSansBold, R.font.sans_bold)
+        setFont(binding.mainLayoutSettings.rbSansThin, R.font.sans_thin)
+
+        selectedFont()
+
+    }
+
+    private fun selectedFont() {
+        when (SessionManager.font) {
+            "amsterdam.ttf" -> binding.mainLayoutSettings.rbAmsterdam.isChecked = true
+            "roboto_bold.ttf" -> binding.mainLayoutSettings.rbRobotoBold.isChecked = true
+            "roboto_medium.ttf" -> binding.mainLayoutSettings.rbRobotoMedium.isChecked = true
+            "roboto_thin.ttf" -> binding.mainLayoutSettings.rbRobotoThin.isChecked = true
+            "anek_bold.ttf" -> binding.mainLayoutSettings.rbAnekBold.isChecked = true
+            "anek_medium.ttf" -> binding.mainLayoutSettings.rbAnekMedium.isChecked = true
+            "anek_thin.ttf" -> binding.mainLayoutSettings.rbAnekThin.isChecked = true
+            "noto_bold.ttf" -> binding.mainLayoutSettings.rbNotoBold.isChecked = true
+            "noto_medium.ttf" -> binding.mainLayoutSettings.rbNotoMedium.isChecked = true
+            "noto_thin.ttf" -> binding.mainLayoutSettings.rbNotoThin.isChecked = true
+            "saira_bold.ttf" -> binding.mainLayoutSettings.rbSairaBold.isChecked = true
+            "saira_medium.ttf" -> binding.mainLayoutSettings.rbSairaMedium.isChecked = true
+            "saira_thin.ttf" -> binding.mainLayoutSettings.rbSairaThin.isChecked = true
+            "sans_bold.ttf" -> binding.mainLayoutSettings.rbSansBold.isChecked = true
+            "sans_thin.ttf" -> binding.mainLayoutSettings.rbSansThin.isChecked = true
+        }
+    }
+
+    private fun setFont(textView: TextView, fontId: Int) {
+        val typeface = ResourcesCompat.getFont(activity, fontId)
+        textView.typeface = typeface
+    }
+
+    private fun setResultFont(fontId: Int) {
+        val typeface = ResourcesCompat.getFont(activity, fontId)
+        binding.mainLayoutSettings.tvResult.typeface = typeface
     }
 
     ////region MQTT
@@ -57,6 +166,7 @@ class MainActivity : BaseActivity(), MqttInterFace {
     }
 
     //endregion
+
 
     override fun onBackPressed() {
 

@@ -10,9 +10,11 @@ import com.hsi.walldisplay.R
 import com.hsi.walldisplay.databinding.SceneItem
 import com.hsi.walldisplay.helper.SceneClickListener
 import com.hsi.walldisplay.model.HomeScene
+import com.hsi.walldisplay.ui.main.MainActivity
 import com.hsi.walldisplay.ui.main.viewmodel.SceneViewModel
 
 class SceneAdapter(
+    val activity: MainActivity,
     var sceneClickListener: SceneClickListener?,
     val homeScenes: ArrayList<HomeScene>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -28,6 +30,8 @@ class SceneAdapter(
         }
         val itemRow = DataBindingUtil
             .inflate<SceneItem>(layoutInflater!!, R.layout.item_row_scene, parent, false)
+
+        activity.setFontAndFontSize(itemRow.root)
         return ViewHolder(itemRow)
     }
 

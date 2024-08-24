@@ -14,12 +14,8 @@ import android.os.Handler
 import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.Window
 import android.view.WindowManager
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -33,10 +29,9 @@ import com.google.gson.GsonBuilder
 import com.hsi.walldisplay.R
 import com.hsi.walldisplay.db.AppDatabase
 import com.hsi.walldisplay.db.DataBaseDao
-import com.hsi.walldisplay.helper.Constants
+import com.hsi.walldisplay.helper.Calligrapher
 import com.hsi.walldisplay.helper.Constants.API_URL
 import com.hsi.walldisplay.helper.SessionManager
-import com.hsi.walldisplay.model.User
 import com.thecode.aestheticdialogs.AestheticDialog
 import com.thecode.aestheticdialogs.DialogStyle
 import com.thecode.aestheticdialogs.DialogType
@@ -53,6 +48,7 @@ abstract class BaseActivity : AppCompatActivity() {
     private var TAG: String? = null
 
     var view: View? = null
+
 
     //    lateinit var user: User
     val url: String by lazy { "${SessionManager.localJobIp}${API_URL}" }
@@ -88,6 +84,8 @@ abstract class BaseActivity : AppCompatActivity() {
         }, 2000)
     }
 
+    val calligrapher: Calligrapher by lazy { Calligrapher(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTag(BaseActivity::class.java.simpleName)
@@ -111,7 +109,18 @@ abstract class BaseActivity : AppCompatActivity() {
 //        else User()
 
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        setFontAndFontSize()
 
+    }
+
+    fun setFontAndFontSize() {
+        calligrapher.setFont(this, "fonts/${SessionManager.font}", true)
+        calligrapher.setFontSize(this, SessionManager.fontSize, true)
+    }
+
+    fun setFontAndFontSize(view: View) {
+        calligrapher.setFont(view, "fonts/${SessionManager.font}")
+        calligrapher.setFontSize(view)
     }
 
     fun downloadFile(
@@ -276,14 +285,14 @@ abstract class BaseActivity : AppCompatActivity() {
         return when {
             // Indicates this network uses a Wi-Fi transport,
             // or WiFi has network connectivity
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)     -> true
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
 
             // Indicates this network uses a Cellular transport. or
             // Cellular has network connectivity
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
 
             // else return false
-            else                                                               -> false
+            else -> false
         }
     }
 

@@ -41,8 +41,7 @@
                     android:layout_margin="@dimen/_10sdp"
                     android:layout_weight="1"
                     android:text="Downloading data please wait ..."
-                    android:textColor="@color/text_color"
-                    android:textStyle="bold" />
+                    android:textColor="@color/text_color" />
 
                 <ProgressBar
                     android:layout_width="match_parent"

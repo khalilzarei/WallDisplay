@@ -185,6 +185,18 @@ class SessionManager @SuppressLint("CommitPrefEdits") constructor(var context: C
                 editor.putString(KEY_LOCAL_JOB_IP, rgbwMasterID)
                 editor.commit()
             }
+        var font: String?
+            get() = pref.getString(KEY_FONT, "roboto_thin.ttf")
+            set(rgbwMasterID) {
+                editor.putString(KEY_FONT, rgbwMasterID)
+                editor.commit()
+            }
+        var fontSize: Float
+            get() = pref.getFloat(KEY_FONT_SIZE, 16f)
+            set(rgbwMasterID) {
+                editor.putFloat(KEY_FONT_SIZE, rgbwMasterID)
+                editor.commit()
+            }
         var mqttIP: String?
             get() = pref.getString(KEY_MQTT_IP, Constants.MQTT_SERVER_URI)
             set(rgbwMasterID) {

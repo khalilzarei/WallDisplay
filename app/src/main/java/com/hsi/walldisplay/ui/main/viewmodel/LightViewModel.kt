@@ -2,19 +2,15 @@ package com.hsi.walldisplay.ui.main.viewmodel
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.hsi.walldisplay.BR
-import com.hsi.walldisplay.R
 import com.hsi.walldisplay.databinding.DialogCctBinding
+import com.hsi.walldisplay.databinding.DialogChangeNameBinding
 import com.hsi.walldisplay.databinding.DialogDimBinding
 import com.hsi.walldisplay.databinding.DialogRgbwBinding
 import com.hsi.walldisplay.helper.Constants
@@ -77,25 +73,23 @@ class LightViewModel(
     //region changeTitle
 
     fun changeTitle(view: View): Boolean {
+        val dialogChangeName: DialogChangeNameBinding by lazy { DialogChangeNameBinding.inflate(activity.layoutInflater) }
         val builder = AlertDialog.Builder(activity)
-        val viewGroup: ViewGroup = activity.findViewById(android.R.id.content)
-        val dialogView: View = LayoutInflater.from(activity)
-            .inflate(R.layout.dialog_change_name, viewGroup, false)
-
-        builder.setView(dialogView)
+        builder.setView(dialogChangeName.root)
         val alertDialog = builder.create()
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.setCanceledOnTouchOutside(false)
         alertDialog.show()
 
-        val tvTitle = dialogView.findViewById<TextView>(R.id.tvTitle)
-        tvTitle.text = "Change title of ${device!!.name}"
-        val etBuildingName = dialogView.findViewById<EditText>(R.id.etBuildingName)
-        etBuildingName.setText(device.name)
-        dialogView.findViewById<View>(R.id.btnClose)
-            .setOnClickListener { alertDialog.dismiss() }
+        activity.setFontAndFontSize(dialogChangeName.root)
 
-        dialogView.findViewById<View>(R.id.btnSave).setOnClickListener {
+        dialogChangeName.tvTitle.text = "Change title of ${device!!.name}"
+        val etBuildingName = dialogChangeName.etBuildingName
+        etBuildingName.setText(device.name)
+
+        dialogChangeName.btnClose.setOnClickListener { alertDialog.dismiss() }
+
+        dialogChangeName.btnSave.setOnClickListener {
             val name: String = etBuildingName.text.toString()
             if (name.isEmpty()) {
                 activity.toast("Please Enter name")
@@ -122,22 +116,23 @@ class LightViewModel(
         else dimToPercent(device.value!!.toInt())
 
         val builder = AlertDialog.Builder(activity)
-        val dialogDimBinding: DialogDimBinding by lazy { DialogDimBinding.inflate(activity.layoutInflater) }
-        builder.setView(dialogDimBinding.root)
+        val dialogDim: DialogDimBinding by lazy { DialogDimBinding.inflate(activity.layoutInflater) }
+        builder.setView(dialogDim.root)
         val alertDialog = builder.create()
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.show()
 
+        activity.setFontAndFontSize(dialogDim.root)
 
-        dialogDimBinding.tvTitle.text = device.name
-        val tvSeekResult = dialogDimBinding.tvSeekResult
+        dialogDim.tvTitle.text = device.name
+        val tvSeekResult = dialogDim.tvSeekResult
 //        val seekBar = dialogDimBinding.seekBar
 //        seekBar.thumb = null
 //        seekBar.progress = d
         tvSeekResult.text = "$d%"
 //        tvSeekResult.visibility = View.GONE
 
-        val arcSeekBar = dialogDimBinding.arcSeekBar
+        val arcSeekBar = dialogDim.arcSeekBar
         arcSeekBar.progress = d
         arcSeekBar.setOnProgressChangeListener(object : ArcSeekBar.OnProgressChangeListener {
             override fun onProgressChanged(seekBar: ArcSeekBar?, progress: Int, isUser: Boolean) {
@@ -155,27 +150,27 @@ class LightViewModel(
         })
 
 
-        dialogDimBinding.btn25.setOnClickListener {
+        dialogDim.btn25.setOnClickListener {
             arcSeekBar.progress = 1
             sendDimMessage(device, 1, false)
         }
 
-        dialogDimBinding.btn50.setOnClickListener {
+        dialogDim.btn50.setOnClickListener {
             arcSeekBar.progress = 50
             sendDimMessage(device, 50, false)
         }
 
-        dialogDimBinding.btn75.setOnClickListener {
+        dialogDim.btn75.setOnClickListener {
             arcSeekBar.progress = 75
             sendDimMessage(device, 75, false)
         }
 
-        dialogDimBinding.btn100.setOnClickListener {
+        dialogDim.btn100.setOnClickListener {
             arcSeekBar.progress = 100
             sendDimMessage(device, 100, false)
         }
 
-        dialogDimBinding.btnClose.setOnClickListener { view: View? ->
+        dialogDim.btnClose.setOnClickListener { view: View? ->
             SessionManager.queryLongTouchID = -1
             SessionManager.queryLongTouchMaster = -1
             alertDialog.dismiss()
@@ -251,19 +246,21 @@ class LightViewModel(
         }
 
         val builder = AlertDialog.Builder(activity)
-        val binding: DialogCctBinding by lazy { DialogCctBinding.inflate(activity.layoutInflater) }
-        builder.setView(binding.root)
+        val dialogCct: DialogCctBinding by lazy { DialogCctBinding.inflate(activity.layoutInflater) }
+        builder.setView(dialogCct.root)
         val alertDialog = builder.create()
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.show()
 
-        binding.tvTitle.text = device.name
+        activity.setFontAndFontSize(dialogCct.root)
 
-        val seekBarTemperature: SeekBar = binding.seekBarTemperature
+        dialogCct.tvTitle.text = device.name
+
+        val seekBarTemperature: SeekBar = dialogCct.seekBarTemperature
 
         seekBarTemperature.max = 254
 
-        binding.tvPercent.text = "${dimToPercent(valueTemperature)}%"
+        dialogCct.tvPercent.text = "${dimToPercent(valueTemperature)}%"
         seekBarTemperature.progress = valueTemperature
         seekBarTemperature.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(
@@ -273,10 +270,10 @@ class LightViewModel(
             ) {
                 val dim = seekBar!!.progress
                 if (dim in 0..254) {
-                    binding.tvPercent.text = "${dimToPercent(dim)}%"
-                    binding.tvPercent.visibility = View.VISIBLE
+                    dialogCct.tvPercent.text = "${dimToPercent(dim)}%"
+                    dialogCct.tvPercent.visibility = View.VISIBLE
                 } else
-                    binding.tvPercent.visibility = View.GONE
+                    dialogCct.tvPercent.visibility = View.GONE
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -294,9 +291,9 @@ class LightViewModel(
             }
         })
 
-        binding.arcSeekBar.progress = valueControl
+        dialogCct.arcSeekBar.progress = valueControl
 
-        binding.arcSeekBar.setOnProgressChangeListener(object : ArcSeekBar.OnProgressChangeListener {
+        dialogCct.arcSeekBar.setOnProgressChangeListener(object : ArcSeekBar.OnProgressChangeListener {
             override fun onProgressChanged(seekBar: ArcSeekBar?, progress: Int, isUser: Boolean) {
 //                binding.tvSeekResult.text = "${150 + abs(500 - progress)}"
             }
@@ -318,12 +315,12 @@ class LightViewModel(
         })
 
 
-        binding.btnClose.setOnClickListener { view: View? ->
+        dialogCct.btnClose.setOnClickListener { view: View? ->
             alertDialog.dismiss()
         }
 
 
-        binding.btn35.setOnClickListener {
+        dialogCct.btn35.setOnClickListener {
             /*
                 500     100
                 415     x
@@ -331,34 +328,34 @@ class LightViewModel(
                 x = 415 * 100 / 500
              */
             val dim = 415
-            binding.arcSeekBar.progress = 150 + abs(500 - dim)
+            dialogCct.arcSeekBar.progress = 150 + abs(500 - dim)
             val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"$addr\r\n\":\"$idLi\r\n\"}"
             device.value = "$dim,$valueTemperature"
             activity.dataBaseDao.updateBuildingService(device)
             activity.publishMessage(topic, message)
         }
 
-        binding.btn40.setOnClickListener {
+        dialogCct.btn40.setOnClickListener {
             val dim = 362
-            binding.arcSeekBar.progress = 150 + abs(500 - dim)
+            dialogCct.arcSeekBar.progress = 150 + abs(500 - dim)
             val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"$addr\r\n\":\"$idLi\r\n\"}"
             device.value = "$dim,$valueTemperature"
             activity.dataBaseDao.updateBuildingService(device)
             activity.publishMessage(topic, message)
         }
 
-        binding.btn50.setOnClickListener {
+        dialogCct.btn50.setOnClickListener {
             val dim = 256
-            binding.arcSeekBar.progress = 150 + abs(500 - dim)
+            dialogCct.arcSeekBar.progress = 150 + abs(500 - dim)
             val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"$addr\r\n\":\"$idLi\r\n\"}"
             device.value = "$dim,$valueTemperature"
             activity.dataBaseDao.updateBuildingService(device)
             activity.publishMessage(topic, message)
         }
 
-        binding.btn60.setOnClickListener {
+        dialogCct.btn60.setOnClickListener {
             val dim = 150
-            binding.arcSeekBar.progress = 150 + abs(500 - dim)
+            dialogCct.arcSeekBar.progress = 150 + abs(500 - dim)
             val message = "{\"SET_TEMPORARY_COLOUR_TEMPERATURE_TC\r\n\":\"$dim\r\n\",\"$addr\r\n\":\"$idLi\r\n\"}"
             device.value = "$dim,$valueTemperature"
             activity.dataBaseDao.updateBuildingService(device)
@@ -386,6 +383,7 @@ class LightViewModel(
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.show()
 
+        activity.setFontAndFontSize(dialogRgbw.root)
 
         val lightId = if (device.groupId != null) device.groupId!!
         else {
@@ -395,7 +393,7 @@ class LightViewModel(
         val address: String = if (device.groupId == null) "SHORT_ADDRESS"
         else
             "GROUP_ADDRESS"
-
+        dialogRgbw.tvTitle.text = device.name
         val colorPickerView = dialogRgbw.colorPickerView
         val cardViewColor = dialogRgbw.cardViewColor
         val btnSetColor = dialogRgbw.btnSetColor

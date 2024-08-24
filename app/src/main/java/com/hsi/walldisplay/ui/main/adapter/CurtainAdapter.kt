@@ -27,6 +27,8 @@ class CurtainAdapter(
         val itemRow = DataBindingUtil.inflate<CurtainItem>(
             LayoutInflater.from(parent.context), R.layout.item_row_curtain, parent, false
         )
+
+        activity.setFontAndFontSize(itemRow.root)
         return ViewHolder(itemRow)
     }
 

@@ -1,11 +1,18 @@
 package com.hsi.walldisplay.application
 
+
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.hsi.walldisplay.helper.SessionManager
 
+
 class App : Application() {
 
+    companion object {
+//        @JvmStatic
+//        var instance: App? = null
+//            private set
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -15,18 +22,17 @@ class App : Application() {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
+//        ViewPump.init(ViewPump.builder()
+//            .addInterceptor(CalligraphyInterceptor(
+//                CalligraphyConfig.Builder()
+//                    .setDefaultFontPath("fonts/${SessionManager.font}")
+//                    .setFontAttrId(R.attr.fontPath)
+//                    .setFontMapper { font -> font }
+//                    .addCustomViewWithSetTypeface(CustomViewWithTypefaceSupport::class.java)
+//                    .addCustomStyle(TextField::class.java, R.attr.textFieldStyle)
+//                    .build()))
+//            .build())
 
-//                TypefaceUtil.overrideFont(this, "fonts/" + SessionManager.getFont() + ".TTF");
-//                ViewPump.init(
-//                        ViewPump.builder()
-//                                .addInterceptor(
-//                                        new CalligraphyInterceptor(
-//                                                new CalligraphyConfig.Builder()
-//                                                        .setDefaultFontPath("fonts/" + SessionManager.getFont() + ".TTF")
-//                                                        .setFontAttrId(R.attr.fontPath)
-//                                                        .build()
-//                                        )
-//                                ).build());
     }
 
 }

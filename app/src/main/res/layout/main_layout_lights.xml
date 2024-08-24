@@ -71,7 +71,7 @@
                 android:text="@string/lights"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/title_text_size"
-                android:textStyle="bold"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -143,8 +143,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/title_text_size"
                             android:text="@string/adjust_the_lights"
-                            android:textColor="@color/text_color"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color" />
                     </LinearLayout>
                 </com.balysv.materialripple.MaterialRippleLayout>
 
@@ -186,8 +185,7 @@
                             android:padding="@dimen/_5sdp"
                             android:textSize="@dimen/title_text_size"
                             android:text="@string/select_the_scene"
-                            android:textColor="@color/text_color"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color" />
                     </LinearLayout>
                 </com.balysv.materialripple.MaterialRippleLayout>
 

@@ -90,4 +90,7 @@
     <string name="enter_local_ip">Enter Local IP</string>
     <string name="enter_mqtt_ip">Enter MQTT IP</string>
     <string name="white_intensity">White Intensity</string>
+    <string name="settings">Settings</string>
+    <string name="test_text">This is test text for font</string>
+    <string name="dark_mode">Dark Mode</string>
 </resources>

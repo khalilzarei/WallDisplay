@@ -211,7 +211,7 @@ enum class DeviceClicked {
 }
 
 enum class ShowLayout {
-    DEFAULT, DALIS, DALIS_LIST, AIR_CONDITION, CURTAIN, SCENE
+    DEFAULT, DALIS, DALIS_LIST, AIR_CONDITION, CURTAIN, SCENE, SETTINGS
 }
 
 //'dali_light','rgb','cct','curtain','relay'

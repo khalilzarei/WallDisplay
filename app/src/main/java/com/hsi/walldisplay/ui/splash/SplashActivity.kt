@@ -3,17 +3,18 @@ package com.hsi.walldisplay.ui.splash
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import com.hsi.walldisplay.ui.main.MainActivity
 import com.hsi.walldisplay.application.BaseActivity
 import com.hsi.walldisplay.ui.login.LoginActivity
+import com.hsi.walldisplay.ui.main.MainActivity
 
 class SplashActivity : BaseActivity() {
 
 
     @SuppressLint("HardwareIds")
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         log("O")
+        setFontAndFontSize()
         openActivity()
     }
 

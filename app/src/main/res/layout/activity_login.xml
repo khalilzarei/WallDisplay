@@ -53,8 +53,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/welcome_back"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                    android:textColor="@color/text_color"
-                    android:textStyle="bold" />
+                    android:textColor="@color/text_color" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -89,8 +88,7 @@
                         android:text="@string/email"
                         android:textAlignment="textStart"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@color/text_color"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color" />
 
                     <EditText
                         android:id="@+id/etEmail"
@@ -115,8 +113,7 @@
                         android:text="@string/password"
                         android:textAlignment="textStart"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@color/text_color"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color" />
 
                     <EditText
                         android:id="@+id/etPassword"
@@ -155,7 +152,7 @@
                                 android:text="@string/sign_in"
                                 android:textSize="@dimen/title_text_size"
                                 android:textColor="@color/background"
-                                android:textStyle="bold"
+
                                 app:backgroundTint="@null" />
 
 

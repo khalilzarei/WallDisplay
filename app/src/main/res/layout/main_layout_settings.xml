@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <import type="com.hsi.walldisplay.model.ShowLayout" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.hsi.walldisplay.ui.main.viewmodel.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_layout"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="@{viewModel.showLayout == ShowLayout.SETTINGS ? View.VISIBLE:View.GONE}"
+        tools:showIn="@layout/activity_main">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{viewModel::onBackClicked}"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_back" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/btnHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{viewModel::onHomeClicked}"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnBack"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_home" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings"
+                android:textSize="@dimen/title_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:weightSum="4"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/btnZoomIn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_zoom_in" />
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/btnZoomOut"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_zoom_out" />
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:textColor="@color/text_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutTop">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchCompat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/dark_mode"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:switchPadding="@dimen/_10sdp" />
+
+            <TextView
+                android:id="@+id/tvResult"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/test_text"
+                android:textColor="@color/text_color"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutTest">
+
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rbAmsterdam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/amsterdam"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbAnekBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/anek_bold"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbAnekMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/anek_medium"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbAnekThin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/anek_thin"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbNotoBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/noto_bold"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbNotoMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/noto_medium"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbNotoThin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/noto_thin"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+
+                <RadioButton
+                    android:id="@+id/rbRobotoBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbRobotoMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbRobotoThin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/roboto_thin"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbSairaBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/saira_bold"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbSairaMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/saira_medium"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbSairaThin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/saira_thin"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbSansBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/sans_bold"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbSansThin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_18sdp"
+                    android:fontFamily="@font/sans_thin"
+                    android:text="@string/test_text"
+                    android:textColor="@color/text_color" />
+
+
+            </RadioGroup>
+        </ScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

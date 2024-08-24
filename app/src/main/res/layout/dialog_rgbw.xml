@@ -8,9 +8,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="460dp"
         android:layout_height="460dp"
-        android:minHeight="460dp"
-        android:minWidth="460dp"
         android:layout_margin="@dimen/_10sdp"
+        android:minWidth="460dp"
+        android:minHeight="460dp"
         app:cardBackgroundColor="@color/background"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="@dimen/_10sdp"
@@ -28,8 +28,8 @@
                 android:id="@+id/btnClose"
                 style="@style/RippleStyleWhite"
                 android:layout_width="wrap_content"
-                android:elevation="@dimen/_1sdp"
                 android:layout_height="wrap_content"
+                android:elevation="@dimen/_1sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -61,6 +61,17 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+                        <TextView
+                            android:id="@+id/tvTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:text="@string/curtain"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/title_text_size"
+
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <com.flask.colorpicker.ColorPickerView
                             android:id="@+id/colorPickerView"
@@ -138,6 +149,7 @@
                                     android:padding="10dp"
                                     android:text="@string/save"
                                     android:textColor="@color/background"
+                                    android:textSize="@dimen/title_text_size"
                                     app:tint="@color/text_color" />
                             </com.balysv.materialripple.MaterialRippleLayout>
 

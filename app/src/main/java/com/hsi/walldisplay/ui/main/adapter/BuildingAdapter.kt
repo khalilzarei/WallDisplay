@@ -6,13 +6,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hsi.walldisplay.R
+import com.hsi.walldisplay.application.BaseActivity
 import com.hsi.walldisplay.databinding.RoomMoodItem
 import com.hsi.walldisplay.helper.BuildingClickListener
 import com.hsi.walldisplay.helper.ItemAnimation
 import com.hsi.walldisplay.model.Building
 import com.hsi.walldisplay.ui.main.viewmodel.RoomViewModel
 
-class BuildingAdapter(private var buildingClickListener: BuildingClickListener?, private val rooms: ArrayList<Building>) :
+class BuildingAdapter(
+    val activity: BaseActivity,
+    private var buildingClickListener: BuildingClickListener?,
+    private val rooms: ArrayList<Building>
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
@@ -29,6 +34,8 @@ class BuildingAdapter(private var buildingClickListener: BuildingClickListener?,
         }
         val itemRow = DataBindingUtil
             .inflate<RoomMoodItem>(layoutInflater!!, R.layout.item_row_floor, parent, false)
+
+        activity.setFontAndFontSize(itemRow.root)
 
         return ViewHolder(itemRow)
     }

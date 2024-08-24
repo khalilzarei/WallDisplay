@@ -1,7 +1,6 @@
 package com.hsi.walldisplay.ui.main.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +9,6 @@ import com.hsi.walldisplay.databinding.ThermostatItem
 import com.hsi.walldisplay.model.BuildingService
 import com.hsi.walldisplay.ui.main.MainActivity
 import com.hsi.walldisplay.ui.main.viewmodel.ThermostatViewModel
-import com.hsi.walldisplay.view.ArcSeekBar
 
 
 class ThermostatAdapter(
@@ -26,6 +24,7 @@ class ThermostatAdapter(
         val itemRow = DataBindingUtil.inflate<ThermostatItem>(
             LayoutInflater.from(parent.context), R.layout.item_row_thermostat, parent, false
         )
+        activity.setFontAndFontSize(itemRow.root)
         return ViewHolder(itemRow)
     }
 

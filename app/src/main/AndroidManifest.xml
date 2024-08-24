@@ -19,6 +19,7 @@
         tools:ignore="ProtectedPermissions" />
 
     <application
+        android:name=".application.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -48,8 +49,8 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            android:theme="@style/Base.Theme.WallDisplay" />
+            android:theme="@style/Base.Theme.WallDisplay"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <!-- Mqtt Service -->
         <!--        <service-->

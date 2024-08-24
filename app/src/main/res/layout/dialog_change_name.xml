@@ -48,7 +48,7 @@
                         android:lines="1"
                         android:text="change title of Testchan ge title of Test"
                         android:textColor="@color/text_color"
-                        android:textStyle="bold"
+
                         app:layout_constraintEnd_toStartOf="@+id/btnClose"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -93,7 +93,7 @@
                     android:text="@string/save"
                     android:textColor="@color/background"
                     android:textSize="18sp"
-                    android:textStyle="bold"
+
                     app:backgroundTint="@null" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

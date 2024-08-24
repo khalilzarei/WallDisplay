@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -10,11 +9,17 @@
             type="com.hsi.walldisplay.ui.main.viewmodel.MainViewModel" />
     </data>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/rounded_layout"
         android:orientation="vertical">
+
+        <include
+            android:id="@+id/mainLayoutSettings"
+            layout="@layout/main_layout_settings"
+            app:viewModel="@{viewModel}" />
 
         <include
             android:id="@+id/mainLayoutMain"

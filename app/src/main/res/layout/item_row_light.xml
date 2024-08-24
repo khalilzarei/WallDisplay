@@ -25,10 +25,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
+            android:minHeight="?actionBarSize"
             android:paddingStart="@dimen/_5sdp"
             android:paddingTop="@dimen/_3sdp"
-            android:paddingEnd="@dimen/_5sdp"
-            android:paddingBottom="@dimen/_3sdp">
+            android:paddingEnd="@dimen/_5sdp">
 
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -57,33 +57,32 @@
                         android:gravity="center_vertical"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/title_text_size"
-                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Curtain 1" />
 
 
-                    <ImageView
-                        android:id="@+id/btnDelete"
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:scaleType="fitXY"
-                        android:src="@{viewModel.layoutSeekBarVisibility?@drawable/ic_arrow_up:@drawable/ic_arrow_down}"
-                        android:textColor="@color/text_color"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.5"
-                        tools:src="@drawable/ic_arrow_up" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.balysv.materialripple.MaterialRippleLayout>
 
+
+            <ImageView
+                android:id="@+id/btnDelete"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@{viewModel.layoutSeekBarVisibility?@drawable/ic_arrow_up:@drawable/ic_arrow_down}"
+                android:textColor="@color/text_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                tools:src="@drawable/ic_arrow_up" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchOffOn"
@@ -112,29 +111,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/layoutSeekBar"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:orientation="vertical"-->
-        <!--            android:visibility="@{viewModel.layoutSeekBarVisibility?View.VISIBLE:View.GONE}"-->
-        <!--            tools:visibility="visible">-->
-
-        <!--            <include-->
-        <!--                android:id="@+id/lightLayoutDali"-->
-        <!--                layout="@layout/light_layout_dali"-->
-        <!--                app:viewModel="@{viewModel}" />-->
-
-        <!--            <include-->
-        <!--                android:id="@+id/lightLayoutCct"-->
-        <!--                layout="@layout/light_layout_cct"-->
-        <!--                app:viewModel="@{viewModel}" />-->
-
-        <!--            <include-->
-        <!--                android:id="@+id/lightLayoutRgbw"-->
-        <!--                app:viewModel="@{viewModel}"-->
-        <!--                layout="@layout/light_layout_rgbw" />-->
-        <!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
