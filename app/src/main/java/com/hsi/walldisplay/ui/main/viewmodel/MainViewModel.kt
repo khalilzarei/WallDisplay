@@ -7,7 +7,10 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.ToggleButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -26,6 +29,7 @@ import com.hsi.walldisplay.databinding.DialogFloorsBinding
 import com.hsi.walldisplay.helper.BuildingClickListener
 import com.hsi.walldisplay.helper.Constants
 import com.hsi.walldisplay.helper.SceneClickListener
+import com.hsi.walldisplay.helper.SessionManager
 import com.hsi.walldisplay.model.Building
 import com.hsi.walldisplay.model.BuildingService
 import com.hsi.walldisplay.model.DeviceType
@@ -33,7 +37,9 @@ import com.hsi.walldisplay.model.HomeScene
 import com.hsi.walldisplay.model.ShowLayout
 import com.hsi.walldisplay.ui.main.MainActivity
 import com.hsi.walldisplay.ui.main.adapter.BuildingAdapter
+import com.hsi.walldisplay.ui.main.adapter.CityAdapter
 import com.hsi.walldisplay.ui.main.adapter.CurtainAdapter
+import com.hsi.walldisplay.ui.main.adapter.FontAdapter
 import com.hsi.walldisplay.ui.main.adapter.LightAdapter
 import com.hsi.walldisplay.ui.main.adapter.SceneAdapter
 import com.hsi.walldisplay.ui.main.adapter.ThermostatAdapter
@@ -143,6 +149,54 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
 
         }
 
+        @JvmStatic
+        @BindingAdapter("setFontAdapter")
+        fun setFontAdapter(
+            spinner: Spinner,
+            adapter: FontAdapter?
+        ) {
+            val activity = spinner.context as MainActivity
+            spinner.adapter = adapter
+            spinner.onItemSelectedListener = object : OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    val item = adapter!!.getItem(position)
+                    SessionManager.font = item!!.font!!
+                    activity.setTypeFaces()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+
+            }
+
+
+        }
+
+        @JvmStatic
+        @BindingAdapter("setCityAdapter")
+        fun setCityAdapter(
+            spinner: Spinner,
+            adapter: CityAdapter?
+        ) {
+            val activity = spinner.context as MainActivity
+            spinner.adapter = adapter
+            spinner.onItemSelectedListener = object : OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    val item = adapter!!.getItem(position)
+                    SessionManager.city = "${item.name},${item.country}"
+                    activity.viewModel.cityName = "${item.name},${item.country}"
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+
+            }
+
+
+        }
+
     }
 
     //endregion
@@ -169,6 +223,26 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
         )
     ) { _, _, _ ->
         notifyPropertyChanged(BR.curtainAdapter)
+    }
+
+    @get:Bindable
+    var fontAdapter: FontAdapter by Delegates.observable(
+        FontAdapter(
+            activity,
+            activity.getFontList()
+        )
+    ) { _, _, _ ->
+        notifyPropertyChanged(BR.fontAdapter)
+    }
+
+    @get:Bindable
+    var cityAdapter: CityAdapter by Delegates.observable(
+        CityAdapter(
+            activity,
+            activity.getCityList()
+        )
+    ) { _, _, _ ->
+        notifyPropertyChanged(BR.cityAdapter)
     }
 
     @get:Bindable
@@ -222,6 +296,13 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
         SimpleDateFormat("EEE , d MMM , yyyy").format(Date())
     ) { _, _, _ ->
         notifyPropertyChanged(BR.dateString)
+    }
+
+    @get:Bindable
+    var cityName: String by Delegates.observable(
+        SessionManager.city
+    ) { _, _, _ ->
+        notifyPropertyChanged(BR.cityName)
     }
 
     @get:Bindable

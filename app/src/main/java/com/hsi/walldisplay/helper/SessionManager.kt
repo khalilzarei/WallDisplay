@@ -43,6 +43,7 @@ class SessionManager @SuppressLint("CommitPrefEdits") constructor(var context: C
         private const val JOB_IP_LAYOUT_SHOWING = "job_ip_layout_showing"
         private const val KEY_MQTT_IP = "mqtt_ip"
         private const val KEY_FONT = "default_font"
+        private const val KEY_CITY = "KEY_CITY"
         private const val KEY_FONT_SIZE = "default_font_size"
         private const val KEY_IS_NIGHT_MODE = "isNightModeOn"
         private const val BLUETOOTH_ADDRESS = "bluetooth_address"
@@ -189,6 +190,12 @@ class SessionManager @SuppressLint("CommitPrefEdits") constructor(var context: C
             get() = pref.getString(KEY_FONT, "roboto_thin.ttf")
             set(rgbwMasterID) {
                 editor.putString(KEY_FONT, rgbwMasterID)
+                editor.commit()
+            }
+        var city: String
+            get() = pref.getString(KEY_CITY, "Tehran,Iran")!!
+            set(rgbwMasterID) {
+                editor.putString(KEY_CITY, rgbwMasterID)
                 editor.commit()
             }
         var fontSize: Float

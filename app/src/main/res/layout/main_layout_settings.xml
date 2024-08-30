@@ -77,77 +77,127 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:weightSum="4"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/btnZoomIn"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_zoom_in" />
-
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/btnZoomOut"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_zoom_out" />
-
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-
-            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/layoutTest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:textColor="@color/text_color"
+            android:layout_margin="@dimen/_10sdp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutTop">
 
+
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switchCompat"
-                android:layout_width="wrap_content"
+                android:id="@+id/switchCompatDayNight"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_edit_text"
                 android:checked="false"
+                android:padding="@dimen/_5sdp"
                 android:text="@string/dark_mode"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                app:switchPadding="@dimen/_10sdp" />
+                android:textColor="@color/text_color_invert"
+                android:theme="@style/CustomSwitchCompat"
+                android:thumb="@drawable/switch_thumb"
+                app:track="@drawable/switch_track" />
 
-            <TextView
-                android:id="@+id/tvResult"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/test_text"
-                android:textColor="@color/text_color"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@drawable/shape_edit_text">
+
+                <Spinner
+                    android:id="@+id/spinnerFont"
+                    setFontAdapter="@{viewModel.fontAdapter}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/item_row_font" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@drawable/shape_edit_text">
+
+                <Spinner
+                    android:id="@+id/spinnerLocation"
+                    setCityAdapter="@{viewModel.cityAdapter}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/item_row_font" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvResult"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/edit_text_background"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/font_size"
+                    android:textColor="@color/text_color_invert"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:weightSum="3">
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/btnZoomIn"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@color/edit_text_background">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_zoom_in"
+                            app:tint="@color/text_color_invert" />
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/btnZoomOut"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/edit_text_background">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_zoom_out"
+                            app:tint="@color/text_color_invert" />
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
 
@@ -157,10 +207,10 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutTest">
+            app:layout_constraintStart_toStartOf="parent">
 
 
             <RadioGroup

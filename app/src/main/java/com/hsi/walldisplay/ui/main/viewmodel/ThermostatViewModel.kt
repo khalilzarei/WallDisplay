@@ -221,10 +221,10 @@ class ThermostatViewModel(
         }
 //        lottieAnimationView.speed = device.value!!.toFloat() / 10
 
-        arcSeekBar.progress = device.toValue
+//        arcSeekBar.progress = device.toValue
 
-        val degree: Double = device.toValue.toDouble() / 10
-        tvDegree.text = "$degree˚c"
+//        val degree: Double = device.toValue.toDouble() / 10
+//        tvDegree.text = "$degree˚c"
 
         val currentDegree: Double = device.value!!.toDouble() / 10
         tvCurrent.text = "Current $currentDegree"
@@ -254,7 +254,10 @@ class ThermostatViewModel(
 //            lottieAnimationView.speed = 3f
 //        }
 
-        var thermostatProgress = arcSeekBar.progress
+        var value = thermostat.toValue
+        arcSeekBar.progress = value
+        val degree: Double = value.toDouble() / 10
+        tvDegree.text = "$degree ˚c"
 
         arcSeekBar.setOnProgressChangeListener(object : OnProgressChangeListener {
             override fun onProgressChanged(
@@ -262,25 +265,18 @@ class ThermostatViewModel(
                 progress: Int,
                 isUser: Boolean
             ) {
-                val degree: Double = (arcSeekBar.progress).toDouble() / 10
-                tvDegree.text = "$degree ˚c"
-                thermostatProgress = arcSeekBar.progress
-
             }
 
             override fun onStartTrackingTouch(seekBar: ArcSeekBar) {}
 
             override fun onStopTrackingTouch(seekBar: ArcSeekBar) {
-                thermostatProgress = arcSeekBar.progress
-
-
-                val value = if (thermostatProgress % 5 == 0) {
-                    thermostatProgress
+                value = if (arcSeekBar.progress % 5 == 0) {
+                    arcSeekBar.progress
                 } else {
-                    thermostatProgress - (thermostatProgress % 5)
+                    arcSeekBar.progress - (arcSeekBar.progress % 5)
                 }
 
-                thermostatProgress = value
+                arcSeekBar.progress = value
                 val message = "{\"id\":\"${device.serviceId}\",\"command\":\"settemp\",\"value\":\"$value\"}"
 
                 activity.publishMessage(topic, message)
@@ -304,28 +300,44 @@ class ThermostatViewModel(
         }
 
         dialogThermostat.btnPlus.setOnClickListener {
-            thermostatProgress += 5
-            if (thermostatProgress > 350) thermostatProgress = 350
+            arcSeekBar.setMaxValue(350)
+            arcSeekBar.setMinValue(150)
+            value = if (value % 5 == 0) {
+                value
+            } else {
+                value - (value % 5)
+            }
+            value += 5
+            activity.logD("btnPlus value $value")
 
-            arcSeekBar.progress = thermostatProgress
-            val value = thermostatProgress
+            if (value > 350) value = 350
+            arcSeekBar.progress = value
+
+            val finalValue: Double = (value).toDouble()
+            tvDegree.text = "${finalValue / 10} ˚c"
             val message = "{\"id\":\"${device.serviceId}\",\"command\":\"settemp\",\"value\":\"$value\"}"
             activity.publishMessage(topic, message)
 
-            val finalValue: Double = (value).toDouble()
         }
 
         dialogThermostat.btnMinus.setOnClickListener {
-            thermostatProgress -= 5
-            if (thermostatProgress < 150) thermostatProgress = 150
+            arcSeekBar.setMaxValue(350)
+            arcSeekBar.setMinValue(150)
+            value = if (value % 5 == 0) {
+                value
+            } else {
+                value - (value % 5)
+            }
+            value -= 5
+            activity.logD("btnPlus value $value")
 
-            arcSeekBar.progress = thermostatProgress
-            val value = thermostatProgress
-
-            val message = "{\"id\":\"${device.serviceId}\",\"command\":\"settemp\",\"value\":\"$value\"}"
-            activity.publishMessage(topic, message)
+            if (value < 150) value = 150
+            arcSeekBar.progress = value
 
             val finalValue: Double = (value).toDouble()
+            tvDegree.text = "${finalValue / 10} ˚c"
+            val message = "{\"id\":\"${device.serviceId}\",\"command\":\"settemp\",\"value\":\"$value\"}"
+            activity.publishMessage(topic, message)
         }
 
     }

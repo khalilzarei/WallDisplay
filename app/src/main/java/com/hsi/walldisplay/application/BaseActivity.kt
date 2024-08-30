@@ -123,6 +123,11 @@ abstract class BaseActivity : AppCompatActivity() {
         calligrapher.setFontSize(view)
     }
 
+    fun setFont(view: View, font: String) {
+        calligrapher.setFont(view, "fonts/$font")
+//        calligrapher.setFontSize(view)
+    }
+
     fun downloadFile(
         url: String,
         fileName: String,

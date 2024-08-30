@@ -1,16 +1,21 @@
 package com.hsi.walldisplay.ui.main
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.CompoundButton
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
 import com.hsi.walldisplay.R
 import com.hsi.walldisplay.application.BaseActivity
 import com.hsi.walldisplay.databinding.ActivityMainBinding
+import com.hsi.walldisplay.helper.Constants
 import com.hsi.walldisplay.helper.SessionManager
+import com.hsi.walldisplay.model.CityItem
+import com.hsi.walldisplay.model.FontItem
 import com.hsi.walldisplay.mqtt.MqttHelper
 import com.hsi.walldisplay.mqtt.MqttInterFace
 import com.hsi.walldisplay.ui.main.viewmodel.MainViewModel
@@ -38,12 +43,139 @@ class MainActivity : BaseActivity(), MqttInterFace {
 
         }, 500)
 
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-            binding.mainLayoutSettings.switchCompat.isChecked = true
-        binding.mainLayoutSettings.switchCompat.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
-            sessionManager.isNightModeOn = isChecked
-            setTypeFaces()
+        settingLayoutInit()
+
+        mainLayoutInit()
+        mainLayoutLightInit()
+
+        setTypeFaces()
+    }
+
+    private fun mainLayoutLightInit() {
+        val topic = if (viewModel.lightAdapter.getItems().size > 0) {
+            "${activity.sessionManager.user.projectId}/${viewModel.lightAdapter.getItems()[0].masterId}/${Constants.DALI_IN}"
+        } else {
+            null
         }
+        binding.mainLayoutLights.tbLights.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.setTextColor(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert))
+            buttonView.setCompoundDrawableTintList(ColorStateList.valueOf(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert)))
+
+            if (topic != null) {
+                val message = "{\"DAPC\":\"${if (isChecked) "254" else "0"}\",\"BROADCAST \":\"ALL \"}"
+                publishMessage(topic, message)
+            }
+        }
+
+        binding.mainLayoutLights.seekBarLightness.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                binding.mainLayoutLights.tvLightIntensity.text = "$progress%"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                /*  100     255
+                    50      x  */
+
+                run {
+                    var dim = seekBar!!.progress
+                    if (dim >= 255)
+                        dim = 254
+                    val waf = ((dim * 254) / 100)
+                    if (topic != null) {
+                        val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL \"}"
+                        publishMessage(topic, message)
+                    }
+                }
+            }
+
+        })
+
+
+        binding.mainLayoutLights.btn25.setOnClickListener {
+            val dim = 1
+            binding.mainLayoutLights.seekBarLightness.progress = dim
+            val waf = ((dim * 254) / 100)
+            if (topic != null) {
+                val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL \"}"
+                publishMessage(topic, message)
+            }
+        }
+
+        binding.mainLayoutLights.btn50.setOnClickListener {
+            val dim = 50
+            binding.mainLayoutLights.seekBarLightness.progress = dim
+            val waf = ((dim * 254) / 100)
+            if (topic != null) {
+                val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL \"}"
+                publishMessage(topic, message)
+            }
+        }
+
+        binding.mainLayoutLights.btn75.setOnClickListener {
+            val dim = 75
+            binding.mainLayoutLights.seekBarLightness.progress = dim
+            val waf = ((dim * 254) / 100)
+            if (topic != null) {
+                val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL \"}"
+                publishMessage(topic, message)
+            }
+        }
+
+        binding.mainLayoutLights.btn100.setOnClickListener {
+            val dim = 100
+            binding.mainLayoutLights.seekBarLightness.progress = dim
+            val waf = ((dim * 254) / 100)
+            if (topic != null) {
+                val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL \"}"
+                publishMessage(topic, message)
+            }
+        }
+    }
+
+
+    private fun mainLayoutInit() {
+        binding.mainLayoutMain.tbLights.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.setTextColor(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert))
+            buttonView.setCompoundDrawableTintList(ColorStateList.valueOf(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert)))
+
+            if (viewModel.lightAdapter.getItems().size > 0) {
+                val device = viewModel.lightAdapter.getItems()[0]
+                val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
+                val message = "{\"DAPC\":\"${if (isChecked) "254" else "0"}\",\"BROADCAST \":\"ALL \"}"
+                publishMessage(topic, message)
+            }
+        }
+        binding.mainLayoutMain.tbAirCondition.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.setTextColor(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert))
+            buttonView.setCompoundDrawableTintList(ColorStateList.valueOf(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert)))
+            if (viewModel.thermostatAdapter.getItems().size > 0) {
+                for (thermostat in viewModel.thermostatAdapter.getItems()) {
+                    val topic = "${activity.sessionManager.user.projectId}/${thermostat.masterId}/${Constants.DALI_IN}"
+                    val message = "{\"id\":\"${thermostat.serviceId}\",\"command\":\"${if (isChecked) "on" else "off"}\"}"
+                    publishMessage(topic, message)
+                    Thread.sleep(300)
+                }
+            }
+        }
+        binding.mainLayoutMain.tbCurtains.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.setTextColor(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert))
+            buttonView.setCompoundDrawableTintList(ColorStateList.valueOf(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert)))
+            if (viewModel.curtainAdapter.getCurtains().size > 0) {
+                for (curtain in viewModel.curtainAdapter.getCurtains()) {
+                    val topic = "${activity.sessionManager.user.projectId}/${curtain.masterId}/${Constants.DALI_IN}"
+                    val message = "{\"id\":\"${curtain.serviceId}\",\"command\":\"${if (isChecked) "open" else "close"}\"}"
+                    publishMessage(topic, message)
+                    Thread.sleep(300)
+                }
+            }
+        }
+
+    }
+
+    private fun settingLayoutInit() {
 
         binding.mainLayoutSettings.radioGroup.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
@@ -87,11 +219,20 @@ class MainActivity : BaseActivity(), MqttInterFace {
             }
         }
 
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            binding.mainLayoutSettings.switchCompatDayNight.isChecked = true
+
+        binding.mainLayoutSettings.switchCompatDayNight.setOnCheckedChangeListener { _, isChecked ->
+            updateUI(isChecked)
+        }
+    }
+
+    private fun updateUI(isChecked: Boolean) {
+        sessionManager.isNightModeOn = isChecked
         setTypeFaces()
     }
 
-
-    private fun setTypeFaces() {
+    fun setTypeFaces() {
         setFontAndFontSize()
         setFont(binding.mainLayoutSettings.rbAmsterdam, R.font.amsterdam)
         setFont(binding.mainLayoutSettings.rbRobotoBold, R.font.roboto_bold)
@@ -108,6 +249,7 @@ class MainActivity : BaseActivity(), MqttInterFace {
         setFont(binding.mainLayoutSettings.rbSairaThin, R.font.saira_thin)
         setFont(binding.mainLayoutSettings.rbSansBold, R.font.sans_bold)
         setFont(binding.mainLayoutSettings.rbSansThin, R.font.sans_thin)
+        setFontSize(binding.mainLayoutMain.tvThermostatDegree, 25f)
 
         selectedFont()
 
@@ -133,9 +275,67 @@ class MainActivity : BaseActivity(), MqttInterFace {
         }
     }
 
+    fun getFontList(): ArrayList<FontItem> {
+
+        return arrayListOf(
+            FontItem("Font: ${getDefaultFont().name}", SessionManager.font),
+            FontItem("Amsterdam", "amsterdam.ttf"),
+            FontItem("Roboto Bold", "roboto_bold.ttf"),
+            FontItem("Roboto Medium", "roboto_medium.ttf"),
+            FontItem("Roboto Thin", "roboto_thin.ttf"),
+            FontItem("Anek Bold", "anek_bold.ttf"),
+            FontItem("Anek Medium", "anek_medium.ttf"),
+            FontItem("Anek Thin", "anek_thin.ttf"),
+            FontItem("Noto Bold", "noto_bold.ttf"),
+            FontItem("Noto Medium", "noto_medium.ttf"),
+            FontItem("Noto Thin", "noto_thin.ttf"),
+            FontItem("Saira Bold", "saira_bold.ttf"),
+            FontItem("Saira Medium", "saira_medium.ttf"),
+            FontItem("Saira Thin", "saira_thin.ttf"),
+            FontItem("Sans Bold", "sans_bold.ttf"),
+            FontItem("Sans Thin", "sans_thin.ttf"),
+        )
+    }
+
+    fun getCityList(): ArrayList<CityItem> {
+
+        return arrayListOf(
+            CityItem("${SessionManager.city.split(",")[0]}", "${SessionManager.city.split(",")[1]}"),
+            CityItem("Tehran", "Iran"),
+            CityItem("Dubai", "UAE"),
+        )
+    }
+
+    private fun getDefaultFont(): FontItem {
+
+        return when (SessionManager.font) {
+            "amsterdam.ttf" -> FontItem("Amsterdam", "amsterdam.ttf")
+            "roboto_bold.ttf" -> FontItem("Roboto Bold", "roboto_bold.ttf")
+            "roboto_medium.ttf" -> FontItem("Roboto Medium", "roboto_medium.ttf")
+            "roboto_thin.ttf" -> FontItem("Roboto Thin", "roboto_thin.ttf")
+            "anek_bold.ttf" -> FontItem("Anek Bold", "anek_bold.ttf")
+            "anek_medium.ttf" -> FontItem("Anek Medium", "anek_medium.ttf")
+            "anek_thin.ttf" -> FontItem("Anek Thin", "anek_thin.ttf")
+            "noto_bold.ttf" -> FontItem("Noto Bold", "noto_bold.ttf")
+            "noto_medium.ttf" -> FontItem("Noto Medium", "noto_medium.ttf")
+            "noto_thin.ttf" -> FontItem("Noto Thin", "noto_thin.ttf")
+            "saira_bold.ttf" -> FontItem("Saira Bold", "saira_bold.ttf")
+            "saira_medium.ttf" -> FontItem("Saira Medium", "saira_medium.ttf")
+            "saira_thin.ttf" -> FontItem("Saira Thin", "saira_thin.ttf")
+            "sans_bold.ttf" -> FontItem("Sans Bold", "sans_bold.ttf")
+            "sans_thin.ttf" -> FontItem("Sans Thin", "sans_thin.ttf")
+            else -> FontItem("Roboto Thin", "roboto_thin.ttf")
+        }
+
+    }
+
     private fun setFont(textView: TextView, fontId: Int) {
         val typeface = ResourcesCompat.getFont(activity, fontId)
         textView.typeface = typeface
+    }
+
+    private fun setFontSize(textView: TextView, fontSize: Float) {
+        textView.textSize = fontSize
     }
 
     private fun setResultFont(fontId: Int) {

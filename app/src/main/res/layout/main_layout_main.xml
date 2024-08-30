@@ -140,8 +140,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/city_name"
-                        android:textColor="@color/text_color" />
+                        android:text="@{viewModel.cityName}"
+                        android:textColor="@color/text_color"
+                        tools:text="@string/city_name" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -176,75 +177,37 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:onClick="@{viewModel::onLightsClicked}"
-                    android:orientation="vertical"
-                    android:padding="@dimen/_5sdp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_weight="1"
-                            android:src="@drawable/ic_lights"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/_5sdp"
-                            android:text="@string/lights"
-                            android:textColor="@color/text_color"
-                            android:textSize="@dimen/title_text_size" />
-                    </LinearLayout>
-                </com.balysv.materialripple.MaterialRippleLayout>
-
                 <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_20sdp"
-                    android:background="@drawable/shape_line_vertical" />
-
-                <com.balysv.materialripple.MaterialRippleLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:onClick="@{viewModel::onAirConditionClicked}"
-                    android:orientation="vertical"
-                    android:padding="@dimen/_5sdp">
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <com.balysv.materialripple.MaterialRippleLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:onClick="@{viewModel::onLightsClicked}"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_5sdp">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="100dp"
-                            android:layout_height="100dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
-
-                            <ImageView
-                                android:layout_width="100dp"
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:layout_width="wrap_content"
                                 android:layout_height="100dp"
-                                android:src="@drawable/ic_air_condition"
-                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_lights"
+                                app:civ_border_color="@color/yellow"
+                                app:civ_border_width="@dimen/_1sdp"
+                                app:civ_circle_background_color="@color/edit_text_background"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -252,31 +215,23 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:shadowColor="@color/text_color"
-                                android:shadowDx="1"
-                                android:shadowDy="1"
-                                android:shadowRadius="1"
-                                android:text="25˚"
-                                android:textColor="@color/background"
-                                android:textSize="30sp"
+                                android:paddingTop="@dimen/_5sdp"
+                                android:text="@string/lights"
+                                android:textColor="@color/text_color"
+                                android:textSize="@dimen/title_text_size" />
+                        </LinearLayout>
+                    </com.balysv.materialripple.MaterialRippleLayout>
 
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:text="@string/air_condition"
-                            android:textColor="@color/text_color"
-                            android:textSize="@dimen/title_text_size" />
-                    </LinearLayout>
-                </com.balysv.materialripple.MaterialRippleLayout>
+                    <ToggleButton
+                        android:id="@+id/tbLights"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/toggle_bg_main"
+                        android:checked="false"
+                        android:drawableEnd="@drawable/ic_on_off"
+                        android:drawableTint="@color/text_color_invert"
+                        android:textColor="@color/text_color_invert" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="1dp"
@@ -285,42 +240,131 @@
                     android:layout_marginBottom="@dimen/_20sdp"
                     android:background="@drawable/shape_line_vertical" />
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="bottom|center"
+                    android:orientation="vertical">
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onAirConditionClicked}"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_5sdp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="110dp"
+                                android:layout_height="110dp"
+                                app:cardBackgroundColor="@color/background"
+                                app:cardCornerRadius="55dp">
+
+
+                                <TextView
+                                    android:id="@+id/tvThermostatDegree"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/shape_thermostat_main"
+                                    android:gravity="center"
+                                    android:text="25˚"
+                                    android:textColor="@color/background"
+                                    android:textSize="35sp"
+                                    android:textStyle="bold" />
+                            </androidx.cardview.widget.CardView>
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:paddingTop="@dimen/_5sdp"
+                                android:text="@string/air_condition"
+                                android:textColor="@color/text_color"
+                                android:textSize="@dimen/title_text_size" />
+                        </LinearLayout>
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <ToggleButton
+                        android:id="@+id/tbAirCondition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/toggle_bg_main"
+                        android:checked="false"
+                        android:drawableEnd="@drawable/ic_on_off"
+                        android:drawableTint="@color/text_color_invert"
+                        android:textColor="@color/text_color_invert" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:background="@drawable/shape_line_vertical" />
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:onClick="@{viewModel::onCurtainClicked}"
-                    android:orientation="vertical"
-                    android:padding="@dimen/_5sdp">
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <com.balysv.materialripple.MaterialRippleLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/_5sdp"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:onClick="@{viewModel::onCurtainClicked}"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_5sdp">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_weight="1"
-                            android:src="@drawable/ic_curtain"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/_5sdp"
-                            android:text="@string/curtain"
-                            android:textColor="@color/text_color"
-                            android:textSize="@dimen/title_text_size" />
-                    </LinearLayout>
-                </com.balysv.materialripple.MaterialRippleLayout>
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="100dp"
+                                android:src="@drawable/ic_curtain"
+                                app:civ_border_color="@color/yellow"
+                                app:civ_border_width="@dimen/_1sdp"
+                                app:civ_circle_background_color="@color/edit_text_background"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="@dimen/_5sdp"
+                                android:text="@string/curtain"
+                                android:textColor="@color/text_color"
+                                android:textSize="@dimen/title_text_size" />
+                        </LinearLayout>
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <ToggleButton
+                        android:id="@+id/tbCurtains"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/toggle_bg_main"
+                        android:checked="false"
+                        android:drawableEnd="@drawable/ic_on_off"
+                        android:drawableTint="@color/text_color_invert"
+                        android:textColor="@color/text_color_invert" />
+                </LinearLayout>
             </LinearLayout>
 
 

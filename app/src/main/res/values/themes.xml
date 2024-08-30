@@ -6,6 +6,10 @@
 
     </style>
 
+    <style name="CustomSwitchCompat" parent="Theme.AppCompat">
+        <item name="android:thumb">@drawable/switch_thumb</item>
+        <item name="track">@drawable/switch_track</item>
+    </style>
 
     <style name="WideDialog" parent="Base.Theme.AppCompat.Dialog">
         <item name="android:windowMinWidthMajor">90%</item>

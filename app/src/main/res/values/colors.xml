@@ -427,4 +427,10 @@
     </array>
 
 
+    <color name="blue_moon">#FF25316D</color>
+    <color name="blue_soft">#FF5F9DF7</color>
+    <color name="orange_sun">#FFFD841F</color>
+    <color name="yellow_soft">#FFFDFDBD</color>
+    <color name="yellow">#ffff00</color>
+
 </resources>

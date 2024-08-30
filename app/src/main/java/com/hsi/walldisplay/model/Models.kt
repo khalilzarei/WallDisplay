@@ -243,3 +243,14 @@ object FanSpeed {
 enum class Connected {
     FALSE, PENDING, TRUE
 }
+
+data class FontItem(
+    var name: String? = null,
+    var font: String? = null
+)
+
+data class CityItem(
+    var name: String? = null,
+    var country: String? = null
+)
+

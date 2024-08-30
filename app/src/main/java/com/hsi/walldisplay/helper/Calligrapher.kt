@@ -1,33 +1,20 @@
-package com.hsi.walldisplay.helper;
+package com.hsi.walldisplay.helper
+
+import android.R
+import android.app.Activity
+import android.content.Context
+import android.content.res.AssetManager
+import android.graphics.Typeface
+import android.util.TypedValue
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import com.hsi.walldisplay.helper.SessionManager.Companion.fontSize
 
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Typeface;
-import android.util.TypedValue;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class Calligrapher {
-
-    private AssetManager mAssetManager; // AsetManger needs to create Typeface from a path
-    private Map<String, Typeface> mTypefaceMap; // fontPath vs Typeface map used for caching Typeface
-
-
-    /**
-     * Constructor for creating calligrapher object
-     *
-     * @param context Android Context
-     */
-    public Calligrapher(Context context) {
-        mTypefaceMap = new HashMap<>();
-        mAssetManager = context.getAssets();
-    }
+class Calligrapher(context: Context) {
+    private val mAssetManager: AssetManager = context.assets // AsetManger needs to create Typeface from a path
+    private val mTypefaceMap: MutableMap<String, Typeface?> = HashMap() // fontPath vs Typeface map used for caching Typeface
 
 
     /**
@@ -37,22 +24,22 @@ public class Calligrapher {
      * @param fontPath         Font file source path (Font must be in the assets directory of the application)
      * @param includeActionbar Flag to determine if the Actionbar title font need to be changed or not
      */
-    public void setFont(Activity activity, String fontPath, boolean includeActionbar) {
-        Typeface typeface = cacheFont(fontPath);
-        View rootView = includeActionbar ? activity.getWindow().getDecorView()
-                : ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
-        traverseView(rootView, typeface);
+    fun setFont(activity: Activity, fontPath: String, includeActionbar: Boolean) {
+        val typeface = cacheFont(fontPath)
+        val rootView = if (includeActionbar) activity.window.decorView
+        else (activity.findViewById<View>(R.id.content) as ViewGroup).getChildAt(0)
+        traverseView(rootView, typeface)
     }
 
-    public void setFontSize(Activity activity, Float fontSize, boolean includeActionbar) {
-        View rootView = includeActionbar ? activity.getWindow().getDecorView()
-                : ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
-        sizeView(rootView, fontSize);
+    fun setFontSize(activity: Activity, fontSize: Float, includeActionbar: Boolean) {
+        val rootView = if (includeActionbar) activity.window.decorView
+        else (activity.findViewById<View>(R.id.content) as ViewGroup).getChildAt(0)
+        sizeView(rootView, fontSize)
     }
 
 
-    public void setFontSize(View view) {
-        sizeView(view, SessionManager.Companion.getFontSize());
+    fun setFontSize(view: View) {
+        sizeView(view, fontSize)
     }
 
     /**
@@ -61,9 +48,11 @@ public class Calligrapher {
      * @param view     Target view
      * @param fontPath Font file source path (Font must be in the assets directory of the application)
      */
-    public void setFont(View view, String fontPath) {
-        Typeface typeface = cacheFont(fontPath);
-        traverseView(view, typeface);
+    fun setFont(view: View, fontPath: String?) {
+        if (fontPath != null) {
+            val typeface = cacheFont(fontPath)
+            traverseView(view, typeface)
+        }
     }
 
 
@@ -73,31 +62,29 @@ public class Calligrapher {
      * @param view     Target view
      * @param typeface Typeface which needs to be set from the given target view to it's children
      */
-    private void traverseView(View view, Typeface typeface) {
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                View v = viewGroup.getChildAt(i);
-                if (v instanceof TextView) {
-                    ((TextView) v).setTypeface(typeface);
+    private fun traverseView(view: View, typeface: Typeface?) {
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val v = view.getChildAt(i)
+                if (v is TextView) {
+                    v.typeface = typeface
                 }
-                if (v instanceof ViewGroup) {
-                    traverseView(v, typeface);
+                if (v is ViewGroup) {
+                    traverseView(v, typeface)
                 }
             }
         }
     }
 
-    private void sizeView(View view, Float fontSize) {
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                View v = viewGroup.getChildAt(i);
-                if (v instanceof TextView) {
-                    ((TextView) v).setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+    private fun sizeView(view: View, fontSize: Float) {
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val v = view.getChildAt(i)
+                if (v is TextView) {
+                    v.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize)
                 }
-                if (v instanceof ViewGroup) {
-                    sizeView(v, fontSize);
+                if (v is ViewGroup) {
+                    sizeView(v, fontSize)
                 }
             }
         }
@@ -110,18 +97,16 @@ public class Calligrapher {
      * @param fontPath Path from where a Typeface needs to be created
      * @return Cached copy of the typeface built from the font path
      */
-    private Typeface cacheFont(String fontPath) {
-        Typeface cached = mTypefaceMap.get(fontPath);
+    private fun cacheFont(fontPath: String): Typeface? {
+        var cached = mTypefaceMap[fontPath]
         if (cached == null) {
-            cached = Typeface.createFromAsset(mAssetManager, fontPath);
-            mTypefaceMap.put(fontPath, cached);
+            cached = Typeface.createFromAsset(mAssetManager, fontPath)
+            mTypefaceMap[fontPath] = cached
         }
-        return cached;
+        return cached
     }
 
-    private Float cacheFontSize() {
-        return SessionManager.Companion.getFontSize();
+    private fun cacheFontSize(): Float {
+        return fontSize
     }
-
-
 }
