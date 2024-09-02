@@ -96,6 +96,7 @@ dependencies {
 
     implementation libs.androidx.work.runtime.ktx
 
+    implementation 'com.daimajia.androidanimations:library:2.4@aar'
 
 //    implementation libs.calligraphy3
 //    implementation libs.viewpump

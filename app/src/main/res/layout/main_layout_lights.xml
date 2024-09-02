@@ -118,7 +118,63 @@
                     android:checked="false"
                     android:drawableEnd="@drawable/ic_on_off"
                     android:drawableTint="@color/text_color_invert"
-                    android:textColor="@color/text_color_invert" />
+                    android:textColor="@color/text_color_invert"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:orientation="vertical">
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        style="@style/RippleStyleYellow"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_toggle_on"
+                        android:onClick="@{viewModel::broadCastOn}">
+
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:src="@drawable/ic_on_off"
+                            android:text="@string/on"
+                            android:textColor="@color/yellow"
+                            app:tint="@color/yellow" />
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        style="@style/RippleStyleWhite"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_toggle_off"
+                        android:onClick="@{viewModel::broadCastOff}">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:src="@drawable/ic_on_off"
+                            android:text="@string/off" />
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_3sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/shape_line_vertical" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

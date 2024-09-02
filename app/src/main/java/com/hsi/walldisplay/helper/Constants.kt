@@ -3,6 +3,7 @@ package com.hsi.walldisplay.helper
 object Constants {
     const val DB_NAME = "SmartHome.db"
     const val CURTAIN_IN = "Curtain/In"
+    const val THERMOSTAT_IN = "Thermo/In"
     const val RELAY_IN = "Relay/In"
     const val DALI_IN = "Dali/In"
     const val DALI_OUT = "Dali/Out"

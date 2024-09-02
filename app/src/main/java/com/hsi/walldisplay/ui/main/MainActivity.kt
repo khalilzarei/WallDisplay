@@ -21,6 +21,7 @@ import com.hsi.walldisplay.mqtt.MqttInterFace
 import com.hsi.walldisplay.ui.main.viewmodel.MainViewModel
 import org.eclipse.paho.client.mqttv3.MqttMessage
 
+
 class MainActivity : BaseActivity(), MqttInterFace {
 
     //region Variables
@@ -45,10 +46,10 @@ class MainActivity : BaseActivity(), MqttInterFace {
 
         settingLayoutInit()
 
-        mainLayoutInit()
         mainLayoutLightInit()
 
         setTypeFaces()
+
     }
 
     private fun mainLayoutLightInit() {
@@ -58,11 +59,11 @@ class MainActivity : BaseActivity(), MqttInterFace {
             null
         }
         binding.mainLayoutLights.tbLights.setOnCheckedChangeListener { buttonView, isChecked ->
-            buttonView.setTextColor(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert))
-            buttonView.setCompoundDrawableTintList(ColorStateList.valueOf(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert)))
+            buttonView.setTextColor(resources.getColor(if (isChecked) com.hsi.walldisplay.R.color.yellow else com.hsi.walldisplay.R.color.text_color_invert))
+            buttonView.setCompoundDrawableTintList(ColorStateList.valueOf(resources.getColor(if (isChecked) com.hsi.walldisplay.R.color.yellow else com.hsi.walldisplay.R.color.text_color_invert)))
 
             if (topic != null) {
-                val message = "{\"DAPC\":\"${if (isChecked) "254" else "0"}\",\"BROADCAST \":\"ALL \"}"
+                val message = "{\"DAPC\":\"${if (isChecked) "254" else "0"}\",\"BROADCAST\":\"ALL \"}"
                 publishMessage(topic, message)
             }
         }
@@ -127,53 +128,14 @@ class MainActivity : BaseActivity(), MqttInterFace {
         binding.mainLayoutLights.btn100.setOnClickListener {
             val dim = 100
             binding.mainLayoutLights.seekBarLightness.progress = dim
-            val waf = ((dim * 254) / 100)
             if (topic != null) {
-                val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL \"}"
+                val message = "{\"CMD\":\"RECALL_MAX_LEVEL\",\"BROADCAST \":\"ALL \"}"
                 publishMessage(topic, message)
             }
         }
     }
 
 
-    private fun mainLayoutInit() {
-        binding.mainLayoutMain.tbLights.setOnCheckedChangeListener { buttonView, isChecked ->
-            buttonView.setTextColor(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert))
-            buttonView.setCompoundDrawableTintList(ColorStateList.valueOf(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert)))
-
-            if (viewModel.lightAdapter.getItems().size > 0) {
-                val device = viewModel.lightAdapter.getItems()[0]
-                val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
-                val message = "{\"DAPC\":\"${if (isChecked) "254" else "0"}\",\"BROADCAST \":\"ALL \"}"
-                publishMessage(topic, message)
-            }
-        }
-        binding.mainLayoutMain.tbAirCondition.setOnCheckedChangeListener { buttonView, isChecked ->
-            buttonView.setTextColor(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert))
-            buttonView.setCompoundDrawableTintList(ColorStateList.valueOf(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert)))
-            if (viewModel.thermostatAdapter.getItems().size > 0) {
-                for (thermostat in viewModel.thermostatAdapter.getItems()) {
-                    val topic = "${activity.sessionManager.user.projectId}/${thermostat.masterId}/${Constants.DALI_IN}"
-                    val message = "{\"id\":\"${thermostat.serviceId}\",\"command\":\"${if (isChecked) "on" else "off"}\"}"
-                    publishMessage(topic, message)
-                    Thread.sleep(300)
-                }
-            }
-        }
-        binding.mainLayoutMain.tbCurtains.setOnCheckedChangeListener { buttonView, isChecked ->
-            buttonView.setTextColor(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert))
-            buttonView.setCompoundDrawableTintList(ColorStateList.valueOf(resources.getColor(if (isChecked) R.color.yellow else R.color.text_color_invert)))
-            if (viewModel.curtainAdapter.getCurtains().size > 0) {
-                for (curtain in viewModel.curtainAdapter.getCurtains()) {
-                    val topic = "${activity.sessionManager.user.projectId}/${curtain.masterId}/${Constants.DALI_IN}"
-                    val message = "{\"id\":\"${curtain.serviceId}\",\"command\":\"${if (isChecked) "open" else "close"}\"}"
-                    publishMessage(topic, message)
-                    Thread.sleep(300)
-                }
-            }
-        }
-
-    }
 
     private fun settingLayoutInit() {
 
@@ -234,21 +196,21 @@ class MainActivity : BaseActivity(), MqttInterFace {
 
     fun setTypeFaces() {
         setFontAndFontSize()
-        setFont(binding.mainLayoutSettings.rbAmsterdam, R.font.amsterdam)
-        setFont(binding.mainLayoutSettings.rbRobotoBold, R.font.roboto_bold)
-        setFont(binding.mainLayoutSettings.rbRobotoMedium, R.font.roboto_medium)
-        setFont(binding.mainLayoutSettings.rbRobotoThin, R.font.roboto_thin)
-        setFont(binding.mainLayoutSettings.rbAnekBold, R.font.anek_bold)
-        setFont(binding.mainLayoutSettings.rbAnekMedium, R.font.anek_medium)
-        setFont(binding.mainLayoutSettings.rbAnekThin, R.font.anek_thin)
-        setFont(binding.mainLayoutSettings.rbNotoBold, R.font.noto_bold)
-        setFont(binding.mainLayoutSettings.rbNotoMedium, R.font.noto_medium)
-        setFont(binding.mainLayoutSettings.rbNotoThin, R.font.noto_thin)
-        setFont(binding.mainLayoutSettings.rbSairaBold, R.font.saira_bold)
-        setFont(binding.mainLayoutSettings.rbSairaMedium, R.font.saira_medium)
-        setFont(binding.mainLayoutSettings.rbSairaThin, R.font.saira_thin)
-        setFont(binding.mainLayoutSettings.rbSansBold, R.font.sans_bold)
-        setFont(binding.mainLayoutSettings.rbSansThin, R.font.sans_thin)
+        setFont(binding.mainLayoutSettings.rbAmsterdam, com.hsi.walldisplay.R.font.amsterdam)
+        setFont(binding.mainLayoutSettings.rbRobotoBold, com.hsi.walldisplay.R.font.roboto_bold)
+        setFont(binding.mainLayoutSettings.rbRobotoMedium, com.hsi.walldisplay.R.font.roboto_medium)
+        setFont(binding.mainLayoutSettings.rbRobotoThin, com.hsi.walldisplay.R.font.roboto_thin)
+        setFont(binding.mainLayoutSettings.rbAnekBold, com.hsi.walldisplay.R.font.anek_bold)
+        setFont(binding.mainLayoutSettings.rbAnekMedium, com.hsi.walldisplay.R.font.anek_medium)
+        setFont(binding.mainLayoutSettings.rbAnekThin, com.hsi.walldisplay.R.font.anek_thin)
+        setFont(binding.mainLayoutSettings.rbNotoBold, com.hsi.walldisplay.R.font.noto_bold)
+        setFont(binding.mainLayoutSettings.rbNotoMedium, com.hsi.walldisplay.R.font.noto_medium)
+        setFont(binding.mainLayoutSettings.rbNotoThin, com.hsi.walldisplay.R.font.noto_thin)
+        setFont(binding.mainLayoutSettings.rbSairaBold, com.hsi.walldisplay.R.font.saira_bold)
+        setFont(binding.mainLayoutSettings.rbSairaMedium, com.hsi.walldisplay.R.font.saira_medium)
+        setFont(binding.mainLayoutSettings.rbSairaThin, com.hsi.walldisplay.R.font.saira_thin)
+        setFont(binding.mainLayoutSettings.rbSansBold, com.hsi.walldisplay.R.font.sans_bold)
+        setFont(binding.mainLayoutSettings.rbSansThin, com.hsi.walldisplay.R.font.sans_thin)
         setFontSize(binding.mainLayoutMain.tvThermostatDegree, 25f)
 
         selectedFont()
@@ -302,7 +264,13 @@ class MainActivity : BaseActivity(), MqttInterFace {
         return arrayListOf(
             CityItem("${SessionManager.city.split(",")[0]}", "${SessionManager.city.split(",")[1]}"),
             CityItem("Tehran", "Iran"),
-            CityItem("Dubai", "UAE"),
+            CityItem("DUBAI", "UAE"),
+            CityItem("SHARJAH", "UAE"),
+            CityItem("ABUDHABI", "UAE"),
+            CityItem("AJMAN", "UAE"),
+            CityItem("FUJAIRAH", "UAE"),
+            CityItem("RAS AL KHAIMAH", "UAE"),
+            CityItem("UMM AL QUWAIN", "UAE"),
         )
     }
 

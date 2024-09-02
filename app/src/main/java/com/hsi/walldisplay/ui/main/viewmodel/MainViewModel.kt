@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.hsi.walldisplay.BR
 import com.hsi.walldisplay.R
 import com.hsi.walldisplay.databinding.DialogChangeNameBinding
@@ -70,6 +72,21 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
                     .load(imageUrl)
                     .apply(options)
                     .into(imageView)
+        }
+
+        @JvmStatic
+        @BindingAdapter("setTextVisibility")
+        fun setTextVisibility(view: View, visibility: Boolean) {
+            view.visibility = if (visibility) View.VISIBLE else View.GONE
+        }
+
+        @JvmStatic
+        @BindingAdapter("setYoYoAnimation")
+        fun setYoYoAnimation(view: View, animation: Techniques) {
+            YoYo.with(animation)
+                .duration(700)
+                .repeat(5)
+                .playOn(view);
         }
 
         @JvmStatic
@@ -193,8 +210,6 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
                 }
 
             }
-
-
         }
 
     }
@@ -202,6 +217,21 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
     //endregion
 
     //region Variable
+
+    @get:Bindable
+    var curtainTextVisibility: Boolean by Delegates.observable(true) { _, _, _ ->
+        notifyPropertyChanged(BR.curtainTextVisibility)
+    }
+
+    @get:Bindable
+    var acTextVisibility: Boolean by Delegates.observable(true) { _, _, _ ->
+        notifyPropertyChanged(BR.acTextVisibility)
+    }
+
+    @get:Bindable
+    var lightTextVisibility: Boolean by Delegates.observable(true) { _, _, _ ->
+        notifyPropertyChanged(BR.lightTextVisibility)
+    }
 
     @get:Bindable
     var building: Building by Delegates.observable(
@@ -311,7 +341,11 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
     ) { _, _, _ ->
         notifyPropertyChanged(BR.showLayout)
     }
-
+    val topic = if (lightAdapter.getItems().size > 0) {
+        "${activity.sessionManager.user.projectId}/${lightAdapter.getItems()[0].masterId}/${Constants.DALI_IN}"
+    } else {
+        null
+    }
     //endregion
 
     //region Clicked
@@ -320,12 +354,90 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
     private var count = 0
     fun showRoomListDialog(view: View) {
         count++
-
         if (count >= 10) {
             activity.toast("Show Room List")
             count = 0
             showFloorDialog()
         }
+    }
+
+    fun broadCastOn(view: View) {
+        if (activity.dataBaseDao.getDaliLightsOfBuilding(building.id).isNotEmpty()) {
+            if (topic != null) {
+                val message = "{\"DAPC\":\"254\",\"BROADCAST\":\"ALL \"}"
+                activity.publishMessage(topic, message)
+            }
+        } else activity.toast("Dali Lights not found")
+
+        lightTextVisibility = !lightTextVisibility
+    }
+
+    fun broadCastOff(view: View) {
+        if (activity.dataBaseDao.getDaliLightsOfBuilding(building.id).isNotEmpty()) {
+            if (topic != null) {
+                val message = "{\"DAPC\":\"0\",\"BROADCAST\":\"ALL \"}"
+                activity.publishMessage(topic, message)
+            }
+        } else activity.toast("Dali Lights not found")
+
+        lightTextVisibility = !lightTextVisibility
+    }
+
+    fun thermostatsOff(view: View) {
+        if (activity.dataBaseDao.getBuildingDevices(building.id, DeviceType.THERMOSTAT).isNotEmpty()) {
+            for (thermostat in thermostatAdapter.getItems()) {
+                val topic = "${activity.sessionManager.user.projectId}/${Constants.THERMOSTAT_IN}"
+                val message = "{\"id\":\"${thermostat.serviceId}\",\"command\":\"off\"}"
+                activity.publishMessage(topic, message)
+                Thread.sleep(300)
+            }
+        } else
+            activity.toast("Air Condition found")
+        acTextVisibility = !acTextVisibility
+    }
+
+    fun thermostatsOn(view: View) {
+        if (activity.dataBaseDao.getBuildingDevices(building.id, DeviceType.THERMOSTAT).isNotEmpty()) {
+            for (thermostat in thermostatAdapter.getItems()) {
+                val topic = "${activity.sessionManager.user.projectId}/${Constants.THERMOSTAT_IN}"
+                val message = "{\"id\":\"${thermostat.serviceId}\",\"command\":\"on\"}"
+                activity.publishMessage(topic, message)
+                Thread.sleep(300)
+            }
+
+        } else
+            activity.toast("Air Condition found")
+
+        acTextVisibility = !acTextVisibility
+    }
+
+    fun curtainsOff(view: View) {
+        if (activity.dataBaseDao.getBuildingCurtain(building.id).isNotEmpty()) {
+            for (curtain in curtainAdapter.getCurtains()) {
+                val topic = "${activity.sessionManager.user.projectId}/${Constants.CURTAIN_IN}"
+                val message = "{\"id\":\"${curtain.serviceId}\",\"command\":\"close\"}"
+                activity.publishMessage(topic, message)
+                Thread.sleep(300)
+            }
+        } else
+            activity.toast("Curtain not found")
+
+
+        curtainTextVisibility = !curtainTextVisibility
+    }
+
+    fun curtainsOn(view: View) {
+        if (activity.dataBaseDao.getBuildingCurtain(building.id).isNotEmpty()) {
+            for (curtain in curtainAdapter.getCurtains()) {
+                val topic = "${activity.sessionManager.user.projectId}/${Constants.CURTAIN_IN}"
+                val message = "{\"id\":\"${curtain.serviceId}\",\"command\":\"open\"}"
+                activity.publishMessage(topic, message)
+                Thread.sleep(300)
+            }
+        } else
+            activity.toast("Curtain not found")
+
+        curtainTextVisibility = !curtainTextVisibility
     }
 
 
@@ -385,6 +497,21 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
             activity.toast("Curtain not found")
     }
 
+    fun onCurtainTextClicked(view: View) {
+        activity.toast("Curtain not found")
+        curtainTextVisibility = !curtainTextVisibility
+    }
+
+    fun onLightTextClicked(view: View) {
+        activity.toast("Curtain not found")
+        lightTextVisibility = !lightTextVisibility
+    }
+
+    fun onACTextClicked(view: View) {
+        activity.toast("Curtain not found")
+        acTextVisibility = !acTextVisibility
+    }
+
     fun onBackClicked(view: View) {
         showLayout = ShowLayout.DEFAULT
     }
@@ -403,7 +530,6 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
     }
 
     //endregion
-
 
     //region SceneClickListener
 
