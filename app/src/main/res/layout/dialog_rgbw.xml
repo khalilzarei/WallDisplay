@@ -215,7 +215,7 @@
                                 android:layout_height="wrap_content"
                                 android:maxHeight="@dimen/_5sdp"
                                 android:progressDrawable="@drawable/seekbar_custom_layout"
-                                android:progressTint="@color/back_yellow"
+                                android:progressTint="@color/yellow_back"
                                 android:thumb="@drawable/seekbar_thumb"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -273,7 +273,7 @@
                                 android:maxHeight="@dimen/_5sdp"
                                 android:progress="100"
                                 android:progressDrawable="@drawable/seekbar_custom_layout"
-                                android:progressTint="@color/back_yellow"
+                                android:progressTint="@color/yellow_back"
                                 android:thumb="@drawable/seekbar_thumb" />
 
                         </LinearLayout>

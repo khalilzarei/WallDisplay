@@ -254,3 +254,8 @@ data class CityItem(
     var country: String? = null
 )
 
+object TextVisibility {
+    const val TEXT = "text"
+    const val LOADING = "loading"
+    const val BUTTONS = "buttons"
+}

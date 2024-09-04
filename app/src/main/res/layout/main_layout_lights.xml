@@ -126,7 +126,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/_2sdp"
                     android:layout_marginEnd="@dimen/_2sdp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <com.balysv.materialripple.MaterialRippleLayout
                         style="@style/RippleStyleYellow"
@@ -167,14 +168,6 @@
                     </com.balysv.materialripple.MaterialRippleLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_3sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:background="@drawable/shape_line_vertical" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -224,7 +217,7 @@
                             android:maxHeight="@dimen/_5sdp"
                             android:progress="100"
                             android:progressDrawable="@drawable/seekbar_custom_layout"
-                            android:progressTint="@color/back_yellow"
+                            android:progressTint="@color/yellow_back"
                             android:thumb="@drawable/seekbar_thumb" />
 
                     </LinearLayout>
@@ -243,6 +236,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
+                            <com.balysv.materialripple.MaterialRippleLayout
+                                style="@style/RippleStyleWhite"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_2sdp"
+                                android:layout_marginEnd="@dimen/_2sdp"
+                                android:onClick="@{viewModel::broadCastOff}">
+
+
+                                <TextView
+                                    android:layout_width="45dp"
+                                    android:layout_height="35dp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/shape_border_circle"
+                                    android:gravity="center"
+                                    android:text="@string/off"
+                                    android:textColor="@color/black" />
+
+                            </com.balysv.materialripple.MaterialRippleLayout>
 
                             <com.balysv.materialripple.MaterialRippleLayout
                                 android:id="@+id/btn25"

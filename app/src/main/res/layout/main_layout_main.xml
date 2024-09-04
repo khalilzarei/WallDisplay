@@ -8,9 +8,9 @@
 
         <import type="com.hsi.walldisplay.model.ShowLayout" />
 
-        <import type="android.view.View" />
+        <import type="com.hsi.walldisplay.model.TextVisibility" />
 
-        <import type="com.daimajia.androidanimations.library.Techniques" />
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -216,11 +216,23 @@
                         android:layout_height="45dp"
                         android:layout_marginTop="@dimen/_5sdp">
 
+                        <ProgressBar
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:elevation="@dimen/_5sdp"
+                            android:indeterminateTint="@color/yellow_back"
+                            android:visibility="@{viewModel.lightTextVisibility.equals(TextVisibility.LOADING)?View.VISIBLE:View.GONE}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:visibility="gone" />
+
                         <com.balysv.materialripple.MaterialRippleLayout
-                            setTextVisibility="@{viewModel.lightTextVisibility}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:onClick="@{viewModel::onLightTextClicked}">
+                            android:onClick="@{viewModel::onLightTextClicked}"
+                            android:visibility="@{viewModel.lightTextVisibility.equals(TextVisibility.TEXT)?View.VISIBLE:View.GONE}">
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -233,50 +245,52 @@
                         </com.balysv.materialripple.MaterialRippleLayout>
 
                         <LinearLayout
-                            setTextVisibility="@{!viewModel.lightTextVisibility}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:orientation="horizontal"
-                            android:weightSum="4">
+                            android:visibility="@{viewModel.lightTextVisibility.equals(TextVisibility.BUTTONS)?View.VISIBLE:View.GONE}"
+                            android:weightSum="4"
+                            tools:visibility="visible">
 
                             <com.balysv.materialripple.MaterialRippleLayout
                                 style="@style/RippleStyleYellow"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_2sdp"
                                 android:layout_marginEnd="@dimen/_2sdp"
-                                android:layout_weight="1"
-                                android:background="@drawable/shape_toggle_on"
                                 android:onClick="@{viewModel::broadCastOn}">
 
 
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="45dp"
+                                    android:layout_height="35dp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/shape_oval"
                                     android:gravity="center"
-                                    android:src="@drawable/ic_on_off"
-                                    android:textColor="@color/yellow"
+                                    android:text="@string/on"
+                                    android:textColor="@color/black"
                                     app:drawableTint="@color/yellow" />
 
                             </com.balysv.materialripple.MaterialRippleLayout>
 
                             <com.balysv.materialripple.MaterialRippleLayout
                                 style="@style/RippleStyleWhite"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_2sdp"
                                 android:layout_marginEnd="@dimen/_2sdp"
-                                android:layout_weight="1"
-                                android:background="@drawable/shape_toggle_off"
                                 android:onClick="@{viewModel::broadCastOff}">
 
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+
+                                <TextView
+                                    android:layout_width="45dp"
+                                    android:layout_height="35dp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/shape_border_circle"
                                     android:gravity="center"
-                                    android:src="@drawable/ic_on_off"
-                                    android:text="@string/off" />
+                                    android:text="@string/off"
+                                    android:textColor="@color/black" />
 
                             </com.balysv.materialripple.MaterialRippleLayout>
                         </LinearLayout>
@@ -334,11 +348,24 @@
                         android:layout_height="45dp"
                         android:layout_marginTop="@dimen/_5sdp">
 
+
+                        <ProgressBar
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:elevation="@dimen/_5sdp"
+                            android:indeterminateTint="@color/yellow_back"
+                            android:visibility="@{viewModel.acTextVisibility.equals(TextVisibility.LOADING)?View.VISIBLE:View.GONE}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:visibility="gone" />
+
                         <com.balysv.materialripple.MaterialRippleLayout
-                            setTextVisibility="@{viewModel.acTextVisibility}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:onClick="@{viewModel::onACTextClicked}">
+                            android:onClick="@{viewModel::onACTextClicked}"
+                            android:visibility="@{viewModel.acTextVisibility.equals(TextVisibility.TEXT)?View.VISIBLE:View.GONE}">
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -351,51 +378,52 @@
                         </com.balysv.materialripple.MaterialRippleLayout>
 
                         <LinearLayout
-                            setTextVisibility="@{!viewModel.acTextVisibility}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:orientation="horizontal"
+                            android:visibility="@{viewModel.acTextVisibility.equals(TextVisibility.BUTTONS)?View.VISIBLE:View.GONE}"
                             android:weightSum="4">
+
 
                             <com.balysv.materialripple.MaterialRippleLayout
                                 style="@style/RippleStyleYellow"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_2sdp"
                                 android:layout_marginEnd="@dimen/_2sdp"
-                                android:layout_weight="1"
-                                android:background="@drawable/shape_toggle_on"
                                 android:onClick="@{viewModel::thermostatsOn}">
 
 
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="45dp"
+                                    android:layout_height="35dp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/shape_oval"
                                     android:gravity="center"
-                                    android:src="@drawable/ic_on_off"
                                     android:text="@string/on"
-                                    android:textColor="@color/yellow"
-                                    app:tint="@color/yellow" />
+                                    android:textColor="@color/black"
+                                    app:drawableTint="@color/yellow" />
 
                             </com.balysv.materialripple.MaterialRippleLayout>
 
                             <com.balysv.materialripple.MaterialRippleLayout
                                 style="@style/RippleStyleWhite"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_2sdp"
                                 android:layout_marginEnd="@dimen/_2sdp"
-                                android:layout_weight="1"
-                                android:background="@drawable/shape_toggle_off"
                                 android:onClick="@{viewModel::thermostatsOff}">
 
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+
+                                <TextView
+                                    android:layout_width="45dp"
+                                    android:layout_height="35dp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/shape_border_circle"
                                     android:gravity="center"
-                                    android:src="@drawable/ic_on_off"
-                                    android:text="@string/off" />
+                                    android:text="@string/off"
+                                    android:textColor="@color/black" />
 
                             </com.balysv.materialripple.MaterialRippleLayout>
                         </LinearLayout>
@@ -418,6 +446,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
+
 
                     <com.balysv.materialripple.MaterialRippleLayout
                         android:layout_width="wrap_content"
@@ -446,13 +475,25 @@
                         android:layout_marginTop="@dimen/_5sdp">
 
 
+                        <ProgressBar
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:elevation="@dimen/_5sdp"
+                            android:indeterminateTint="@color/yellow_back"
+                            android:visibility="@{viewModel.curtainTextVisibility.equals(TextVisibility.LOADING)?View.VISIBLE:View.GONE}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:visibility="gone" />
+
                         <com.balysv.materialripple.MaterialRippleLayout
-                            setTextVisibility="@{viewModel.curtainTextVisibility}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:onClick="@{viewModel::onCurtainTextClicked}"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="@{viewModel.curtainTextVisibility.equals(TextVisibility.TEXT)?View.VISIBLE:View.GONE}">
 
 
                             <TextView
@@ -465,55 +506,53 @@
                         </com.balysv.materialripple.MaterialRippleLayout>
 
                         <LinearLayout
-                            setTextVisibility="@{!viewModel.curtainTextVisibility}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:orientation="horizontal"
+                            android:visibility="@{viewModel.curtainTextVisibility.equals(TextVisibility.BUTTONS)?View.VISIBLE:View.GONE}"
                             android:weightSum="4">
+
 
                             <com.balysv.materialripple.MaterialRippleLayout
                                 style="@style/RippleStyleYellow"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_2sdp"
                                 android:layout_marginEnd="@dimen/_2sdp"
-                                android:layout_weight="1"
-                                android:background="@drawable/shape_toggle_on"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:onClick="@{viewModel::curtainsOn}">
+                                android:onClick="@{viewModel::curtainsOpen}">
 
 
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="45dp"
+                                    android:layout_height="35dp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/shape_oval"
                                     android:gravity="center"
-                                    android:src="@drawable/ic_on_off"
-                                    android:text="@string/on"
-                                    android:textColor="@color/yellow"
+                                    android:text="@string/open"
+                                    android:textColor="@color/black"
                                     app:drawableTint="@color/yellow" />
 
                             </com.balysv.materialripple.MaterialRippleLayout>
 
+
                             <com.balysv.materialripple.MaterialRippleLayout
                                 style="@style/RippleStyleWhite"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_2sdp"
                                 android:layout_marginEnd="@dimen/_2sdp"
-                                android:layout_weight="1"
-                                android:background="@drawable/shape_toggle_off"
-                                android:onClick="@{viewModel::curtainsOff}">
+                                android:onClick="@{viewModel::curtainsClose}">
 
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:clickable="true"
-                                    android:focusable="true"
+
+                                <TextView
+                                    android:layout_width="45dp"
+                                    android:layout_height="35dp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/shape_border_circle"
                                     android:gravity="center"
-                                    android:src="@drawable/ic_on_off"
-                                    android:text="@string/off" />
+                                    android:text="@string/close"
+                                    android:textColor="@color/black" />
 
                             </com.balysv.materialripple.MaterialRippleLayout>
                         </LinearLayout>

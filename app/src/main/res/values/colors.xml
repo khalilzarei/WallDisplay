@@ -54,7 +54,7 @@
     <color name="back_green">#0C3226</color>
     <color name="back_gray_light">#D4D3CA</color>
     <color name="back_gray_dark">#75756B</color>
-    <color name="back_yellow">#FBBC05</color>
+    <color name="yellow_back">#FBBC05</color>
     <color name="back_orange">#EF8706</color>
     <color name="back_orange_light">#FFC053</color>
 

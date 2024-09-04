@@ -270,7 +270,7 @@
                     android:paddingBottom="3dp"
                     android:progress="150"
                     android:progressDrawable="@drawable/seekbar_custom_layout"
-                    android:progressTint="@color/back_yellow"
+                    android:progressTint="@color/yellow_back"
                     android:thumb="@drawable/seekbar_thumb"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
