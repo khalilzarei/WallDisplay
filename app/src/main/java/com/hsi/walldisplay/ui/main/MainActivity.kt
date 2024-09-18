@@ -85,56 +85,15 @@ class MainActivity : BaseActivity(), MqttInterFace {
                     if (dim >= 255)
                         dim = 254
                     val waf = ((dim * 254) / 100)
-                    if (topic != null) {
-                        val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL \"}"
-                        publishMessage(topic, message)
-                    }
+                    viewModel.sendLightsCommand(waf)
+
                 }
             }
 
         })
 
 
-        binding.mainLayoutLights.btn25.setOnClickListener {
-            val dim = 1
-            binding.mainLayoutLights.seekBarLightness.progress = dim
-            val waf = ((dim * 254) / 100)
-            if (topic != null) {
-                val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL \"}"
-                publishMessage(topic, message)
-            }
-        }
-
-        binding.mainLayoutLights.btn50.setOnClickListener {
-            val dim = 50
-            binding.mainLayoutLights.seekBarLightness.progress = dim
-            val waf = ((dim * 254) / 100)
-            if (topic != null) {
-                val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL \"}"
-                publishMessage(topic, message)
-            }
-        }
-
-        binding.mainLayoutLights.btn75.setOnClickListener {
-            val dim = 75
-            binding.mainLayoutLights.seekBarLightness.progress = dim
-            val waf = ((dim * 254) / 100)
-            if (topic != null) {
-                val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL \"}"
-                publishMessage(topic, message)
-            }
-        }
-
-        binding.mainLayoutLights.btn100.setOnClickListener {
-            val dim = 100
-            binding.mainLayoutLights.seekBarLightness.progress = dim
-            if (topic != null) {
-                val message = "{\"CMD\":\"RECALL_MAX_LEVEL\",\"BROADCAST \":\"ALL \"}"
-                publishMessage(topic, message)
-            }
-        }
     }
-
 
 
     private fun settingLayoutInit() {
@@ -163,7 +122,7 @@ class MainActivity : BaseActivity(), MqttInterFace {
 
         //smaller
         binding.mainLayoutSettings.btnZoomIn.setOnClickListener {
-            if (SessionManager.fontSize < 36f) {
+            if (SessionManager.fontSize < 28f) {
                 SessionManager.fontSize += 4f
 
                 setTypeFaces()

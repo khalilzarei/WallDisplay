@@ -71,39 +71,61 @@
                     app:layout_constraintVertical_bias="0.5"
                     tools:src="@drawable/ic_arrow_up" />
 
-
                 <TextView
-                    setThermostatValue="@{viewModel.thermostat.toValue}"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="@dimen/_5sdp"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/title_text_size"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/imgFanSpeed"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.5"
-                    tools:text="25˚c" />
-
-
-                <ImageView
-                    android:id="@+id/imgFanSpeed"
-                    setFanSpeedImage="@{viewModel.fanSpeed}"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/_3sdp"
-                    android:background="@drawable/shape_button_clicked"
-                    android:padding="@dimen/_3sdp"
-                    android:scaleType="fitXY"
-                    android:textColor="@color/text_color"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:text="@string/off"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:visibility="@{viewModel.thermostat.off==1?View.VISIBLE:View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/background"
-                    tools:src="@drawable/ic_fan"
-                    tools:text="Curtain 1" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:visibility="@{viewModel.thermostat.off==0?View.VISIBLE:View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        setThermostatValue="@{viewModel.thermostat.toValue}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/title_text_size"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/imgFanSpeed"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.5"
+                        tools:text="25˚c" />
+
+
+                    <ImageView
+                        android:id="@+id/imgFanSpeed"
+                        setFanSpeedImage="@{viewModel.fanSpeed}"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:background="@drawable/shape_button_clicked"
+                        android:padding="@dimen/_3sdp"
+                        android:scaleType="fitXY"
+                        android:textColor="@color/text_color"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/background"
+                        tools:src="@drawable/ic_fan"
+                        tools:text="Curtain 1" />
+                </LinearLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

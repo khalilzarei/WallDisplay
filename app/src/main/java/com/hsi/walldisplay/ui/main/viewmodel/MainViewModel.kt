@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -33,6 +34,7 @@ import com.hsi.walldisplay.helper.BuildingClickListener
 import com.hsi.walldisplay.helper.Constants
 import com.hsi.walldisplay.helper.SceneClickListener
 import com.hsi.walldisplay.helper.SessionManager
+import com.hsi.walldisplay.helper.SessionManager.Companion.dim
 import com.hsi.walldisplay.model.Building
 import com.hsi.walldisplay.model.BuildingService
 import com.hsi.walldisplay.model.DeviceType
@@ -370,7 +372,55 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
         sendLightsCommand(0)
     }
 
-    private fun sendLightsCommand(value: Int) {
+    fun sendBtn25Message(view: View) {
+        dim = 1
+        val waf = ((dim * 254) / 100)
+        val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL\"}"
+        sendButtonsCommand(message)
+    }
+
+    fun sendBtn50Message(view: View) {
+        dim = 50
+        val waf = ((dim * 254) / 100)
+        val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL\"}"
+        sendButtonsCommand(message)
+    }
+
+    fun sendBtn75Message(view: View) {
+        dim = 75
+        val waf = ((dim * 254) / 100)
+        val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL\"}"
+        sendButtonsCommand(message)
+    }
+
+    fun sendBtnMaxMessage(view: View) {
+        val message = "{\"CMD\":\"RECALL_MAX_LEVEL\",\"BROADCAST \":\"ALL \"}"
+        sendButtonsCommand(message)
+    }
+
+    private fun sendButtonsCommand(message: String) {
+        if (activity.dataBaseDao.getDaliLightsOfBuilding(building.id).isNotEmpty()) {
+            lightTextVisibility = TextVisibility.LOADING
+            Handler().postDelayed({
+                val topics = arrayListOf<String>()
+                for (device in activity.dataBaseDao.getDaliLightsOfBuilding(building.id)) {
+                    val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
+                    if (!topics.contains(topic))
+                        topics.add(topic)
+                }
+                if (topics.isNotEmpty()) {
+                    for (topic in topics) {
+                        activity.publishMessage(topic, message)
+                        Thread.sleep(300)
+                    }
+                }
+            }, 100)
+
+        } else activity.toast("Dali Lights not found")
+
+    }
+
+    fun sendLightsCommand(value: Int) {
         if (activity.dataBaseDao.getDaliLightsOfBuilding(building.id).isNotEmpty()) {
             lightTextVisibility = TextVisibility.LOADING
             Handler().postDelayed({
@@ -436,7 +486,7 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
             Handler().postDelayed({
                 for (curtain in curtainAdapter.getCurtains()) {
                     val topic = "${activity.sessionManager.user.projectId}/${Constants.CURTAIN_IN}"
-                    val message = "{\"id\":\"${curtain.serviceId}\",\"command\":\"open\"}"
+                    val message = "{\"id\":\"${curtain.serviceId}\",\"command\":\"$value\"}"
                     activity.publishMessage(topic, message)
                     Thread.sleep(300)
                 }
@@ -507,14 +557,23 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
 
     fun onCurtainTextClicked(view: View) {
         curtainTextVisibility = TextVisibility.BUTTONS
+        Handler(Looper.getMainLooper()).postDelayed({
+            curtainTextVisibility = TextVisibility.TEXT
+        }, 10000)
     }
 
     fun onLightTextClicked(view: View) {
         lightTextVisibility = TextVisibility.BUTTONS
+        Handler(Looper.getMainLooper()).postDelayed({
+            lightTextVisibility = TextVisibility.TEXT
+        }, 10000)
     }
 
     fun onACTextClicked(view: View) {
         acTextVisibility = TextVisibility.BUTTONS
+        Handler(Looper.getMainLooper()).postDelayed({
+            acTextVisibility = TextVisibility.TEXT
+        }, 10000)
     }
 
     fun onBackClicked(view: View) {

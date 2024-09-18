@@ -198,7 +198,7 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="110dp"
+                            android:layout_height="120dp"
                             android:layout_gravity="center"
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_lights"
@@ -262,12 +262,13 @@
                                 android:onClick="@{viewModel::broadCastOn}">
 
 
-                                <TextView
-                                    android:layout_width="45dp"
-                                    android:layout_height="35dp"
+                                <ImageView
+                                    android:layout_width="55dp"
+                                    android:layout_height="45dp"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/shape_oval"
+                                    android:background="@drawable/shape_border_circle"
                                     android:gravity="center"
+                                    android:src="@drawable/ic_turn_on"
                                     android:text="@string/on"
                                     android:textColor="@color/black"
                                     app:drawableTint="@color/yellow" />
@@ -283,14 +284,16 @@
                                 android:onClick="@{viewModel::broadCastOff}">
 
 
-                                <TextView
-                                    android:layout_width="45dp"
-                                    android:layout_height="35dp"
+                                <ImageView
+                                    android:layout_width="55dp"
+                                    android:layout_height="45dp"
                                     android:layout_gravity="center"
                                     android:background="@drawable/shape_border_circle"
                                     android:gravity="center"
-                                    android:text="@string/off"
-                                    android:textColor="@color/black" />
+                                    android:src="@drawable/ic_turn_off"
+                                    android:text="@string/on"
+                                    android:textColor="@color/black"
+                                    app:drawableTint="@color/yellow" />
 
                             </com.balysv.materialripple.MaterialRippleLayout>
                         </LinearLayout>
@@ -321,11 +324,11 @@
                         android:orientation="vertical">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="110dp"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
                             android:layout_gravity="center"
                             app:cardBackgroundColor="@color/background"
-                            app:cardCornerRadius="55dp">
+                            app:cardCornerRadius="60dp">
 
 
                             <TextView
@@ -395,12 +398,13 @@
                                 android:onClick="@{viewModel::thermostatsOn}">
 
 
-                                <TextView
-                                    android:layout_width="45dp"
-                                    android:layout_height="35dp"
+                                <ImageView
+                                    android:layout_width="55dp"
+                                    android:layout_height="45dp"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/shape_oval"
+                                    android:background="@drawable/shape_border_circle"
                                     android:gravity="center"
+                                    android:src="@drawable/ic_turn_on"
                                     android:text="@string/on"
                                     android:textColor="@color/black"
                                     app:drawableTint="@color/yellow" />
@@ -416,14 +420,16 @@
                                 android:onClick="@{viewModel::thermostatsOff}">
 
 
-                                <TextView
-                                    android:layout_width="45dp"
-                                    android:layout_height="35dp"
+                                <ImageView
+                                    android:layout_width="55dp"
+                                    android:layout_height="45dp"
                                     android:layout_gravity="center"
                                     android:background="@drawable/shape_border_circle"
                                     android:gravity="center"
-                                    android:text="@string/off"
-                                    android:textColor="@color/black" />
+                                    android:src="@drawable/ic_turn_off"
+                                    android:text="@string/on"
+                                    android:textColor="@color/black"
+                                    app:drawableTint="@color/yellow" />
 
                             </com.balysv.materialripple.MaterialRippleLayout>
                         </LinearLayout>
@@ -458,7 +464,7 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="110dp"
+                            android:layout_height="120dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_curtain"
                             app:civ_border_color="@color/yellow"
@@ -523,13 +529,15 @@
                                 android:onClick="@{viewModel::curtainsOpen}">
 
 
-                                <TextView
-                                    android:layout_width="45dp"
-                                    android:layout_height="35dp"
+                                <ImageView
+                                    android:layout_width="55dp"
+                                    android:layout_height="45dp"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/shape_oval"
+                                    android:background="@drawable/shape_border_circle"
                                     android:gravity="center"
-                                    android:text="@string/open"
+                                    android:padding="3dp"
+                                    android:src="@drawable/ic_curtain_open"
+                                    android:text="@string/on"
                                     android:textColor="@color/black"
                                     app:drawableTint="@color/yellow" />
 
@@ -545,14 +553,17 @@
                                 android:onClick="@{viewModel::curtainsClose}">
 
 
-                                <TextView
-                                    android:layout_width="45dp"
-                                    android:layout_height="35dp"
+                                <ImageView
+                                    android:layout_width="55dp"
+                                    android:layout_height="45dp"
                                     android:layout_gravity="center"
                                     android:background="@drawable/shape_border_circle"
                                     android:gravity="center"
-                                    android:text="@string/close"
-                                    android:textColor="@color/black" />
+                                    android:padding="3dp"
+                                    android:src="@drawable/ic_curtain_close"
+                                    android:text="@string/on"
+                                    android:textColor="@color/black"
+                                    app:drawableTint="@color/yellow" />
 
                             </com.balysv.materialripple.MaterialRippleLayout>
                         </LinearLayout>

@@ -101,7 +101,7 @@ class BuildingService(
     @SerializedName("default_value") var defaultValue: Int = -1,
     @SerializedName("to_value") var toValue: Int = -1,
     @SerializedName("level") var level: String? = "",
-    @SerializedName("off") var off: Int? = -1,
+    @SerializedName("off") var off: Int? = 0,
     @SerializedName("master_id") var masterId: Int? = -1,
 ) : Serializable
 

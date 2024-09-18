@@ -430,7 +430,7 @@ class LoginViewModel(var activity: LoginActivity) : BaseObservable() {
                     if (responseBody != null) {
                         if (responseBody.succeeded == true) {
                             for (buildingService in responseBody.buildingServices) {
-                                activity.log("THERMOSTAT => ${buildingService.type} ${buildingService.serviceId} ")
+                                activity.log("THERMOSTAT => ${buildingService.off} ${buildingService.serviceId} ")
                                 buildingService.type = DeviceType.THERMOSTAT
 
                                 activity.dataBaseDao.insertBuildingService(buildingService)

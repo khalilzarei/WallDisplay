@@ -401,6 +401,7 @@
     <color name="text_color_sub">#343434</color>
     <color name="get_me_in_thumb_back">#132028</color>
     <color name="get_me_in_thumb_icon">#f4a745</color>
+    <color name="color_off">#49380C</color>
     <color name="color_25">#7f6522</color>
     <color name="color_50">#b28d30</color>
     <color name="color_75">#e5b53e</color>

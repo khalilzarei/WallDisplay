@@ -127,6 +127,7 @@ class ThermostatViewModel(
 
     //region setFanSpeed
     fun setFanSpeed(view: View) {
+        val topic = "${activity.sessionManager.user.projectId}/${Constants.THERMOSTAT_IN}"
         fanSpeed = when (view.id) {
             R.id.btnLow -> FanSpeed.LOW
             R.id.btnMedium -> FanSpeed.MEDIUM
@@ -206,18 +207,20 @@ class ThermostatViewModel(
         val arcSeekBar = dialogThermostat.arcSeekBar
 //        val lottieAnimationView = dialogView.findViewById<LottieAnimationView>(R.id.lottieAnimationView)
         val switchOnOff = dialogThermostat.switchOnOff
-        switchOnOff.isChecked = device.off == 1
-        switchOnOff.text = if (device.off == 1) "ON" else "OFF"
+        switchOnOff.isChecked = device.off == 0
+        switchOnOff.text = if (device.off == 0) "ON" else "OFF"
         switchOnOff.setOnCheckedChangeListener { _, isChecked ->
             switchOnOff.text = if (isChecked) "ON" else "OFF"
-
-            var message = "{\"id\":\"${device.serviceId}\",\"command\":\"off\"}"
-            if (isChecked) {
-                message = "{\"id\":\"${device.serviceId}\",\"command\":\"on\"}"
-            }
-
+            val message = "{\"id\":\"${device.serviceId}\",\"command\":\"${if (isChecked) "on" else "off"}\"}"
+            device.off = if (isChecked) 0 else 1
+            activity.dataBaseDao.updateBuildingService(device)
             activity.publishMessage(topic, message)
-
+            activity.viewModel.thermostatAdapter.setItems(
+                activity.dataBaseDao.getBuildingDevices(
+                    activity.viewModel.building.id,
+                    DeviceType.THERMOSTAT
+                ) as ArrayList
+            )
         }
 //        lottieAnimationView.speed = device.value!!.toFloat() / 10
 

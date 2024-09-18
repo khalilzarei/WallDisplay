@@ -97,8 +97,8 @@
             <ToggleButton
                 android:id="@+id/switchOnOff"
                 style="@style/toggleButton"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
                 android:background="@drawable/toggle_bg"
                 android:checked="true"
                 android:textColor="@color/black"

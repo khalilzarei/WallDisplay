@@ -209,7 +209,7 @@ class LightViewModel(
 
             val topic = "${activity.sessionManager.user.projectId}/${device.masterId}/${Constants.DALI_IN}"
 
-            device.value = percentToDim(dim).toString()
+            device.value = percentToDim(di).toString()
             activity.dataBaseDao.updateBuildingService(device)
             activity.publishMessage(topic, message)
         }
@@ -369,10 +369,10 @@ class LightViewModel(
 
     private fun showRGBWDialog() {
 
-        var white: Int = 0
-        var red: Int = 0
-        var green: Int = 0
-        var blue: Int = 0
+        var white = 0
+        var red = 0
+        var green = 0
+        var blue = 0
         SessionManager.rgbwDeviceA0 = (null)
         SessionManager.rgbwMasterID = (null)
 
@@ -383,7 +383,8 @@ class LightViewModel(
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.show()
 
-        activity.setFontAndFontSize(dialogRgbw.root)
+//        activity.setFontAndFontSize(dialogRgbw.root)
+        activity.setFont(dialogRgbw.root, SessionManager.font!!)
 
         val lightId = if (device.groupId != null) device.groupId!!
         else {
