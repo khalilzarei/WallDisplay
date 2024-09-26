@@ -366,36 +366,46 @@ class MainViewModel(val activity: MainActivity) : BaseObservable(),
 
     fun broadCastOn(view: View) {
         sendLightsCommand(254)
+        activity.binding.mainLayoutLights.seekBarLightness.progress = 254
     }
 
     fun broadCastOff(view: View) {
         sendLightsCommand(0)
+        activity.binding.mainLayoutLights.seekBarLightness.progress = 0
     }
 
     fun sendBtn25Message(view: View) {
         dim = 1
         val waf = ((dim * 254) / 100)
-        val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL\"}"
+        val message = "{\"DAPC\":\"$waf\",\"BROADCAST\":\"ALL\"}"
         sendButtonsCommand(message)
+        lightTextVisibility = TextVisibility.TEXT
+        activity.binding.mainLayoutLights.seekBarLightness.progress = 0
     }
 
     fun sendBtn50Message(view: View) {
         dim = 50
         val waf = ((dim * 254) / 100)
-        val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL\"}"
+        val message = "{\"DAPC\":\"$waf\",\"BROADCAST\":\"ALL\"}"
         sendButtonsCommand(message)
+        lightTextVisibility = TextVisibility.TEXT
+        activity.binding.mainLayoutLights.seekBarLightness.progress = dim
     }
 
     fun sendBtn75Message(view: View) {
         dim = 75
         val waf = ((dim * 254) / 100)
-        val message = "{\"DAPC\":\"$waf\",\"BROADCAST \":\"ALL\"}"
+        val message = "{\"DAPC\":\"$waf\",\"BROADCAST\":\"ALL\"}"
         sendButtonsCommand(message)
+        lightTextVisibility = TextVisibility.TEXT
+        activity.binding.mainLayoutLights.seekBarLightness.progress = dim
     }
 
     fun sendBtnMaxMessage(view: View) {
-        val message = "{\"CMD\":\"RECALL_MAX_LEVEL\",\"BROADCAST \":\"ALL \"}"
+        val message = "{\"CMD\":\"RECALL_MAX_LEVEL\",\"BROADCAST\":\"ALL \"}"
         sendButtonsCommand(message)
+        lightTextVisibility = TextVisibility.TEXT
+        activity.binding.mainLayoutLights.seekBarLightness.progress = 100
     }
 
     private fun sendButtonsCommand(message: String) {

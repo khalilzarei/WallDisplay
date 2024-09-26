@@ -16,6 +16,7 @@ import com.hsi.walldisplay.helper.Constants
 import com.hsi.walldisplay.helper.SessionManager
 import com.hsi.walldisplay.model.CityItem
 import com.hsi.walldisplay.model.FontItem
+import com.hsi.walldisplay.model.TextVisibility
 import com.hsi.walldisplay.mqtt.MqttHelper
 import com.hsi.walldisplay.mqtt.MqttInterFace
 import com.hsi.walldisplay.ui.main.viewmodel.MainViewModel
@@ -71,6 +72,7 @@ class MainActivity : BaseActivity(), MqttInterFace {
         binding.mainLayoutLights.seekBarLightness.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 binding.mainLayoutLights.tvLightIntensity.text = "$progress%"
+                viewModel.lightTextVisibility = TextVisibility.TEXT
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -86,7 +88,7 @@ class MainActivity : BaseActivity(), MqttInterFace {
                         dim = 254
                     val waf = ((dim * 254) / 100)
                     viewModel.sendLightsCommand(waf)
-
+                    viewModel.lightTextVisibility = TextVisibility.TEXT
                 }
             }
 
